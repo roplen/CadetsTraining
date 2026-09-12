@@ -14,6 +14,7 @@
   />
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
     :root {
@@ -1827,10 +1828,10 @@
           <div class="card glass">
             <div class="card-head">
               <div>
-                <h3>Leaderboard local</h3>
-                <p>Classement de tous les profils présents sur cette machine</p>
+                <h3>Leaderboard globale</h3>
+                <p>Classement de tous les profils globales</p>
               </div>
-              <span class="pill">Local</span>
+              <span class="pill">Globales</span>
             </div>
             <div id="leaderboardList"></div>
           </div>
@@ -2322,6 +2323,14 @@
        AeroCadet Elite
        SPA 100% locale
        ================================================================ */
+  
+    const SUPABASE_URL = "https://kfipkuuarphiqnkioquf.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_PRn2UCPSdq3q41tklTjpMQ_K67vv2ld";
+
+    const supabaseClient = window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
 
     const STORAGE_KEY = "aerocadet_elite_v1";
 
@@ -5054,34 +5063,142 @@
       renderCharts();
     }
 
-    function renderLeaderboard() {
-      const list = document.getElementById("leaderboardList");
+    async function renderLeaderboard() {
+        const list = document.getElementById("leaderboardList");
 
-      if (!db.users.length) {
-        list.innerHTML = `<div class="empty-state">Aucun profil.</div>`;
-        return;
-      }
-
-      const sorted = [...db.users].sort((a, b) => b.xp - a.xp);
-
-      list.innerHTML = sorted.map((user, index) => {
-        const grade = getGradeInfo(user.xp).grade.name;
-        const isCurrent = user.id === db.currentUser;
-
-        return `
-          <div class="leader-row" style="${isCurrent ? "background:rgba(10,132,255,.05);border-radius:10px;padding-left:7px;padding-right:7px;" : ""}">
-            <div class="rank-number">#${index + 1}</div>
-            <div>
-              <div class="leader-name">
-                ${escapeHtml(user.name)}
-                ${isCurrent ? " · toi" : ""}
-              </div>
-              <div class="leader-detail">${escapeHtml(grade)}</div>
+        list.innerHTML = `
+            <div class="empty-state">
+                🌍 Chargement du classement mondial...
             </div>
-            <div class="leader-xp">${user.xp.toLocaleString("fr-FR")} XP</div>
-          </div>
         `;
-      }).join("");
+
+        const { data, error } = await supabaseClient
+            .from("leaderboard")
+            .select("id, username, xp, best_score, accuracy, tests_completed")
+            .order("xp", { ascending: false })
+            .limit(100);
+
+        if (error) {
+            console.error("Erreur leaderboard mondial :", error);
+
+            list.innerHTML = `
+                <div class="empty-state">
+                    Impossible de charger le classement mondial.
+                </div>
+            `;
+
+            return;
+        }
+
+        if (!data || !data.length) {
+            list.innerHTML = `
+                <div class="empty-state">
+                    Aucun joueur dans le classement mondial.
+                </div>
+            `;
+
+            return;
+        }
+
+        const {
+            data: { user: supabaseUser }
+        } = await supabaseClient.auth.getUser();
+
+        list.innerHTML = data.map((player, index) => {
+            const isCurrent =
+                supabaseUser && player.id === supabaseUser.id;
+
+            const grade =
+                getGradeInfo(Number(player.xp || 0)).grade.name;
+
+            return `
+                <div class="leader-row" style="${isCurrent ? "background:rgba(10,132,255,.05);border-radius:10px;padding-left:7px;padding-right:7px;" : ""}">
+                    <div class="rank-number">
+                        #${index + 1}
+                    </div>
+
+                    <div>
+                        <div class="leader-name">
+                            ${escapeHtml(player.username)}
+                            ${isCurrent ? " · toi" : ""}
+                        </div>
+
+                        <div class="leader-detail">
+                            ${escapeHtml(grade)} · ${Number(player.accuracy || 0)}% précision
+                        </div>
+                    </div>
+
+                    <div class="leader-xp">
+                        ${Number(player.xp || 0).toLocaleString("fr-FR")} XP
+                    </div>
+                </div>
+            `;
+        }).join("");
+    }
+
+    async function syncGlobalLeaderboard() {
+        const {
+            data: { user: supabaseUser }
+        } = await supabaseClient.auth.getUser();
+
+        if (!supabaseUser) {
+            console.warn("Aucun utilisateur Supabase.");
+            return;
+        }
+
+        const localUser = getCurrentUser();
+
+        if (!localUser) {
+            console.warn("Aucun profil AeroCadet.");
+            return;
+        }
+
+        const history = getUserHistory();
+
+        const accuracyValues = history.map(
+            item => Number(item.accuracy || 0)
+        );
+
+        const globalAccuracy = accuracyValues.length
+            ? Math.round(
+                accuracyValues.reduce(
+                    (sum, value) => sum + value,
+                    0
+                ) / accuracyValues.length
+            )
+            : 0;
+
+        const bestScore = history.length
+            ? Math.max(
+                ...history.map(
+                    item => Number(item.score20 || 0)
+                )
+            )
+            : 0;
+
+        const payload = {
+            id: supabaseUser.id,
+            username: localUser.name,
+            xp: Number(localUser.xp || 0),
+            best_score: bestScore,
+            accuracy: globalAccuracy,
+            tests_completed: history.length,
+            updated_at: new Date().toISOString()
+        };
+
+        const { error } = await supabaseClient
+            .from("leaderboard")
+            .upsert(payload);
+
+        if (error) {
+            console.error(
+                "Erreur synchronisation leaderboard mondial :",
+                error
+            );
+            return;
+        }
+
+        console.log("✅ Leaderboard mondial synchronisé.");
     }
 
     function renderDashboardBadges() {
@@ -5788,6 +5905,8 @@
       checkAndUnlockBadges(result);
 
       saveDatabase();
+
+      syncGlobalLeaderboard();
 
       renderResults();
       showView("results");
