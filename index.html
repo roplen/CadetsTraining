@@ -2332,6 +2332,26 @@
         SUPABASE_KEY
     );
 
+    async function initSupabaseAuth() {
+    const {
+        data: { user }
+    } = await supabaseClient.auth.getUser();
+
+    if (user) {
+        return user;
+    }
+
+    const { data, error } =
+        await supabaseClient.auth.signInAnonymously();
+
+    if (error) {
+        console.error("Erreur Supabase Auth :", error);
+        return null;
+    }
+
+    return data.user;
+}
+
     const STORAGE_KEY = "aerocadet_elite_v1";
 
     const CATEGORIES = [
@@ -6553,6 +6573,7 @@
 
     updateVolumeDisplay();
     updateCategoryDisplay();
+    initSupabaseAuth();
 
     if (db.users.length) {
       if (!db.currentUser || !getCurrentUser()) {
