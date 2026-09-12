@@ -2009,6 +2009,32 @@
               </div>
             </div>
 
+            <div class="toggle-row" style="display:block;">
+              <div class="toggle-copy">
+                <strong>Temps de mémorisation Flash</strong>
+                <span>
+                  Détermine combien de temps l'énoncé reste visible avant l'apparition des réponses.
+                </span>
+              </div>
+
+              <div class="slider-wrap" style="margin-top:14px;">
+                <input
+                  type="range"
+                  id="flashDuration"
+                  min="5"
+                  max="60"
+                  step="5"
+                  value="5"
+                />
+
+                <div class="slider-meta">
+                  <span>5 s</span>
+                  <strong id="flashDurationLabel">5 secondes</strong>
+                  <span>60 s</span>
+                </div>
+              </div>
+            </div>
+
             <div class="setting-card glass">
               <div class="setting-title">
                 <h3>Prévisualisation</h3>
@@ -3493,6 +3519,22 @@
       });
     }
 
+    const flashDurationInput = document.getElementById("flashDuration");
+    const flashDurationLabel = document.getElementById("flashDurationLabel");
+
+    function updateFlashDurationDisplay() {
+      const seconds = Number(flashDurationInput.value);
+
+      flashDurationLabel.textContent =
+        seconds === 1
+          ? "1 seconde"
+          : `${seconds} secondes`;
+    }
+
+    flashDurationInput.addEventListener("input", updateFlashDurationDisplay);
+
+    updateFlashDurationDisplay();
+
     document.querySelectorAll(".category-checkbox").forEach(input => {
       input.addEventListener("change", updateCategoryDisplay);
     });
@@ -3513,12 +3555,16 @@
 
       const mode = document.querySelector('input[name="mode"]:checked').value;
 
+      const flashDurationMs =
+        Number(document.getElementById("flashDuration").value) * 1000;
+
       return {
         volume,
         categories,
         mode,
         distractionATC: document.getElementById("atcToggle").checked,
-        allowFlash: document.getElementById("flashToggle").checked
+        allowFlash: document.getElementById("flashToggle").checked,
+        flashDurationMs
       };
     }
 
@@ -3621,6 +3667,7 @@
         mode: "training",
         distractionATC: false,
         allowFlash: true,
+        flashDurationMs: Number(document.getElementById("flashDuration").value) * 1000,
         blackSpot: true
       };
 
@@ -3644,6 +3691,7 @@
         mode: "training",
         distractionATC: false,
         allowFlash: true,
+        flashDurationMs: Number(document.getElementById("flashDuration").value) * 1000,
         quick: true
       });
     });
@@ -3768,7 +3816,6 @@
 
       app.test.answered = false;
       app.test.flashCompleted = false;
-      app.test.questionStartedAt = performance.now();
 
       document.getElementById("testCounter").textContent =
         `${index + 1} / ${app.test.questions.length}`;
@@ -3789,6 +3836,8 @@
 
         document.getElementById("questionText").textContent = question.question;
 
+        app.test.questionStartedAt = performance.now();
+
         renderAnswers(question);
       }
 
@@ -3799,15 +3848,29 @@
       document.getElementById("classicContainer").style.display = "none";
       document.getElementById("flashContainer").style.display = "grid";
 
+      // Pendant la phase de mémorisation :
+      // A/B/C/D et l'ancienne correction sont invisibles
+      document.getElementById("answerGrid").innerHTML = "";
+      document.getElementById("answerGrid").style.display = "none";
+      document.getElementById("feedbackContainer").innerHTML = "";
+
       const text = document.getElementById("flashQuestionText");
       text.textContent = question.question;
 
+      const duration = app.test.config.flashDurationMs || 5000;
+
       const timerBar = document.querySelector(".flash-timer > div");
+
       timerBar.style.animation = "none";
+      timerBar.style.animationDuration = `${duration}ms`;
+
       void timerBar.offsetWidth;
-      timerBar.style.animation = "flashCountdown 5000ms linear forwards";
+
+      timerBar.style.animation = `flashCountdown ${duration}ms linear forwards`;
 
       app.test.awaitingFlash = true;
+
+      clearTimeout(app.flashTimeout);
 
       app.flashTimeout = setTimeout(() => {
         if (!app.test || !app.test.active) return;
@@ -3816,8 +3879,11 @@
         app.test.flashCompleted = true;
 
         text.textContent = "*****";
+
+        app.test.questionStartedAt = performance.now();
+
         renderAnswers(question);
-      }, 5000);
+      }, duration);
     }
 
     function renderAnswers(question) {
@@ -3829,6 +3895,8 @@
           <span class="answer-copy">${escapeHtml(option)}</span>
         </button>
       `).join("");
+
+      grid.style.display = "grid";
 
       grid.querySelectorAll(".answer-btn").forEach(button => {
         button.addEventListener("click", () => {
