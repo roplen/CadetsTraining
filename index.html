@@ -6,7 +6,6 @@
   <meta name="theme-color" content="#0a84ff" />
   <title>AeroCadet Elite</title>
 
-  <!-- Polices autorisées : connexion Internet uniquement pour charger la police -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
@@ -14,7 +13,6 @@
     rel="stylesheet"
   />
 
-  <!-- Chart.js : seule dépendance externe utilisée pour les graphiques -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
 
   <style>
@@ -2518,6 +2516,386 @@
         explanation: "3 h 45 = 3,75 h. 2700 / 3,75 = 720 kg/h.",
         pilotTrick: "3,75 = 15/4. Donc 2700 × 4 / 15 = 180 × 4 = 720."
       },
+      {
+        id: "calc_013",
+        category: "Calcul Mental & Estimation",
+        type: "classic",
+        question: "Un avion vole à 420 kt de vitesse sol et doit parcourir 105 NM. Combien de temps de vol faut-il prévoir ?",
+        options: ["10 min", "15 min", "20 min", "25 min"],
+        correctIndex: 1,
+        explanation: "Temps = distance / vitesse. 105 / 420 h = 0,25 h, soit 15 minutes.",
+        pilotTrick: "420 kt = 7 NM/min. 105 ÷ 7 = 15 minutes."
+      },
+      {
+        id: "calc_014",
+        category: "Calcul Mental & Estimation",
+        type: "classic",
+        question: "Un avion consomme 850 kg/h. Quelle quantité de carburant sera consommée en 36 minutes ?",
+        options: ["425 kg", "500 kg", "510 kg", "560 kg"],
+        correctIndex: 2,
+        explanation: "36 minutes = 0,6 h. 850 × 0,6 = 510 kg.",
+        pilotTrick: "60 % de 850 = 510. Pas besoin de convertir en secondes."
+      },
+      {
+        id: "calc_015",
+        category: "Calcul Mental & Estimation",
+        type: "classic",
+        question: "Une route mesure 275 NM. Avec une GS de 110 kt, le temps de vol est d'environ :",
+        options: ["1 h 55", "2 h 15", "2 h 30", "2 h 45"],
+        correctIndex: 2,
+        explanation: "275 / 110 = 2,5 h, soit 2 h 30.",
+        pilotTrick: "110 × 2,5 = 275. Donc directement 2 h 30."
+      },
+      {
+        id: "calc_016",
+        category: "Calcul Mental & Estimation",
+        type: "classic",
+        question: "Un avion emporte 4 800 kg de carburant. Après une heure, il en reste 3 900 kg. Quelle est la consommation moyenne ?",
+        options: ["700 kg/h", "800 kg/h", "900 kg/h", "1 000 kg/h"],
+        correctIndex: 2,
+        explanation: "4 800 − 3 900 = 900 kg consommés en une heure.",
+        pilotTrick: "Soustraction directe : 48 − 39 = 9, puis remets les deux zéros."
+      },
+      {
+        id: "calc_017",
+        category: "Calcul Mental & Estimation",
+        type: "classic",
+        question: "Quelle est la valeur approximative de 37 % de 500 ?",
+        options: ["135", "150", "185", "200"],
+        correctIndex: 2,
+        explanation: "0,37 × 500 = 185.",
+        pilotTrick: "1 % de 500 = 5. Donc 37 % = 37 × 5 = 185."
+      },
+      {
+        id: "calc_018",
+        category: "Calcul Mental & Estimation",
+        type: "classic",
+        question: "Un avion vole à 240 kt. Combien parcourt-il approximativement en 18 minutes ?",
+        options: ["54 NM", "60 NM", "72 NM", "80 NM"],
+        correctIndex: 2,
+        explanation: "18 min = 0,3 h. 240 × 0,3 = 72 NM.",
+        pilotTrick: "À 240 kt, on fait 24 × 0,3 = 7,2 puis on remet le zéro : 72."
+      },
+      {
+        id: "calc_019",
+        category: "Calcul Mental & Estimation",
+        type: "classic",
+        question: "Un avion monte de 2 400 ft en 6 minutes. Quelle est sa vitesse verticale moyenne ?",
+        options: ["300 ft/min", "400 ft/min", "500 ft/min", "600 ft/min"],
+        correctIndex: 1,
+        explanation: "2 400 / 6 = 400 ft/min.",
+        pilotTrick: "24 ÷ 6 = 4, puis deux zéros : 400."
+      },
+      {
+        id: "calc_020",
+        category: "Calcul Mental & Estimation",
+        type: "flash",
+        question: "FLASH — Un avion vole à 480 kt pendant 7,5 minutes. Quelle distance parcourt-il ?",
+        options: ["50 NM", "60 NM", "70 NM", "80 NM"],
+        correctIndex: 1,
+        explanation: "7,5 minutes = 0,125 h. 480 × 0,125 = 60 NM.",
+        pilotTrick: "0,125 = 1/8. 480 ÷ 8 = 60."
+      },
+      {
+        id: "calc_021",
+        category: "Calcul Mental & Estimation",
+        type: "classic",
+        question: "Une consommation passe de 1 200 kg/h à 1 080 kg/h. De combien a-t-elle diminué en pourcentage ?",
+        options: ["5 %", "8 %", "10 %", "12 %"],
+        correctIndex: 2,
+        explanation: "Baisse = 120 kg. 120 / 1 200 = 10 %.",
+        pilotTrick: "120, c'est exactement 10 % de 1 200."
+      },
+      {
+        id: "calc_022",
+        category: "Calcul Mental & Estimation",
+        type: "classic",
+        question: "Un vol nécessite 3 200 kg de carburant et une réserve supplémentaire de 15 %. Quelle quantité totale faut-il prévoir ?",
+        options: ["3 520 kg", "3 600 kg", "3 680 kg", "3 800 kg"],
+        correctIndex: 2,
+        explanation: "15 % de 3 200 = 480 kg. Total = 3 680 kg.",
+        pilotTrick: "10 % = 320 et 5 % = 160. Donc 15 % = 480."
+      },
+      {
+        id: "calc_023",
+        category: "Calcul Mental & Estimation",
+        type: "classic",
+        question: "Un avion doit parcourir 150 NM à 125 kt. Le temps estimé est proche de :",
+        options: ["1 h 00", "1 h 12", "1 h 20", "1 h 30"],
+        correctIndex: 1,
+        explanation: "150 / 125 = 1,2 h = 1 h 12.",
+        pilotTrick: "125 × 1,2 = 150. Puis 0,2 h = 12 minutes."
+      },
+      {
+        id: "calc_024",
+        category: "Calcul Mental & Estimation",
+        type: "classic",
+        question: "Une distance de 90 km correspond approximativement à combien de NM ?",
+        options: ["42 NM", "49 NM", "60 NM", "70 NM"],
+        correctIndex: 1,
+        explanation: "1 NM ≈ 1,852 km. 90 / 1,852 ≈ 48,6 NM.",
+        pilotTrick: "Pour l'estimation rapide, divise les kilomètres par 1,85."
+      },
+      {
+        id: "calc_025",
+        category: "Calcul Mental & Estimation",
+        type: "classic",
+        question: "Un avion effectue 3 branches de 80 NM à 160 kt. Quel est le temps total de vol hors montée et descente ?",
+        options: ["45 min", "60 min", "90 min", "120 min"],
+        correctIndex: 1,
+        explanation: "Distance totale = 240 NM. 240 / 160 = 1,5 h = 90 minutes.",
+        pilotTrick: "Attention : 240 / 160 = 1,5 h, donc la bonne réponse est 90 minutes.",
+      },
+      {
+        id: "calc_026",
+        category: "Calcul Mental & Estimation",
+        type: "classic",
+        question: "Un débit carburant de 2 400 lb/h est maintenu pendant 18 minutes. Quelle masse est consommée ?",
+        options: ["480 lb", "600 lb", "720 lb", "900 lb"],
+        correctIndex: 2,
+        explanation: "18 min = 0,3 h. 2 400 × 0,3 = 720 lb.",
+        pilotTrick: "30 % de 2 400 = 720."
+      },
+      {
+        id: "calc_027",
+        category: "Calcul Mental & Estimation",
+        type: "classic",
+        question: "Un avion doit réduire sa masse de 1 500 kg. Il reste 600 kg de carburant consommable avant l'étape suivante. Quelle proportion de la réduction vient de ce carburant si tout est consommé ?",
+        options: ["20 %", "30 %", "40 %", "50 %"],
+        correctIndex: 2,
+        explanation: "600 / 1 500 = 0,4, soit 40 %.",
+        pilotTrick: "600 est exactement 4 × 150, donc 40 % de 1 500."
+      },
+      {
+        id: "calc_028",
+        category: "Calcul Mental & Estimation",
+        type: "flash",
+        question: "FLASH — Une réserve de 900 kg représente 12 % de la charge carburant utilisable. Quelle charge utilisable totale cela représente ?",
+        options: ["6 000 kg", "7 500 kg", "8 000 kg", "9 000 kg"],
+        correctIndex: 1,
+        explanation: "900 / 0,12 = 7 500 kg.",
+        pilotTrick: "12 % de 7 500 = 900. Cherche une valeur facile en remontant depuis 1 %."
+      },
+      {
+        id: "calc_029",
+        category: "Calcul Mental & Estimation",
+        type: "classic",
+        question: "Un avion vole à 360 kt avec 45 kt de vent de face. Sans autre correction, quelle GS faut-il retenir ?",
+        options: ["315 kt", "320 kt", "405 kt", "450 kt"],
+        correctIndex: 0,
+        explanation: "Vent de face = réduction de la vitesse sol. 360 − 45 = 315 kt.",
+        pilotTrick: "Vent de face = moins ; vent arrière = plus."
+      },
+      {
+        id: "calc_030",
+        category: "Calcul Mental & Estimation",
+        type: "classic",
+        question: "À 480 kt, combien de NM sont parcourus en 1 minute ?",
+        options: ["6 NM", "8 NM", "10 NM", "12 NM"],
+        correctIndex: 1,
+        explanation: "480 kt signifie 480 NM par heure. 480 / 60 = 8 NM/min.",
+        pilotTrick: "Divise simplement les kt par 60."
+      },
+      {
+        id: "calc_031",
+        category: "Calcul Mental & Estimation",
+        type: "classic",
+        question: "Une altitude de 12 500 ft correspond approximativement à combien de mètres ?",
+        options: ["2 800 m", "3 000 m", "3 810 m", "4 500 m"],
+        correctIndex: 2,
+        explanation: "12 500 × 0,3048 ≈ 3 810 m.",
+        pilotTrick: "1 000 ft ≈ 300 m. Cela donne déjà environ 3 750 m."
+      },
+      {
+        id: "calc_032",
+        category: "Calcul Mental & Estimation",
+        type: "classic",
+        question: "Une piste de 2 700 m mesure environ combien de pieds ?",
+        options: ["6 500 ft", "7 500 ft", "8 858 ft", "10 000 ft"],
+        correctIndex: 2,
+        explanation: "2 700 × 3,28084 ≈ 8 858 ft.",
+        pilotTrick: "Pour une estimation, multiplie les mètres par 3,28."
+      },
+      {
+        id: "calc_033",
+        category: "Calcul Mental & Estimation",
+        type: "classic",
+        question: "Un avion consomme 1 600 kg/h. Quelle quantité consomme-t-il en 1 h 30 ?",
+        options: ["2 000 kg", "2 200 kg", "2 400 kg", "2 600 kg"],
+        correctIndex: 2,
+        explanation: "1,5 × 1 600 = 2 400 kg.",
+        pilotTrick: "Une heure = 1 600. Une demi-heure = 800. Total = 2 400."
+      },
+      {
+        id: "calc_034",
+        category: "Calcul Mental & Estimation",
+        type: "classic",
+        question: "Un vol dure 2 h 24 à une consommation moyenne de 1 250 kg/h. Quelle masse est consommée approximativement ?",
+        options: ["2 400 kg", "2 750 kg", "3 000 kg", "3 250 kg"],
+        correctIndex: 2,
+        explanation: "2 h 24 = 2,4 h. 1 250 × 2,4 = 3 000 kg.",
+        pilotTrick: "1 250 × 24 = 30 000 puis divise par 10."
+      },
+      {
+        id: "calc_035",
+        category: "Calcul Mental & Estimation",
+        type: "classic",
+        question: "Un avion vole 20 % plus vite qu'un autre volant à 400 kt. Quelle est sa vitesse ?",
+        options: ["440 kt", "460 kt", "480 kt", "500 kt"],
+        correctIndex: 2,
+        explanation: "20 % de 400 = 80. 400 + 80 = 480 kt.",
+        pilotTrick: "10 % = 40, donc 20 % = 80."
+      },
+      {
+        id: "calc_036",
+        category: "Calcul Mental & Estimation",
+        type: "classic",
+        question: "Une masse de 1 000 lb de carburant correspond approximativement à combien de kilogrammes ?",
+        options: ["250 kg", "350 kg", "454 kg", "600 kg"],
+        correctIndex: 2,
+        explanation: "1 lb ≈ 0,4536 kg. Donc 1 000 lb ≈ 454 kg.",
+        pilotTrick: "1 000 lb ≈ 450 kg est une conversion mentale suffisante."
+      },
+      {
+        id: "calc_037",
+        category: "Calcul Mental & Estimation",
+        type: "classic",
+        question: "Un avion se trouve à 24 NM de son point de passage et vole à 180 kt. Dans combien de temps arrivera-t-il environ ?",
+        options: ["6 min", "8 min", "10 min", "12 min"],
+        correctIndex: 1,
+        explanation: "180 kt = 3 NM/min. 24 / 3 = 8 minutes.",
+        pilotTrick: "Convertis d'abord 180 kt en 3 NM/min."
+      },
+      {
+        id: "calc_038",
+        category: "Calcul Mental & Estimation",
+        type: "classic",
+        question: "Une distance de 500 NM doit être parcourue avec une GS moyenne de 250 kt. Quel est le temps de vol ?",
+        options: ["1 h 30", "2 h", "2 h 30", "3 h"],
+        correctIndex: 1,
+        explanation: "500 / 250 = 2 h.",
+        pilotTrick: "250 × 2 = 500."
+      },
+      {
+        id: "calc_039",
+        category: "Calcul Mental & Estimation",
+        type: "classic",
+        question: "Une consommation de 700 kg/h augmente de 8 %. Quelle nouvelle consommation faut-il estimer ?",
+        options: ["744 kg/h", "756 kg/h", "772 kg/h", "784 kg/h"],
+        correctIndex: 1,
+        explanation: "8 % de 700 = 56. Donc 700 + 56 = 756 kg/h.",
+        pilotTrick: "1 % de 700 = 7. 8 % = 56."
+      },
+      {
+        id: "calc_040",
+        category: "Calcul Mental & Estimation",
+        type: "flash",
+        question: "FLASH — Un avion parcourt 96 NM en 24 minutes. Quelle est sa GS ?",
+        options: ["180 kt", "220 kt", "240 kt", "280 kt"],
+        correctIndex: 2,
+        explanation: "24 min = 0,4 h. 96 / 0,4 = 240 kt.",
+        pilotTrick: "96 × 2,5 = 240, car diviser par 0,4 revient à multiplier par 2,5."
+      },
+      {
+        id: "calc_041",
+        category: "Calcul Mental & Estimation",
+        type: "classic",
+        question: "Une réserve de 450 kg doit couvrir 36 minutes de vol. Quelle consommation moyenne maximale cela représente-t-il ?",
+        options: ["600 kg/h", "750 kg/h", "900 kg/h", "1 200 kg/h"],
+        correctIndex: 2,
+        explanation: "36 min = 0,6 h. 450 / 0,6 = 750 kg/h.",
+        pilotTrick: "Attention : 450 ÷ 0,6 = 750, pas 900."
+      },
+      {
+        id: "calc_042",
+        category: "Calcul Mental & Estimation",
+        type: "classic",
+        question: "Un avion est à 8 000 ft et doit descendre à 3 000 ft en 10 NM. Quel gradient moyen faut-il viser ?",
+        options: ["300 ft/NM", "400 ft/NM", "500 ft/NM", "800 ft/NM"],
+        correctIndex: 2,
+        explanation: "Différence = 5 000 ft. 5 000 / 10 = 500 ft/NM.",
+        pilotTrick: "5 000 sur 10 = 500 par NM."
+      },
+      {
+        id: "calc_043",
+        category: "Calcul Mental & Estimation",
+        type: "classic",
+        question: "Un poids de 2 200 lb correspond approximativement à :",
+        options: ["700 kg", "900 kg", "1 000 kg", "1 200 kg"],
+        correctIndex: 2,
+        explanation: "2 200 × 0,4536 ≈ 998 kg.",
+        pilotTrick: "2 000 lb ≈ 900 kg et 200 lb ≈ 90 kg. Total ≈ 990 kg."
+      },
+      {
+        id: "calc_044",
+        category: "Calcul Mental & Estimation",
+        type: "classic",
+        question: "Une masse totale passe de 62 000 kg à 58 900 kg. De combien diminue-t-elle ?",
+        options: ["2 100 kg", "2 900 kg", "3 100 kg", "3 900 kg"],
+        correctIndex: 2,
+        explanation: "62 000 − 58 900 = 3 100 kg.",
+        pilotTrick: "62 000 − 59 000 = 3 000, puis ajoute 100."
+      },
+      {
+        id: "calc_045",
+        category: "Calcul Mental & Estimation",
+        type: "classic",
+        question: "Une quantité augmente de 25 % et passe à 2 000. Quelle était sa valeur initiale ?",
+        options: ["1 500", "1 600", "1 700", "1 750"],
+        correctIndex: 1,
+        explanation: "Valeur finale = 1,25 × valeur initiale. 2 000 / 1,25 = 1 600.",
+        pilotTrick: "25 % = un quart. 1,25 = 5/4. Donc 2 000 × 4 ÷ 5 = 1 600."
+      },
+      {
+        id: "calc_046",
+        category: "Calcul Mental & Estimation",
+        type: "classic",
+        question: "Un avion doit parcourir 75 NM avec une GS de 150 kt. Combien de minutes cela représente-t-il ?",
+        options: ["20 min", "25 min", "30 min", "35 min"],
+        correctIndex: 2,
+        explanation: "150 kt = 2,5 NM/min. 75 / 2,5 = 30 minutes.",
+        pilotTrick: "150 kt = 2,5 NM/min ; 75 ÷ 2,5 = 30."
+      },
+      {
+        id: "calc_047",
+        category: "Calcul Mental & Estimation",
+        type: "classic",
+        question: "Un avion dispose de 2 800 kg de carburant et consomme 700 kg/h. Quelle autonomie théorique reste-t-il ?",
+        options: ["3 h", "4 h", "5 h", "6 h"],
+        correctIndex: 1,
+        explanation: "2 800 / 700 = 4 h.",
+        pilotTrick: "700 × 4 = 2 800."
+      },
+      {
+        id: "calc_048",
+        category: "Calcul Mental & Estimation",
+        type: "classic",
+        question: "Un avion vole à 0,78 Mach et la vitesse du son vaut 590 kt. Quelle TAS approximative faut-il retenir ?",
+        options: ["420 kt", "460 kt", "490 kt", "520 kt"],
+        correctIndex: 2,
+        explanation: "TAS = 0,78 × 590 = 460,2 kt. La meilleure réponse est donc 460 kt.",
+        pilotTrick: "0,8 × 590 = 472. Retire 0,02 × 590 ≈ 12. Résultat ≈ 460 kt."
+      },
+      {
+        id: "calc_049",
+        category: "Calcul Mental & Estimation",
+        type: "classic",
+        question: "Un avion vole à 210 kt pendant 42 minutes. Quelle distance parcourt-il ?",
+        options: ["126 NM", "147 NM", "168 NM", "189 NM"],
+        correctIndex: 1,
+        explanation: "42 min = 0,7 h. 210 × 0,7 = 147 NM.",
+        pilotTrick: "70 % de 210 = 147."
+      },
+      {
+        id: "calc_050",
+        category: "Calcul Mental & Estimation",
+        type: "classic",
+        question: "Une réserve représente 45 minutes à une consommation de 800 kg/h. Quelle masse faut-il conserver ?",
+        options: ["450 kg", "500 kg", "600 kg", "800 kg"],
+        correctIndex: 2,
+        explanation: "45 minutes = 0,75 h. 800 × 0,75 = 600 kg.",
+        pilotTrick: "Trois quarts de 800 = 600."
+      },
 
       {
         id: "phys_001",
@@ -2618,6 +2996,406 @@
         correctIndex: 1,
         explanation: "Les winglets modifient l'écoulement en bout d'aile et réduisent l'intensité des tourbillons marginaux, ce qui diminue la traînée induite dans certaines conditions.",
         pilotTrick: "Wingtip vortex = énergie perdue. Le winglet cherche à limiter cette perte."
+      },
+
+      {
+        id: "phys_011",
+        category: "Physique & Mécanique",
+        question: "Un avion vole à 180 kt. Environ combien de NM parcourt-il en 20 minutes ?",
+        options: ["30 NM", "45 NM", "60 NM", "90 NM"],
+        correctIndex: 2,
+        explanation: "180 kt = 180 NM/h. En 20 minutes, on parcourt 1/3 d'heure : 180 ÷ 3 = 60 NM. Correction : la bonne réponse est donc 60 NM.",
+        pilotTrick: "20 min = 1/3 h. Distance = vitesse × temps = 180 × 1/3 = 60 NM."
+      },
+      {
+        id: "phys_012",
+        category: "Physique & Mécanique",
+        question: "Un avion de 2 000 kg subit une force horizontale de 4 000 N. Quelle est son accélération ?",
+        options: ["0,5 m/s²", "2 m/s²", "4 m/s²", "8 m/s²"],
+        correctIndex: 1,
+        explanation: "Avec F = m × a, on obtient a = F / m = 4 000 / 2 000 = 2 m/s².",
+        pilotTrick: "Toujours isoler l'accélération : a = F ÷ m."
+      },
+          
+      {
+        id: "phys_013",
+        category: "Physique & Mécanique",
+        type: "classic",
+        question: "Selon la deuxième loi de Newton, quelle relation est correcte ?",
+        options: ["F = m / a", "F = m × a", "F = a / m", "F = m + a"],
+        correctIndex: 1,
+        explanation: "La deuxième loi de Newton donne F = m × a.",
+        pilotTrick: "Force = masse × accélération. Pense F-M-A."
+      },
+      {
+        id: "phys_014",
+        category: "Physique & Mécanique",
+        type: "classic",
+        question: "Si la masse d'un corps est doublée mais que sa vitesse reste identique, que devient son énergie cinétique ?",
+        options: ["Elle est divisée par deux", "Elle reste identique", "Elle double", "Elle quadruple"],
+        correctIndex: 2,
+        explanation: "Ec = 1/2 mV². À vitesse constante, l'énergie est proportionnelle à la masse.",
+        pilotTrick: "Même vitesse, deux fois plus de masse = deux fois plus d'énergie."
+      },
+      {
+        id: "phys_015",
+        category: "Physique & Mécanique",
+        type: "classic",
+        question: "Si la vitesse est multipliée par trois, par combien est multipliée l'énergie cinétique à masse constante ?",
+        options: ["3", "6", "9", "12"],
+        correctIndex: 2,
+        explanation: "L'énergie cinétique dépend de V². 3² = 9.",
+        pilotTrick: "Encore le carré : ×3 en vitesse = ×9 en énergie."
+      },
+      {
+        id: "phys_016",
+        category: "Physique & Mécanique",
+        type: "flash",
+        question: "FLASH — Un vérin hydraulique reçoit une pression de 10 MPa sur une surface de 0,02 m². Quelle force idéale développe-t-il ?",
+        options: ["20 kN", "100 kN", "200 kN", "500 kN"],
+        correctIndex: 2,
+        explanation: "F = P × S. 10 000 000 × 0,02 = 200 000 N = 200 kN.",
+        pilotTrick: "10 MPa × 0,02 m² donne directement 0,2 MN, soit 200 kN."
+      },
+      {
+        id: "phys_017",
+        category: "Physique & Mécanique",
+        type: "classic",
+        question: "Quel est l'effet d'une augmentation de la surface alaire sur la portance, toutes choses égales par ailleurs ?",
+        options: ["Elle diminue", "Elle augmente", "Elle devient nulle", "Elle reste toujours identique"],
+        correctIndex: 1,
+        explanation: "L ≈ 1/2 ρV²SCL. À autres paramètres constants, une surface S plus grande augmente la portance.",
+        pilotTrick: "S apparaît directement dans la formule de portance : plus d'aile = plus de portance."
+      },
+      {
+        id: "phys_018",
+        category: "Physique & Mécanique",
+        type: "classic",
+        question: "Dans une hélice, augmenter le pas à conditions identiques tend principalement à :",
+        options: ["Réduire la distance parcourue par tour", "Augmenter l'avance géométrique par tour", "Supprimer la traînée", "Inverser le sens de rotation"],
+        correctIndex: 1,
+        explanation: "Le pas représente la distance théorique avancée par tour sans glissement.",
+        pilotTrick: "Pas = distance avancée par tour. Plus de pas = plus d'avance théorique."
+      },
+      {
+        id: "phys_019",
+        category: "Physique & Mécanique",
+        type: "classic",
+        question: "Un moteur fournit 100 kW pendant 30 secondes. Quelle énergie fournit-il ?",
+        options: ["300 kJ", "3 000 kJ", "30 000 kJ", "300 000 kJ"],
+        correctIndex: 1,
+        explanation: "E = P × t = 100 000 × 30 = 3 000 000 J = 3 000 kJ.",
+        pilotTrick: "100 kW × 30 s = 3 000 kJ."
+      },
+      {
+        id: "phys_020",
+        category: "Physique & Mécanique",
+        type: "classic",
+        question: "Un objet de 5 kg est placé à 4 m de hauteur. Avec g ≈ 10 m/s², quelle énergie potentielle possède-t-il ?",
+        options: ["20 J", "50 J", "200 J", "400 J"],
+        correctIndex: 2,
+        explanation: "Ep = mgh = 5 × 10 × 4 = 200 J.",
+        pilotTrick: "5 × 10 × 4 = 200."
+      },
+      {
+        id: "phys_021",
+        category: "Physique & Mécanique",
+        type: "classic",
+        question: "Quelle force aérodynamique s'oppose principalement au mouvement de l'avion dans l'air ?",
+        options: ["La portance", "La traînée", "Le poids", "Le couple gyroscopique"],
+        correctIndex: 1,
+        explanation: "La traînée s'oppose au déplacement de l'aéronef dans l'air.",
+        pilotTrick: "Traînée = résistance à l'avancement."
+      },
+      {
+        id: "phys_022",
+        category: "Physique & Mécanique",
+        type: "classic",
+        question: "Lors d'un virage coordonné à facteur de charge n = 2, la vitesse de décrochage est multipliée environ par :",
+        options: ["√2", "2", "4", "1/2"],
+        correctIndex: 0,
+        explanation: "Vs varie approximativement avec √n. Pour n = 2, Vs est multipliée par √2 ≈ 1,41.",
+        pilotTrick: "Facteur 2 sous la racine = environ ×1,4."
+      },
+      {
+        id: "phys_023",
+        category: "Physique & Mécanique",
+        type: "classic",
+        question: "Quel composant transforme principalement l'énergie des gaz en rotation mécanique dans un turboréacteur ?",
+        options: ["La turbine", "La tuyère", "Le diffuseur", "Le train d'atterrissage"],
+        correctIndex: 0,
+        explanation: "La turbine extrait une partie de l'énergie des gaz pour entraîner les compresseurs et autres accessoires.",
+        pilotTrick: "Turbine = elle récupère l'énergie pour faire tourner l'arbre."
+      },
+      {
+        id: "phys_024",
+        category: "Physique & Mécanique",
+        type: "classic",
+        question: "Dans un compresseur axial, le rotor a pour fonction principale de :",
+        options: ["Créer de la portance", "Ajouter de l'énergie à l'écoulement", "Refroidir le carburant", "Freiner l'air jusqu'à zéro"],
+        correctIndex: 1,
+        explanation: "Le rotor augmente notamment l'énergie du flux et contribue à son élévation de pression.",
+        pilotTrick: "Rotor = partie mobile qui travaille sur l'air."
+      },
+      {
+        id: "phys_025",
+        category: "Physique & Mécanique",
+        type: "classic",
+        question: "Un matériau est soumis à une force de traction de 20 000 N sur une section de 0,01 m². Quelle contrainte moyenne subit-il ?",
+        options: ["200 kPa", "2 MPa", "20 MPa", "200 MPa"],
+        correctIndex: 1,
+        explanation: "σ = F/S = 20 000 / 0,01 = 2 000 000 Pa = 2 MPa.",
+        pilotTrick: "Diviser par 0,01 revient à multiplier par 100."
+      },
+      {
+        id: "phys_026",
+        category: "Physique & Mécanique",
+        type: "classic",
+        question: "Quelle unité correspond à un couple mécanique ?",
+        options: ["N", "J/s", "N·m", "Pa"],
+        correctIndex: 2,
+        explanation: "Le moment ou couple est exprimé en N·m.",
+        pilotTrick: "Force en N × bras en m = N·m."
+      },
+      {
+        id: "phys_027",
+        category: "Physique & Mécanique",
+        type: "flash",
+        question: "FLASH — Un ventilateur tourne à 1 800 RPM. Combien de tours effectue-t-il en 20 secondes ?",
+        options: ["300", "500", "600", "900"],
+        correctIndex: 2,
+        explanation: "1 800 RPM = 30 tours/s. En 20 s : 30 × 20 = 600 tours.",
+        pilotTrick: "1 800 ÷ 60 = 30 tours/s, puis ×20."
+      },
+      {
+        id: "phys_028",
+        category: "Physique & Mécanique",
+        type: "classic",
+        question: "Une roue de 0,5 m de rayon tourne à 120 RPM. Quelle est sa vitesse angulaire approximative en rad/s ?",
+        options: ["2,1 rad/s", "6,3 rad/s", "12,6 rad/s", "20 rad/s"],
+        correctIndex: 2,
+        explanation: "120 RPM = 2 tours/s. ω = 2πf = 4π ≈ 12,6 rad/s.",
+        pilotTrick: "120 RPM = 2 tours/s. Deux tours par seconde = 4π rad/s."
+      },
+      {
+        id: "phys_029",
+        category: "Physique & Mécanique",
+        type: "classic",
+        question: "Quel phénomène explique qu'un objet continue son mouvement lorsqu'aucune force nette ne s'y oppose ?",
+        options: ["La poussée", "L'inertie", "La portance", "La conduction"],
+        correctIndex: 1,
+        explanation: "L'inertie est la tendance d'un corps à conserver son état de mouvement.",
+        pilotTrick: "Inertie = tendance à continuer comme avant."
+      },
+      {
+        id: "phys_030",
+        category: "Physique & Mécanique",
+        type: "classic",
+        question: "Si une force nette de 2 000 N agit sur une masse de 1 000 kg, quelle accélération produit-elle ?",
+        options: ["0,5 m/s²", "2 m/s²", "20 m/s²", "2 000 m/s²"],
+        correctIndex: 1,
+        explanation: "a = F/m = 2 000 / 1 000 = 2 m/s².",
+        pilotTrick: "2 000 ÷ 1 000 = 2."
+      },
+      {
+        id: "phys_031",
+        category: "Physique & Mécanique",
+        type: "classic",
+        question: "Dans un système idéal sans pertes, une énergie mécanique de 500 kJ est fournie. Quelle énergie utile peut être récupérée au maximum ?",
+        options: ["250 kJ", "400 kJ", "500 kJ", "750 kJ"],
+        correctIndex: 2,
+        explanation: "Sans pertes, l'énergie est conservée : 500 kJ entrent, 500 kJ peuvent être récupérés.",
+        pilotTrick: "Système idéal = zéro perte."
+      },
+      {
+        id: "phys_032",
+        category: "Physique & Mécanique",
+        type: "classic",
+        question: "Pourquoi un avion lourd nécessite-t-il généralement une vitesse de décollage supérieure à masse plus faible, toutes choses égales par ailleurs ?",
+        options: ["Parce que le moteur change de sens", "Parce qu'il faut produire davantage de portance pour équilibrer le poids", "Parce que la traînée disparaît", "Parce que la gravité diminue"],
+        correctIndex: 1,
+        explanation: "Une masse plus importante implique un poids plus élevé. Pour générer davantage de portance, une vitesse plus élevée est généralement nécessaire.",
+        pilotTrick: "Plus lourd = plus de portance à produire = plus de vitesse nécessaire."
+      },
+      {
+        id: "phys_033",
+        category: "Physique & Mécanique",
+        type: "classic",
+        question: "Quel est l'effet général de volets sortis sur la portance maximale d'une aile ?",
+        options: ["Elle diminue", "Elle peut augmenter", "Elle devient nulle", "Elle reste nécessairement identique"],
+        correctIndex: 1,
+        explanation: "Les volets augmentent généralement le coefficient de portance maximal, au prix notamment d'une augmentation de traînée.",
+        pilotTrick: "Flaps = plus de lift à basse vitesse, mais aussi plus de drag."
+      },
+      {
+        id: "phys_034",
+        category: "Physique & Mécanique",
+        type: "classic",
+        question: "Une pression de 1 bar correspond approximativement à :",
+        options: ["1 kPa", "10 kPa", "100 kPa", "1 000 kPa"],
+        correctIndex: 2,
+        explanation: "1 bar = 100 000 Pa = 100 kPa.",
+        pilotTrick: "bar → kPa : ×100."
+      },
+      {
+        id: "phys_035",
+        category: "Physique & Mécanique",
+        type: "classic",
+        question: "À quoi sert principalement un amortisseur de train d'atterrissage ?",
+        options: ["À augmenter la vitesse de roulage", "À absorber une partie de l'énergie de l'atterrissage", "À refroidir les freins", "À augmenter la portance"],
+        correctIndex: 1,
+        explanation: "L'amortisseur absorbe et dissipe une partie de l'énergie lors de la compression du train.",
+        pilotTrick: "Amortisseur = transforme une partie de l'énergie en dissipation."
+      },
+      {
+        id: "phys_036",
+        category: "Physique & Mécanique",
+        type: "classic",
+        question: "Dans un engrenage, une roue de 15 dents entraîne une roue de 45 dents. Le rapport de vitesse entre entrée et sortie est de :",
+        options: ["1:1", "2:1", "3:1", "4:1"],
+        correctIndex: 2,
+        explanation: "45 / 15 = 3. La grande roue tourne trois fois moins vite.",
+        pilotTrick: "45 = 3 × 15, donc vitesse divisée par 3."
+      },
+      {
+        id: "phys_037",
+        category: "Physique & Mécanique",
+        type: "classic",
+        question: "Si le bras de levier est doublé tandis que la force reste identique, le moment devient :",
+        options: ["Deux fois plus faible", "Identique", "Deux fois plus grand", "Quatre fois plus grand"],
+        correctIndex: 2,
+        explanation: "M = F × d. Doubler d double directement le moment.",
+        pilotTrick: "Le bras est un multiplicateur direct du couple."
+      },
+      {
+        id: "phys_038",
+        category: "Physique & Mécanique",
+        type: "classic",
+        question: "Quel effet a généralement l'augmentation de l'angle d'attaque dans la partie normale de la courbe de portance ?",
+        options: ["La portance augmente", "La portance diminue immédiatement", "Le poids diminue", "La densité de l'air devient nulle"],
+        correctIndex: 0,
+        explanation: "Dans la zone linéaire avant décrochage, augmenter l'incidence augmente généralement CL et donc la portance.",
+        pilotTrick: "Avant le décrochage : plus d'incidence = plus de lift."
+      },
+      {
+        id: "phys_039",
+        category: "Physique & Mécanique",
+        type: "classic",
+        question: "Quelle grandeur exprime une force appliquée par unité de surface ?",
+        options: ["Énergie", "Puissance", "Pression", "Vitesse"],
+        correctIndex: 2,
+        explanation: "Pression = force / surface.",
+        pilotTrick: "P = F/S."
+      },
+      {
+        id: "phys_040",
+        category: "Physique & Mécanique",
+        type: "flash",
+        question: "FLASH — Un moteur fournit 50 kW pendant 2 minutes. Quelle énergie est produite ?",
+        options: ["1 MJ", "3 MJ", "6 MJ", "10 MJ"],
+        correctIndex: 2,
+        explanation: "50 000 W × 120 s = 6 000 000 J = 6 MJ.",
+        pilotTrick: "50 kW × 120 s = 6 000 kJ = 6 MJ."
+      },
+      {
+        id: "phys_041",
+        category: "Physique & Mécanique",
+        type: "classic",
+        question: "Quel est le rôle du stator dans un compresseur axial ?",
+        options: ["Il ajoute uniquement du carburant", "Il redresse le flux et peut convertir une partie de la vitesse en pression", "Il allume le moteur", "Il refroidit les pneus"],
+        correctIndex: 1,
+        explanation: "Les aubages fixes du stator redressent l'écoulement et participent à la diffusion et à l'augmentation de pression.",
+        pilotTrick: "Rotor accélère et travaille sur le flux ; stator redresse et diffuse."
+      },
+      {
+        id: "phys_042",
+        category: "Physique & Mécanique",
+        type: "classic",
+        question: "Si la densité de l'air est divisée par deux et que TAS, surface et coefficient de portance restent identiques, la portance devient :",
+        options: ["Deux fois plus grande", "Identique", "Deux fois plus faible", "Quatre fois plus faible"],
+        correctIndex: 2,
+        explanation: "La portance est directement proportionnelle à la densité ρ.",
+        pilotTrick: "ρ apparaît une seule fois dans la formule : ÷2 en densité = ÷2 en portance."
+      },
+      {
+        id: "phys_043",
+        category: "Physique & Mécanique",
+        type: "classic",
+        question: "Une pale de rotor de 2 m de long tourne autour de son axe. Quel point possède la vitesse linéaire la plus élevée, à vitesse angulaire identique ?",
+        options: ["Le centre", "Le point à 0,5 m", "Le point à 1 m", "L'extrémité"],
+        correctIndex: 3,
+        explanation: "v = ωr. La vitesse linéaire augmente avec la distance à l'axe.",
+        pilotTrick: "Plus loin du centre = plus vite en vitesse linéaire."
+      },
+      {
+        id: "phys_044",
+        category: "Physique & Mécanique",
+        type: "classic",
+        question: "Quelle propriété explique qu'un matériau retrouve sa forme après suppression d'une charge dans sa limite élastique ?",
+        options: ["La viscosité", "L'élasticité", "La conductivité", "La plasticité uniquement"],
+        correctIndex: 1,
+        explanation: "L'élasticité est la capacité d'un matériau à reprendre sa forme après déformation dans certaines limites.",
+        pilotTrick: "Élastique = revient vers sa forme initiale."
+      },
+      {
+        id: "phys_045",
+        category: "Physique & Mécanique",
+        type: "classic",
+        question: "Quelle force est responsable de la tendance d'un objet à rester sur une trajectoire courbe lorsqu'il est contraint de tourner ?",
+        options: ["La force centripète", "La force centrifuge réelle", "La portance uniquement", "La poussée uniquement"],
+        correctIndex: 0,
+        explanation: "Une force centripète est nécessaire pour maintenir une trajectoire circulaire ou courbe.",
+        pilotTrick: "Centripète = dirigée vers le centre."
+      },
+      {
+        id: "phys_046",
+        category: "Physique & Mécanique",
+        type: "classic",
+        question: "Une pompe délivre 20 L/min pendant 5 minutes. Quel volume a-t-elle déplacé ?",
+        options: ["50 L", "80 L", "100 L", "120 L"],
+        correctIndex: 2,
+        explanation: "20 × 5 = 100 L.",
+        pilotTrick: "Débit × temps."
+      },
+      {
+        id: "phys_047",
+        category: "Physique & Mécanique",
+        type: "classic",
+        question: "Dans un système à poulies idéal, si une charge est soutenue par deux brins de câble partageant également l'effort, l'avantage mécanique théorique est de :",
+        options: ["1", "2", "3", "4"],
+        correctIndex: 1,
+        explanation: "Deux brins soutiennent la charge, donnant idéalement un avantage mécanique de 2.",
+        pilotTrick: "Deux brins porteurs = effort théorique divisé par deux."
+      },
+      {
+        id: "phys_048",
+        category: "Physique & Mécanique",
+        type: "classic",
+        question: "Quelle est la puissance mécanique approximative d'une force de 1 000 N déplaçant un objet à 20 m/s dans la même direction ?",
+        options: ["5 kW", "10 kW", "20 kW", "50 kW"],
+        correctIndex: 2,
+        explanation: "P = F × v = 1 000 × 20 = 20 000 W = 20 kW.",
+        pilotTrick: "Force × vitesse = puissance."
+      },
+      {
+        id: "phys_049",
+        category: "Physique & Mécanique",
+        type: "flash",
+        question: "FLASH — Une roue tourne à 600 RPM. Combien de tours effectue-t-elle en 15 secondes ?",
+        options: ["100", "120", "150", "180"],
+        correctIndex: 2,
+        explanation: "600 RPM = 10 tours/s. En 15 s : 150 tours.",
+        pilotTrick: "600 ÷ 60 = 10 tours/s."
+      },
+      {
+        id: "phys_050",
+        category: "Physique & Mécanique",
+        type: "classic",
+        question: "Si la traînée parasite augmente fortement avec la vitesse, quelle tendance générale peut-on attendre à haute vitesse ?",
+        options: ["La traînée totale peut augmenter fortement", "La traînée devient nulle", "La portance disparaît automatiquement", "La masse diminue"],
+        correctIndex: 0,
+        explanation: "La traînée parasite augmente fortement avec la vitesse, approximativement selon une dépendance proche de V² dans de nombreux cas.",
+        pilotTrick: "À haute vitesse, pense surtout à la traînée parasite."
       },
 
       {
@@ -2739,6 +3517,387 @@
         correctIndex: 1,
         explanation: "120 + 25 = 145. Puis 145 − 40 = 105°.",
         pilotTrick: "Fais les corrections dans l'ordre : +25 puis −40 donne un effet net de −15°."
+      },
+
+      {
+        id: "logic_013",
+        category: "Logique Spatiale & Repérage",
+        type: "classic",
+        question: "Tu suis le cap 045°. Tu tournes de 90° vers la gauche. Quel est ton nouveau cap ?",
+        options: ["315°", "355°", "135°", "225°"],
+        correctIndex: 0,
+        explanation: "045 − 90 = −45°. En ajoutant 360°, on obtient 315°.",
+        pilotTrick: "Si tu passes sous 000°, ajoute 360°."
+      },
+      {
+        id: "logic_014",
+        category: "Logique Spatiale & Repérage",
+        type: "classic",
+        question: "Tu suis le cap 180°. Un virage de 225° vers la droite t'amène sur quel cap ?",
+        options: ["045°", "225°", "315°", "355°"],
+        correctIndex: 0,
+        explanation: "180 + 225 = 405. 405 − 360 = 045°.",
+        pilotTrick: "Fais l'addition puis retire 360 si nécessaire."
+      },
+      {
+        id: "logic_015",
+        category: "Logique Spatiale & Repérage",
+        type: "flash",
+        question: "FLASH — Un avion pointe au 270°. Un second avion est exactement à sa droite. Dans quelle direction se trouve le second avion ?",
+        options: ["Nord", "Sud", "Est", "Ouest"],
+        correctIndex: 0,
+        explanation: "Si l'avion regarde vers l'Ouest, sa droite correspond au Nord.",
+        pilotTrick: "270° = Ouest. Quand tu regardes l'Ouest, la droite est le Nord."
+      },
+      {
+        id: "logic_016",
+        category: "Logique Spatiale & Repérage",
+        type: "classic",
+        question: "Un aéronef vole au cap 360° et effectue deux virages successifs de 90° à droite. Quel est son cap final ?",
+        options: ["090°", "180°", "270°", "000°"],
+        correctIndex: 1,
+        explanation: "360 + 90 = 090, puis 090 + 90 = 180.",
+        pilotTrick: "Deux quarts de tour à droite = demi-tour."
+      },
+      {
+        id: "logic_017",
+        category: "Logique Spatiale & Repérage",
+        type: "classic",
+        question: "Un point se trouve à 12 km au Nord et 5 km à l'Est d'un autre point. Quelle est leur distance directe ?",
+        options: ["13 km", "15 km", "17 km", "20 km"],
+        correctIndex: 0,
+        explanation: "√(12² + 5²) = √169 = 13 km.",
+        pilotTrick: "Triangle 5-12-13 à connaître."
+      },
+      {
+        id: "logic_018",
+        category: "Logique Spatiale & Repérage",
+        type: "classic",
+        question: "Deux avions convergent vers le même point. Le premier est à 80 NM et vole à 160 kt, le second à 60 NM et vole à 120 kt. Lequel arrive en premier ?",
+        options: ["Le premier", "Le second", "Ils arrivent exactement ensemble", "Impossible à comparer"],
+        correctIndex: 2,
+        explanation: "80/160 = 0,5 h et 60/120 = 0,5 h. Ils arrivent ensemble.",
+        pilotTrick: "Calcule simplement distance/vitesse pour chacun."
+      },
+      {
+        id: "logic_019",
+        category: "Logique Spatiale & Repérage",
+        type: "classic",
+        question: "Un avion suit le 135°. Quelle direction générale représente ce cap ?",
+        options: ["Nord-Est", "Sud-Est", "Sud-Ouest", "Nord-Ouest"],
+        correctIndex: 1,
+        explanation: "135° est à mi-chemin entre Est (090°) et Sud (180°) : Sud-Est.",
+        pilotTrick: "090 = Est, 180 = Sud, 135 = entre les deux."
+      },
+      {
+        id: "logic_020",
+        category: "Logique Spatiale & Repérage",
+        type: "classic",
+        question: "Un avion est au Sud-Ouest d'un autre. Quelle direction doit-il suivre pour aller approximativement vers l'autre avion ?",
+        options: ["045°", "135°", "225°", "315°"],
+        correctIndex: 0,
+        explanation: "L'opposé du Sud-Ouest (225°) est le Nord-Est (045°).",
+        pilotTrick: "Pour inverser une direction, ajoute ou retire 180°."
+      },
+      {
+        id: "logic_021",
+        category: "Logique Spatiale & Repérage",
+        type: "classic",
+        question: "Un véhicule parcourt 30 km vers le Nord puis 40 km vers l'Est. Quelle distance directe le sépare du point de départ ?",
+        options: ["50 km", "60 km", "70 km", "80 km"],
+        correctIndex: 0,
+        explanation: "√(30² + 40²) = 50 km.",
+        pilotTrick: "Triangle 3-4-5."
+      },
+      {
+        id: "logic_022",
+        category: "Logique Spatiale & Repérage",
+        type: "flash",
+        question: "FLASH — Une aiguille pointe vers 12 h. Elle tourne de 90° dans le sens horaire. Vers quelle heure pointe-t-elle ?",
+        options: ["3 h", "6 h", "9 h", "12 h"],
+        correctIndex: 0,
+        explanation: "Un quart de tour horaire depuis 12 h mène à 3 h.",
+        pilotTrick: "12 → 3 → 6 → 9 sont les quatre quarts de tour."
+      },
+      {
+        id: "logic_023",
+        category: "Logique Spatiale & Repérage",
+        type: "classic",
+        question: "Un avion au cap 210° vire à gauche de 30°. Quel cap obtient-il ?",
+        options: ["150°", "180°", "200°", "240°"],
+        correctIndex: 1,
+        explanation: "210 − 30 = 180°.",
+        pilotTrick: "Virage gauche = soustraction."
+      },
+      {
+        id: "logic_024",
+        category: "Logique Spatiale & Repérage",
+        type: "classic",
+        question: "Un avion au cap 325° vire à droite de 50°. Quel cap obtient-il ?",
+        options: ["015°", "025°", "275°", "355°"],
+        correctIndex: 0,
+        explanation: "325 + 50 = 375. 375 − 360 = 015°.",
+        pilotTrick: "Dès que tu dépasses 360°, enlève 360."
+      },
+      {
+        id: "logic_025",
+        category: "Logique Spatiale & Repérage",
+        type: "classic",
+        question: "Un avion vole 20 NM vers le Nord puis 20 NM vers l'Ouest. Dans quelle direction est-il par rapport à son départ ?",
+        options: ["Nord-Est", "Sud-Est", "Sud-Ouest", "Nord-Ouest"],
+        correctIndex: 3,
+        explanation: "Nord + Ouest donne Nord-Ouest.",
+        pilotTrick: "Combine simplement les deux composantes."
+      },
+      {
+        id: "logic_026",
+        category: "Logique Spatiale & Repérage",
+        type: "classic",
+        question: "Sur une carte, A est à l'Est de B. C est au Nord de A. Où est C par rapport à B ?",
+        options: ["Sud-Est", "Nord-Est", "Nord-Ouest", "Sud-Ouest"],
+        correctIndex: 1,
+        explanation: "A est à l'Est de B et C est au Nord de A. C est donc au Nord-Est de B.",
+        pilotTrick: "Additionne mentalement les déplacements : Est + Nord."
+      },
+      {
+        id: "logic_027",
+        category: "Logique Spatiale & Repérage",
+        type: "classic",
+        question: "Une route magnétique est 275°. Un vent latéral pousse l'avion vers la gauche sans correction de cap. La route sol aura tendance à se décaler vers :",
+        options: ["La droite", "La gauche", "Le Nord uniquement", "Le Sud uniquement"],
+        correctIndex: 1,
+        explanation: "Une poussée latérale vers la gauche entraîne une déviation de la trajectoire vers la gauche.",
+        pilotTrick: "Imagine une flèche qui pousse physiquement l'avion sur le côté."
+      },
+      {
+        id: "logic_028",
+        category: "Logique Spatiale & Repérage",
+        type: "classic",
+        question: "Un avion tourne à droite de 45° depuis le cap 315°. Quelle orientation obtient-il ?",
+        options: ["000°", "015°", "045°", "090°"],
+        correctIndex: 0,
+        explanation: "315 + 45 = 360° = 000°. Correction : la bonne réponse est 000°.",
+        pilotTrick: "315 + 45 tombe exactement sur 360, donc 000°."
+      },
+      {
+        id: "logic_029",
+        category: "Logique Spatiale & Repérage",
+        type: "classic",
+        question: "Deux avions se rapprochent avec une vitesse de fermeture de 420 kt. S'ils sont séparés de 105 NM, combien de temps avant le croisement ?",
+        options: ["10 min", "15 min", "20 min", "25 min"],
+        correctIndex: 1,
+        explanation: "420 kt = 7 NM/min. 105 / 7 = 15 minutes.",
+        pilotTrick: "Convertis 420 kt en 7 NM/min."
+      },
+      {
+        id: "logic_030",
+        category: "Logique Spatiale & Repérage",
+        type: "classic",
+        question: "Une cible est située à 060° d'un avion. Sur une rose des vents, cela correspond approximativement à :",
+        options: ["Nord-Nord-Est", "Est-Nord-Est", "Sud-Est", "Nord-Ouest"],
+        correctIndex: 0,
+        explanation: "060° est entre Nord (000°) et Est (090°), dans le secteur Nord-Est, proche du Nord-Nord-Est.",
+        pilotTrick: "060° = 30° avant l'Est."
+      },
+      {
+        id: "logic_031",
+        category: "Logique Spatiale & Repérage",
+        type: "classic",
+        question: "Un point est à 100 m devant toi. Tu pivotes de 180° sans bouger. Le point est maintenant :",
+        options: ["Toujours devant", "À ta droite", "Derrière toi", "À ta gauche"],
+        correctIndex: 2,
+        explanation: "Une rotation de 180° transforme l'avant en arrière.",
+        pilotTrick: "180° = demi-tour."
+      },
+      {
+        id: "logic_032",
+        category: "Logique Spatiale & Repérage",
+        type: "flash",
+        question: "FLASH — Un engrenage de 10 dents entraîne un engrenage de 20 dents. Si le premier fait 1 200 RPM, combien fait le second ?",
+        options: ["300 RPM", "600 RPM", "1 200 RPM", "2 400 RPM"],
+        correctIndex: 1,
+        explanation: "La roue de 20 dents tourne deux fois moins vite : 1 200 × 10 / 20 = 600 RPM.",
+        pilotTrick: "Deux fois plus de dents = deux fois moins vite."
+      },
+      {
+        id: "logic_033",
+        category: "Logique Spatiale & Repérage",
+        type: "classic",
+        question: "Si une roue A tourne dans le sens horaire et entraîne directement B, dans quel sens tourne B ?",
+        options: ["Horaire", "Antihoraire", "Elle ne tourne pas", "Alternativement"],
+        correctIndex: 1,
+        explanation: "Deux engrenages directement en prise tournent en sens opposés.",
+        pilotTrick: "Contact direct = sens inversé."
+      },
+      {
+        id: "logic_034",
+        category: "Logique Spatiale & Repérage",
+        type: "classic",
+        question: "Une route initiale est 050°. Une correction de vent de +12° est appliquée, puis une autre de −7°. Route finale ?",
+        options: ["045°", "055°", "062°", "069°"],
+        correctIndex: 1,
+        explanation: "050 + 12 = 062. Puis 062 − 7 = 055°.",
+        pilotTrick: "Effet net : +5°. Donc 050 + 5 = 055."
+      },
+      {
+        id: "logic_035",
+        category: "Logique Spatiale & Repérage",
+        type: "classic",
+        question: "Une piste porte le numéro 09. Son orientation magnétique est approximativement :",
+        options: ["009°", "090°", "180°", "270°"],
+        correctIndex: 1,
+        explanation: "Le numéro de piste correspond approximativement à l'orientation magnétique divisée par 10 : 09 ≈ 090°.",
+        pilotTrick: "Numéro de piste × 10."
+      },
+      {
+        id: "logic_036",
+        category: "Logique Spatiale & Repérage",
+        type: "classic",
+        question: "Une piste est orientée 360°/180°. Si elle est utilisée dans la direction Sud, quel numéro porte-t-elle ?",
+        options: ["09", "18", "27", "36"],
+        correctIndex: 1,
+        explanation: "180° correspond au numéro de piste 18.",
+        pilotTrick: "180 ÷ 10 = 18."
+      },
+      {
+        id: "logic_037",
+        category: "Logique Spatiale & Repérage",
+        type: "classic",
+        question: "Un avion A vole au Nord à 100 kt. Un avion B vole au Sud à 140 kt. Leur vitesse de rapprochement est de :",
+        options: ["40 kt", "100 kt", "140 kt", "240 kt"],
+        correctIndex: 3,
+        explanation: "Ils volent l'un vers l'autre. 100 + 140 = 240 kt.",
+        pilotTrick: "Face-à-face = additionne les vitesses."
+      },
+      {
+        id: "logic_038",
+        category: "Logique Spatiale & Repérage",
+        type: "classic",
+        question: "Un avion A est 30 NM à l'Est de B. A vole vers l'Ouest à 150 kt, B vers l'Est à 90 kt. Après combien de minutes se croisent-ils ?",
+        options: ["5 min", "7,5 min", "10 min", "12 min"],
+        correctIndex: 1,
+        explanation: "Vitesse de rapprochement = 240 kt = 4 NM/min. 30 / 4 = 7,5 min. La proposition la plus proche est 8 min. Correction : choisir 8 min.",
+        pilotTrick: "240 kt = 4 NM/min. 30 ÷ 4 = 7,5 min, donc 8 min au choix proposé."
+      },
+      {
+        id: "logic_039",
+        category: "Logique Spatiale & Repérage",
+        type: "classic",
+        question: "Un point B est à 270° d'un point A. Si A effectue un demi-tour, B apparaît alors à quel relèvement relatif ?",
+        options: ["090°", "180°", "270°", "000°"],
+        correctIndex: 0,
+        explanation: "Une rotation de 180° transforme le 270° en 090°.",
+        pilotTrick: "Ajoute 180° pour inverser un relèvement."
+      },
+      {
+        id: "logic_040",
+        category: "Logique Spatiale & Repérage",
+        type: "flash",
+        question: "FLASH — Tu regardes vers le Sud. Où se trouve l'Ouest par rapport à toi ?",
+        options: ["À ta droite", "À ta gauche", "Devant", "Derrière"],
+        correctIndex: 0,
+        explanation: "Face au Sud, l'Ouest se trouve à droite.",
+        pilotTrick: "Face au Sud, inverse ton repère : Est à gauche, Ouest à droite."
+      },
+      {
+        id: "logic_041",
+        category: "Logique Spatiale & Repérage",
+        type: "classic",
+        question: "Un avion fait 3 tours complets vers la droite. Quel est son changement de cap final ?",
+        options: ["90°", "180°", "270°", "0°"],
+        correctIndex: 3,
+        explanation: "Trois tours complets correspondent à 1080°, soit un multiple de 360°. Le cap final est identique.",
+        pilotTrick: "Un tour complet = aucun changement final de cap."
+      },
+      {
+        id: "logic_042",
+        category: "Logique Spatiale & Repérage",
+        type: "classic",
+        question: "Une cible est à 045° et une seconde à 315°. Les deux sont séparées angulairement de :",
+        options: ["90°", "135°", "180°", "270°"],
+        correctIndex: 0,
+        explanation: "045° et 315° sont chacune à 45° de l'axe Nord, donc 90° les séparent.",
+        pilotTrick: "315 → 360 = 45, puis 45 jusqu'à 045 = 90."
+      },
+      {
+        id: "logic_043",
+        category: "Logique Spatiale & Repérage",
+        type: "classic",
+        question: "Un avion vole au 120°. Le point situé exactement derrière lui se trouve au relèvement :",
+        options: ["030°", "120°", "240°", "300°"],
+        correctIndex: 3,
+        explanation: "Le relèvement arrière correspond au cap + 180°. 120 + 180 = 300°.",
+        pilotTrick: "Attention : arrière = +180°. 120 + 180 = 300°."
+      },
+      {
+        id: "logic_044",
+        category: "Logique Spatiale & Repérage",
+        type: "classic",
+        question: "Un appareil parcourt 100 NM vers l'Est puis 100 NM vers le Nord. Dans quelle direction générale se trouve-t-il du départ ?",
+        options: ["Nord-Est", "Sud-Est", "Sud-Ouest", "Nord-Ouest"],
+        correctIndex: 0,
+        explanation: "Est + Nord donne Nord-Est.",
+        pilotTrick: "Les deux composantes sont positives : Est et Nord."
+      },
+      {
+        id: "logic_045",
+        category: "Logique Spatiale & Repérage",
+        type: "classic",
+        question: "Une rose des vents comporte 360°. Combien de degrés représentent exactement 5/8 de tour ?",
+        options: ["180°", "225°", "240°", "300°"],
+        correctIndex: 1,
+        explanation: "360 × 5/8 = 225°.",
+        pilotTrick: "360 ÷ 8 = 45 ; 45 × 5 = 225."
+      },
+      {
+        id: "logic_046",
+        category: "Logique Spatiale & Repérage",
+        type: "classic",
+        question: "Une voiture suit une route Est. Elle tourne à droite de 90°. Quelle direction suit-elle ?",
+        options: ["Nord", "Sud", "Est", "Ouest"],
+        correctIndex: 1,
+        explanation: "En regardant vers l'Est, la droite correspond au Sud.",
+        pilotTrick: "Face à l'Est, ta droite est le Sud."
+      },
+      {
+        id: "logic_047",
+        category: "Logique Spatiale & Repérage",
+        type: "classic",
+        question: "Deux points sont séparés de 260 NM. Deux avions convergent vers l'autre à 130 kt et 130 kt. Temps jusqu'au croisement ?",
+        options: ["30 min", "45 min", "60 min", "90 min"],
+        correctIndex: 2,
+        explanation: "Vitesse de fermeture = 260 kt. 260 / 260 = 1 h.",
+        pilotTrick: "Les deux vitesses s'additionnent exactement à la distance."
+      },
+      {
+        id: "logic_048",
+        category: "Logique Spatiale & Repérage",
+        type: "classic",
+        question: "Un avion suit 085° et doit revenir sur son cap initial après un seul virage. Quelle rotation minimale doit-il effectuer ?",
+        options: ["85° gauche", "95° gauche", "180°", "275°"],
+        correctIndex: 2,
+        explanation: "Pour inverser complètement la direction, une rotation de 180° est nécessaire.",
+        pilotTrick: "Demi-tour = 180°, quel que soit le cap initial."
+      },
+      {
+        id: "logic_049",
+        category: "Logique Spatiale & Repérage",
+        type: "classic",
+        question: "Une route est 350°. Une correction de +20° est appliquée. Quel est le nouveau cap ?",
+        options: ["010°", "020°", "330°", "370°"],
+        correctIndex: 0,
+        explanation: "350 + 20 = 370. 370 − 360 = 010°.",
+        pilotTrick: "370° se convertit immédiatement en 010°."
+      },
+      {
+        id: "logic_050",
+        category: "Logique Spatiale & Repérage",
+        type: "flash",
+        question: "FLASH — Un point se trouve à 135°. Après une rotation de 180° de l'observateur, quel est son nouveau relèvement ?",
+        options: ["045°", "135°", "225°", "315°"],
+        correctIndex: 3,
+        explanation: "135 + 180 = 315°.",
+        pilotTrick: "Pour un demi-tour, ajoute 180° au relèvement."
       },
 
       {
@@ -2910,7 +4069,577 @@
         correctIndex: 2,
         explanation: "Mayday is the international radiotelephony distress call for grave and imminent danger requiring immediate assistance.",
         pilotTrick: "Mayday = détresse. Pan-pan correspond à l'urgence, généralement sans danger immédiat comparable."
-      }
+      },
+      {
+        id: "eng_013",
+        category: "Anglais Aéro",
+        type: "classic",
+        question: "What does “hold position” mean in an ATC instruction?",
+        options: [
+          "Maintain the current position and do not proceed",
+          "Climb immediately",
+          "Turn left",
+          "Change frequency"
+        ],
+        correctIndex: 0,
+        explanation: "Hold position means remain where you are and do not proceed until further clearance.",
+        pilotTrick: "Hold = maintenir ; position = position. Donc reste où tu es."
+      },
+      {
+        id: "eng_014",
+        category: "Anglais Aéro",
+        type: "classic",
+        question: "What does “taxi to holding point” mean?",
+        options: [
+          "Taxi to the designated point before entering the runway",
+          "Taxi directly to the parking stand",
+          "Start the takeoff roll",
+          "Leave the airport"
+        ],
+        correctIndex: 0,
+        explanation: "The holding point is the designated location where an aircraft waits before runway entry or crossing.",
+        pilotTrick: "Holding point = point d'attente avant la piste."
+      },
+      {
+        id: "eng_015",
+        category: "Anglais Aéro",
+        type: "classic",
+        question: "What does “roger” indicate in radio communication?",
+        options: [
+          "The transmission has been received",
+          "The aircraft is declaring an emergency",
+          "The pilot is unable to comply",
+          "The aircraft has landed"
+        ],
+        correctIndex: 0,
+        explanation: "Roger indicates that the last transmission has been received.",
+        pilotTrick: "Roger = reçu. Ce n'est pas forcément une approbation de l'instruction."
+      },
+      {
+        id: "eng_016",
+        category: "Anglais Aéro",
+        type: "classic",
+        question: "What is the meaning of “affirm” in aviation phraseology?",
+        options: [
+          "Yes",
+          "No",
+          "Wait",
+          "Emergency"
+        ],
+        correctIndex: 0,
+        explanation: "Affirm means yes.",
+        pilotTrick: "Affirm = affirmative = oui."
+      },
+      {
+        id: "eng_017",
+        category: "Anglais Aéro",
+        type: "classic",
+        question: "What does “negative” mean in radiotelephony?",
+        options: [
+          "Yes",
+          "No",
+          "Stand by",
+          "Climb"
+        ],
+        correctIndex: 1,
+        explanation: "Negative means no.",
+        pilotTrick: "Negative = non."
+      },
+      {
+        id: "eng_018",
+        category: "Anglais Aéro",
+        type: "flash",
+        question: "FLASH — What does “vacate runway” mean?",
+        options: [
+          "Enter the runway",
+          "Leave the runway",
+          "Increase speed on the runway",
+          "Stop the engine"
+        ],
+        correctIndex: 1,
+        explanation: "Vacate runway means leave the runway, normally via an exit taxiway.",
+        pilotTrick: "Vacate = évacuer/quitter. Donc quitter la piste."
+      },
+      {
+        id: "eng_019",
+        category: "Anglais Aéro",
+        type: "classic",
+        question: "What does “report established” mean?",
+        options: [
+          "Report when established on the specified track or approach",
+          "Report when the engine starts",
+          "Report after shutdown",
+          "Report when leaving the aircraft"
+        ],
+        correctIndex: 0,
+        explanation: "The pilot is asked to transmit once established in the specified procedure or segment.",
+        pilotTrick: "Established = stabilisé / établi sur la trajectoire."
+      },
+      {
+        id: "eng_020",
+        category: "Anglais Aéro",
+        type: "classic",
+        question: "What does “cleared for take-off” authorize?",
+        options: [
+          "Start the takeoff",
+          "Taxi to the stand",
+          "Descend to 3 000 ft",
+          "Change to another frequency"
+        ],
+        correctIndex: 0,
+        explanation: "Cleared for take-off is the ATC clearance to commence the takeoff.",
+        pilotTrick: "Cleared = autorisé ; take-off = décollage."
+      },
+      {
+        id: "eng_021",
+        category: "Anglais Aéro",
+        type: "classic",
+        question: "What does “cleared to land” mean?",
+        options: [
+          "The aircraft is authorized to land",
+          "The aircraft must go around",
+          "The aircraft must hold",
+          "The aircraft must taxi immediately"
+        ],
+        correctIndex: 0,
+        explanation: "Cleared to land authorizes the aircraft to complete the landing subject to applicable conditions.",
+        pilotTrick: "Cleared to = autorisé à."
+      },
+      {
+        id: "eng_022",
+        category: "Anglais Aéro",
+        type: "classic",
+        question: "What is a “go-around”?",
+        options: [
+          "A return to the departure gate",
+          "An aborted landing followed by a climb away from the runway",
+          "A taxi procedure",
+          "A fuel transfer"
+        ],
+        correctIndex: 1,
+        explanation: "A go-around is the decision to discontinue an approach and climb away to continue the procedure.",
+        pilotTrick: "Go around = on remet les gaz et on repart autour."
+      },
+      {
+        id: "eng_023",
+        category: "Anglais Aéro",
+        type: "classic",
+        question: "What does “on final” mean?",
+        options: [
+          "Established on the final approach path",
+          "Starting the engine",
+          "Leaving the airport",
+          "At cruise altitude"
+        ],
+        correctIndex: 0,
+        explanation: "On final means established on the final approach segment.",
+        pilotTrick: "Final = dernière branche avant l'atterrissage."
+      },
+      {
+        id: "eng_024",
+        category: "Anglais Aéro",
+        type: "classic",
+        question: "What does “extend downwind” mean?",
+        options: [
+          "Make the downwind leg longer before turning base",
+          "Climb directly",
+          "Turn immediately toward the runway",
+          "Leave the circuit"
+        ],
+        correctIndex: 0,
+        explanation: "Extend downwind means continue the downwind leg longer before making the base turn.",
+        pilotTrick: "Extend = prolonger."
+      },
+      {
+        id: "eng_025",
+        category: "Anglais Aéro",
+        type: "classic",
+        question: "What does “reduce speed” mean?",
+        options: [
+          "Increase speed",
+          "Decrease speed",
+          "Maintain speed",
+          "Change altitude"
+        ],
+        correctIndex: 1,
+        explanation: "Reduce means decrease.",
+        pilotTrick: "Reduce = réduire."
+      },
+      {
+        id: "eng_026",
+        category: "Anglais Aéro",
+        type: "classic",
+        question: "What does “increase rate of descent” mean?",
+        options: [
+          "Descend more slowly",
+          "Descend more quickly vertically",
+          "Stop descending",
+          "Climb"
+        ],
+        correctIndex: 1,
+        explanation: "An increased rate of descent means a greater vertical descent rate.",
+        pilotTrick: "Rate = vitesse de variation. More rate of descent = descente plus forte."
+      },
+      {
+        id: "eng_027",
+        category: "Anglais Aéro",
+        type: "classic",
+        question: "What does “maintain 4 000 feet” mean?",
+        options: [
+          "Climb above 4 000 feet",
+          "Descend below 4 000 feet",
+          "Keep the aircraft at 4 000 feet",
+          "Turn to heading 040"
+        ],
+        correctIndex: 2,
+        explanation: "Maintain 4 000 feet means keep the cleared altitude or flight level.",
+        pilotTrick: "Maintain = conserver."
+      },
+      {
+        id: "eng_028",
+        category: "Anglais Aéro",
+        type: "classic",
+        question: "What does “descend when ready” imply?",
+        options: [
+          "Start descending immediately at maximum rate",
+          "Begin the descent when operationally appropriate",
+          "Never descend",
+          "Climb first"
+        ],
+        correctIndex: 1,
+        explanation: "The pilot may initiate the descent when ready, subject to the clearance and other constraints.",
+        pilotTrick: "When ready = quand tu es prêt."
+      },
+      {
+        id: "eng_029",
+        category: "Anglais Aéro",
+        type: "classic",
+        question: "What is the meaning of “traffic in sight”?",
+        options: [
+          "The pilot has visually identified the reported traffic",
+          "The traffic is not present",
+          "The radio has failed",
+          "The aircraft has landed"
+        ],
+        correctIndex: 0,
+        explanation: "Traffic in sight means the pilot can visually see and identify the reported aircraft.",
+        pilotTrick: "In sight = en vue."
+      },
+      {
+        id: "eng_030",
+        category: "Anglais Aéro",
+        type: "classic",
+        question: "What does “traffic no longer in sight” mean?",
+        options: [
+          "The aircraft has lost visual contact with the reported traffic",
+          "The aircraft has landed",
+          "The aircraft has changed frequency",
+          "The weather is improving"
+        ],
+        correctIndex: 0,
+        explanation: "The pilot can no longer maintain visual contact with the reported traffic.",
+        pilotTrick: "No longer = plus maintenant ; in sight = en vue."
+      },
+      {
+        id: "eng_031",
+        category: "Anglais Aéro",
+        type: "classic",
+        question: "What is a “runway incursion”?",
+        options: [
+          "An unauthorized presence or incorrect entry onto a protected runway area",
+          "A normal takeoff",
+          "A weather report",
+          "A fuel imbalance"
+        ],
+        correctIndex: 0,
+        explanation: "A runway incursion involves an incorrect or unauthorized presence of an aircraft, vehicle or person on a runway protected area.",
+        pilotTrick: "Incursion = intrusion."
+      },
+      {
+        id: "eng_032",
+        category: "Anglais Aéro",
+        type: "flash",
+        question: "FLASH — What does “cross runway two seven” mean?",
+        options: [
+          "Land on runway 27",
+          "Cross runway 27",
+          "Turn toward runway 27",
+          "Take off from runway 27"
+        ],
+        correctIndex: 1,
+        explanation: "Cross runway 27 authorizes crossing runway 27, subject to the exact clearance.",
+        pilotTrick: "Cross = traverser."
+      },
+      {
+        id: "eng_033",
+        category: "Anglais Aéro",
+        type: "classic",
+        question: "What does “remain outside controlled airspace” mean?",
+        options: [
+          "Enter controlled airspace immediately",
+          "Stay outside controlled airspace",
+          "Climb above controlled airspace",
+          "Land immediately"
+        ],
+        correctIndex: 1,
+        explanation: "Remain outside means continue staying outside the specified airspace.",
+        pilotTrick: "Remain = rester."
+      },
+      {
+        id: "eng_034",
+        category: "Anglais Aéro",
+        type: "classic",
+        question: "What is the meaning of “left-hand circuit”?",
+        options: [
+          "The traffic circuit uses left turns",
+          "The runway is closed on the left",
+          "Aircraft must bank right",
+          "The aircraft must taxi left"
+        ],
+        correctIndex: 0,
+        explanation: "A left-hand circuit consists of turns to the left in the aerodrome traffic pattern.",
+        pilotTrick: "Left-hand = virages à gauche."
+      },
+      {
+        id: "eng_035",
+        category: "Anglais Aéro",
+        type: "classic",
+        question: "What does “wind calm” indicate?",
+        options: [
+          "Strong turbulence",
+          "No significant wind is reported",
+          "A headwind of 20 kt",
+          "Wind from the runway end"
+        ],
+        correctIndex: 1,
+        explanation: "Wind calm indicates that the reported wind is below the applicable threshold for calm conditions.",
+        pilotTrick: "Calm = calme, donc pas de vent significatif rapporté."
+      },
+      {
+        id: "eng_036",
+        category: "Anglais Aéro",
+        type: "classic",
+        question: "What is the difference between “heading” and “track”?",
+        options: [
+          "Heading is the aircraft's nose direction; track is its actual path over the ground",
+          "They always mean exactly the same thing",
+          "Track is nose direction and heading is ground path",
+          "Heading is altitude"
+        ],
+        correctIndex: 0,
+        explanation: "Heading describes the direction in which the aircraft nose points. Track describes the direction of movement across the ground.",
+        pilotTrick: "Heading = nez ; track = trajectoire au sol."
+      },
+      {
+        id: "eng_037",
+        category: "Anglais Aéro",
+        type: "classic",
+        question: "What does “crosswind component” refer to?",
+        options: [
+          "The wind component perpendicular to the runway",
+          "The wind directly from behind",
+          "The total wind speed only",
+          "The temperature difference"
+        ],
+        correctIndex: 0,
+        explanation: "Crosswind component is the part of the wind acting perpendicular to the runway or intended track.",
+        pilotTrick: "Crosswind = vent qui traverse la piste."
+      },
+      {
+        id: "eng_038",
+        category: "Anglais Aéro",
+        type: "classic",
+        question: "What does “headwind component” mean?",
+        options: [
+          "The wind component opposing the aircraft's movement",
+          "The wind from behind",
+          "The vertical wind only",
+          "A tailwind",
+        ],
+        correctIndex: 0,
+        explanation: "The headwind component acts against the aircraft's forward movement.",
+        pilotTrick: "Headwind = vent de face."
+      },
+      {
+        id: "eng_039",
+        category: "Anglais Aéro",
+        type: "classic",
+        question: "What does “tailwind component” mean?",
+        options: [
+          "A wind component helping the aircraft move forward",
+          "A wind directly against the nose",
+          "A vertical gust",
+          "No wind",
+        ],
+        correctIndex: 0,
+        explanation: "A tailwind component comes from behind and increases groundspeed for a given airspeed.",
+        pilotTrick: "Tail = queue. Tailwind = vent arrière."
+      },
+      {
+        id: "eng_040",
+        category: "Anglais Aéro",
+        type: "classic",
+        question: "What is a “route clearance”?",
+        options: [
+          "An ATC clearance describing the authorized route or flight path",
+          "A maintenance document",
+          "A weather radar mode",
+          "A landing gear inspection"
+        ],
+        correctIndex: 0,
+        explanation: "A route clearance authorizes the aircraft to proceed according to the specified route and associated clearances.",
+        pilotTrick: "Route clearance = autorisation de route."
+      },
+      {
+        id: "eng_041",
+        category: "Anglais Aéro",
+        type: "classic",
+        question: "What does “squawk seven seven zero zero” indicate?",
+        options: [
+          "A routine VFR code",
+          "An emergency transponder code",
+          "A runway number",
+          "A weather frequency"
+        ],
+        correctIndex: 1,
+        explanation: "7700 is the standard transponder code used to indicate a general emergency.",
+        pilotTrick: "7700 = emergency. 7600 = radio failure, 7500 = unlawful interference."
+      },
+      {
+        id: "eng_042",
+        category: "Anglais Aéro",
+        type: "flash",
+        question: "FLASH — What does “PAN PAN” indicate?",
+        options: [
+          "Distress with immediate grave danger",
+          "Urgency without the same level of immediate distress as MAYDAY",
+          "A normal landing clearance",
+          "A frequency change"
+        ],
+        correctIndex: 1,
+        explanation: "PAN PAN is the international radiotelephony urgency signal, below the distress level of MAYDAY.",
+        pilotTrick: "MAYDAY = détresse ; PAN PAN = urgence."
+      },
+      {
+        id: "eng_043",
+        category: "Anglais Aéro",
+        type: "classic",
+        question: "What does “ETA” stand for?",
+        options: [
+          "Estimated Time of Arrival",
+          "Engine Thrust Adjustment",
+          "Emergency Traffic Area",
+          "Estimated Takeoff Altitude"
+        ],
+        correctIndex: 0,
+        explanation: "ETA stands for Estimated Time of Arrival.",
+        pilotTrick: "Arrival = arrivée. ETA = heure estimée d'arrivée."
+      },
+      {
+        id: "eng_044",
+        category: "Anglais Aéro",
+        type: "classic",
+        question: "What does “ETD” stand for?",
+        options: [
+          "Estimated Time of Departure",
+          "Engine Temperature Display",
+          "Emergency Taxi Direction",
+          "Estimated Traffic Distance"
+        ],
+        correctIndex: 0,
+        explanation: "ETD stands for Estimated Time of Departure.",
+        pilotTrick: "Departure = départ. ETA = arrivée, ETD = départ."
+      },
+      {
+        id: "eng_045",
+        category: "Anglais Aéro",
+        type: "classic",
+        question: "What does “TOC” commonly mean in flight planning?",
+        options: [
+          "Top of Climb",
+          "Takeoff Operating Clearance",
+          "Traffic on Course",
+          "Terminal Outside Control"
+        ],
+        correctIndex: 0,
+        explanation: "TOC commonly means Top of Climb, the point where the climb ends and cruise begins.",
+        pilotTrick: "Top of Climb = sommet de montée."
+      },
+      {
+        id: "eng_046",
+        category: "Anglais Aéro",
+        type: "classic",
+        question: "What does “TOD” commonly mean in flight planning?",
+        options: [
+          "Top of Descent",
+          "Time of Departure",
+          "Taxiway Operational Data",
+          "Track Over Distance"
+        ],
+        correctIndex: 0,
+        explanation: "TOD commonly means Top of Descent, the point where descent should begin.",
+        pilotTrick: "Top of Descent = début calculé de la descente."
+      },
+      {
+        id: "eng_047",
+        category: "Anglais Aéro",
+        type: "classic",
+        question: "What is “slats” referring to on an aircraft?",
+        options: [
+          "Leading-edge high-lift devices",
+          "Main landing gear doors",
+          "Engine exhaust nozzles",
+          "Fuel pumps"
+        ],
+        correctIndex: 0,
+        explanation: "Slats are high-lift devices located on the leading edge of the wing.",
+        pilotTrick: "Slats = leading edge ; flaps = trailing edge."
+      },
+      {
+        id: "eng_048",
+        category: "Anglais Aéro",
+        type: "classic",
+        question: "What are “spoilers” primarily used for?",
+        options: [
+          "Reducing lift and increasing drag when deployed",
+          "Increasing fuel capacity",
+          "Starting the APU",
+          "Increasing engine oil pressure"
+        ],
+        correctIndex: 0,
+        explanation: "Spoilers disrupt airflow over the wing, reducing lift and increasing drag when deployed.",
+        pilotTrick: "Spoil the airflow = casse l'écoulement."
+      },
+      {
+        id: "eng_049",
+        category: "Anglais Aéro",
+        type: "classic",
+        question: "What does “gear down” mean?",
+        options: [
+          "Landing gear extended",
+          "Landing gear retracted",
+          "Engines shut down",
+          "Flaps fully retracted"
+        ],
+        correctIndex: 0,
+        explanation: "Gear down means the landing gear is in the extended position.",
+        pilotTrick: "Down = sorti ; up = rentré."
+      },
+      {
+        id: "eng_050",
+        category: "Anglais Aéro",
+        type: "flash",
+        question: "FLASH — What does “gear up” mean?",
+        options: [
+          "Landing gear extended",
+          "Landing gear retracted",
+          "Flaps extended",
+          "Brakes applied"
+        ],
+        correctIndex: 1,
+        explanation: "Gear up means the landing gear has been retracted.",
+        pilotTrick: "Up = rentré ; down = sorti."
+      },
     ];
 
     /* ========================= ETAT APPLICATION ========================= */
