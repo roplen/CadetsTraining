@@ -1,0 +1,4654 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0a84ff" />
+  <title>AeroCadet Elite</title>
+
+  <!-- Polices autorisées : connexion Internet uniquement pour charger la police -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- Chart.js : seule dépendance externe utilisée pour les graphiques -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+
+  <style>
+    :root {
+      --bg: #f5f5f7;
+      --bg-secondary: #ececf0;
+      --surface: rgba(255, 255, 255, 0.78);
+      --surface-solid: #ffffff;
+      --surface-2: rgba(255, 255, 255, 0.58);
+      --text: #1d1d1f;
+      --text-soft: #6e6e73;
+      --border: rgba(0, 0, 0, 0.08);
+      --border-strong: rgba(0, 0, 0, 0.13);
+      --accent: #0a84ff;
+      --accent-2: #14b8ff;
+      --success: #30d158;
+      --danger: #ff453a;
+      --warning: #ff9f0a;
+      --purple: #af52de;
+      --shadow: 0 16px 50px rgba(0, 0, 0, 0.08);
+      --shadow-soft: 0 8px 28px rgba(0, 0, 0, 0.06);
+      --radius: 18px;
+      --radius-small: 12px;
+      --nav-width: 250px;
+      --transition: 300ms cubic-bezier(.2,.8,.2,1);
+    }
+
+    html[data-theme="dark"] {
+      --bg: #000000;
+      --bg-secondary: #111113;
+      --surface: rgba(44, 44, 46, 0.78);
+      --surface-solid: #1c1c1e;
+      --surface-2: rgba(44, 44, 46, 0.58);
+      --text: #f5f5f7;
+      --text-soft: #a1a1a6;
+      --border: rgba(255, 255, 255, 0.09);
+      --border-strong: rgba(255, 255, 255, 0.15);
+      --accent: #0a84ff;
+      --accent-2: #32d7ff;
+      --success: #30d158;
+      --danger: #ff453a;
+      --warning: #ffd60a;
+      --purple: #bf5af2;
+      --shadow: 0 18px 60px rgba(0, 0, 0, 0.45);
+      --shadow-soft: 0 10px 36px rgba(0, 0, 0, 0.30);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", sans-serif;
+      background:
+        radial-gradient(circle at 15% 10%, rgba(10,132,255,.10), transparent 30%),
+        radial-gradient(circle at 85% 15%, rgba(50,215,255,.08), transparent 28%),
+        var(--bg);
+      color: var(--text);
+      transition: background var(--transition), color var(--transition);
+      overflow-x: hidden;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    button {
+      border: none;
+    }
+
+    .app-shell {
+      min-height: 100vh;
+      display: flex;
+    }
+
+    .sidebar {
+      position: fixed;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: var(--nav-width);
+      padding: 18px 14px;
+      background: rgba(245, 245, 247, 0.72);
+      backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px);
+      border-right: 1px solid var(--border);
+      z-index: 50;
+      display: flex;
+      flex-direction: column;
+      transition: transform var(--transition);
+    }
+
+    html[data-theme="dark"] .sidebar {
+      background: rgba(12, 12, 14, 0.82);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 8px 10px 20px;
+    }
+
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      color: white;
+      font-size: 18px;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      box-shadow: 0 8px 20px rgba(10,132,255,.28);
+    }
+
+    .brand-copy strong {
+      display: block;
+      font-size: 14px;
+      line-height: 1.1;
+    }
+
+    .brand-copy span {
+      display: block;
+      margin-top: 4px;
+      font-size: 10px;
+      color: var(--text-soft);
+      letter-spacing: .11em;
+      text-transform: uppercase;
+    }
+
+    .nav-section {
+      margin-top: 7px;
+    }
+
+    .nav-label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      color: var(--text-soft);
+      padding: 0 12px 8px;
+    }
+
+    .nav-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 12px;
+      margin: 3px 0;
+      color: var(--text-soft);
+      background: transparent;
+      border-radius: 12px;
+      cursor: pointer;
+      text-align: left;
+      transition: all var(--transition);
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .nav-btn:hover {
+      color: var(--text);
+      background: var(--surface-2);
+      transform: translateX(2px);
+    }
+
+    .nav-btn.active {
+      color: var(--text);
+      background: var(--surface-solid);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .nav-icon {
+      width: 20px;
+      text-align: center;
+      font-size: 15px;
+    }
+
+    .sidebar-bottom {
+      margin-top: auto;
+      display: grid;
+      gap: 9px;
+    }
+
+    .profile-mini {
+      padding: 11px;
+      border: 1px solid var(--border);
+      background: var(--surface-2);
+      border-radius: 14px;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .profile-mini:hover {
+      transform: scale(1.01);
+      border-color: var(--border-strong);
+    }
+
+    .profile-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .avatar {
+      width: 35px;
+      height: 35px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      color: white;
+      font-weight: 800;
+      font-size: 12px;
+      background: linear-gradient(135deg, #0a84ff, #5e5ce6);
+      flex: 0 0 auto;
+    }
+
+    .profile-mini strong {
+      font-size: 12px;
+      display: block;
+    }
+
+    .profile-mini span {
+      font-size: 10px;
+      color: var(--text-soft);
+      display: block;
+      margin-top: 2px;
+    }
+
+    .mobile-topbar {
+      display: none;
+    }
+
+    .main {
+      margin-left: var(--nav-width);
+      min-width: 0;
+      width: calc(100% - var(--nav-width));
+    }
+
+    .page {
+      display: none;
+      padding: 36px clamp(18px, 4vw, 52px) 60px;
+      min-height: 100vh;
+      animation: pageIn 320ms cubic-bezier(.2,.8,.2,1);
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    @keyframes pageIn {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .page-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 28px;
+    }
+
+    .eyebrow {
+      color: var(--accent);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .14em;
+      font-weight: 800;
+      margin-bottom: 7px;
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0;
+      letter-spacing: -.03em;
+    }
+
+    h1 {
+      font-size: clamp(29px, 4vw, 48px);
+      line-height: 1.04;
+    }
+
+    h2 {
+      font-size: 20px;
+    }
+
+    h3 {
+      font-size: 15px;
+    }
+
+    .subtitle {
+      margin: 9px 0 0;
+      color: var(--text-soft);
+      max-width: 740px;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .glass {
+      background: var(--surface);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-soft);
+      border-radius: var(--radius);
+    }
+
+    .hero-card {
+      position: relative;
+      overflow: hidden;
+      padding: 28px;
+      min-height: 215px;
+      background:
+        radial-gradient(circle at 100% 0%, rgba(20,184,255,.15), transparent 38%),
+        radial-gradient(circle at 70% 100%, rgba(10,132,255,.12), transparent 36%),
+        var(--surface);
+    }
+
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      inset: auto -50px -90px auto;
+      width: 220px;
+      height: 220px;
+      border: 1px solid rgba(10,132,255,.18);
+      border-radius: 50%;
+      box-shadow:
+        0 0 0 36px rgba(10,132,255,.035),
+        0 0 0 72px rgba(10,132,255,.02);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 700px;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 18px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      color: var(--text-soft);
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .pill strong {
+      color: var(--text);
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 21px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 43px;
+      padding: 0 15px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 800;
+      transition: transform var(--transition), filter var(--transition), box-shadow var(--transition);
+    }
+
+    .btn:hover {
+      transform: scale(1.02);
+      filter: brightness(1.04);
+    }
+
+    .btn:active {
+      transform: scale(.98);
+    }
+
+    .btn-primary {
+      color: white;
+      background: linear-gradient(135deg, var(--accent), #0066dd);
+      box-shadow: 0 10px 22px rgba(10,132,255,.24);
+    }
+
+    .btn-secondary {
+      color: var(--text);
+      background: var(--surface-solid);
+      border: 1px solid var(--border);
+    }
+
+    .btn-danger {
+      color: white;
+      background: var(--danger);
+    }
+
+    .btn-small {
+      min-height: 36px;
+      padding: 0 11px;
+      font-size: 11px;
+    }
+
+    .btn:disabled {
+      opacity: .45;
+      cursor: not-allowed;
+      transform: none;
+      filter: none;
+    }
+
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 13px;
+      margin-top: 16px;
+    }
+
+    .kpi-card {
+      padding: 18px;
+      min-height: 120px;
+    }
+
+    .kpi-label {
+      color: var(--text-soft);
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .kpi-value {
+      font-size: 27px;
+      font-weight: 800;
+      margin-top: 10px;
+      letter-spacing: -.04em;
+    }
+
+    .kpi-sub {
+      color: var(--text-soft);
+      font-size: 10px;
+      margin-top: 7px;
+    }
+
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 1.25fr .95fr;
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    .chart-card {
+      padding: 19px;
+      min-height: 355px;
+    }
+
+    .card-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .card-head p {
+      margin: 4px 0 0;
+      font-size: 10px;
+      color: var(--text-soft);
+    }
+
+    .chart-wrap {
+      position: relative;
+      height: 270px;
+    }
+
+    .lower-grid {
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    .card {
+      padding: 19px;
+    }
+
+    .leader-row {
+      display: grid;
+      grid-template-columns: 30px 1fr auto;
+      gap: 10px;
+      align-items: center;
+      padding: 11px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .leader-row:last-child {
+      border-bottom: none;
+    }
+
+    .rank-number {
+      font-weight: 800;
+      color: var(--text-soft);
+      font-size: 12px;
+      text-align: center;
+    }
+
+    .leader-name {
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .leader-detail {
+      margin-top: 3px;
+      font-size: 10px;
+      color: var(--text-soft);
+    }
+
+    .leader-xp {
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .progress {
+      height: 7px;
+      border-radius: 999px;
+      overflow: hidden;
+      background: var(--bg-secondary);
+    }
+
+    .progress > div {
+      height: 100%;
+      width: 0;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      transition: width 700ms cubic-bezier(.2,.8,.2,1);
+    }
+
+    .grade-box {
+      padding: 16px;
+      border-radius: 14px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      margin-top: 15px;
+    }
+
+    .grade-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .grade-title {
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .grade-next {
+      font-size: 10px;
+      color: var(--text-soft);
+      margin-top: 3px;
+    }
+
+    .xp-number {
+      font-size: 18px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .grade-progress {
+      margin-top: 11px;
+    }
+
+    .config-grid {
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 15px;
+    }
+
+    .setting-card {
+      padding: 20px;
+      margin-bottom: 15px;
+    }
+
+    .setting-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 15px;
+    }
+
+    .setting-title span {
+      color: var(--text-soft);
+      font-size: 11px;
+    }
+
+    .choice-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 9px;
+    }
+
+    .choice {
+      position: relative;
+    }
+
+    .choice input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .choice label {
+      min-height: 53px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 8px;
+      cursor: pointer;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--surface-2);
+      color: var(--text-soft);
+      font-size: 11px;
+      font-weight: 800;
+      transition: all var(--transition);
+    }
+
+    .choice input:checked + label {
+      background: rgba(10,132,255,.12);
+      color: var(--accent);
+      border-color: rgba(10,132,255,.42);
+      box-shadow: 0 8px 22px rgba(10,132,255,.08);
+    }
+
+    .category-list {
+      display: grid;
+      gap: 9px;
+    }
+
+    .check-item {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 11px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--surface-2);
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .check-item:hover {
+      transform: translateX(2px);
+      border-color: var(--border-strong);
+    }
+
+    .check-box {
+      width: 20px;
+      height: 20px;
+      border: 1.5px solid var(--border-strong);
+      border-radius: 6px;
+      display: grid;
+      place-items: center;
+      color: white;
+      flex: 0 0 auto;
+      transition: all var(--transition);
+    }
+
+    .check-item input {
+      display: none;
+    }
+
+    .check-item input:checked + .check-box {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .check-item input:checked + .check-box::after {
+      content: "✓";
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .check-copy strong {
+      display: block;
+      font-size: 12px;
+    }
+
+    .check-copy span {
+      display: block;
+      margin-top: 2px;
+      color: var(--text-soft);
+      font-size: 10px;
+    }
+
+    .radio-stack {
+      display: grid;
+      gap: 9px;
+    }
+
+    .radio-card {
+      position: relative;
+    }
+
+    .radio-card input {
+      position: absolute;
+      opacity: 0;
+    }
+
+    .radio-card label {
+      display: block;
+      padding: 13px;
+      border-radius: 13px;
+      border: 1px solid var(--border);
+      background: var(--surface-2);
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .radio-card input:checked + label {
+      border-color: rgba(10,132,255,.42);
+      background: rgba(10,132,255,.10);
+    }
+
+    .radio-card strong {
+      display: block;
+      font-size: 12px;
+    }
+
+    .radio-card span {
+      display: block;
+      color: var(--text-soft);
+      font-size: 10px;
+      line-height: 1.5;
+      margin-top: 3px;
+    }
+
+    .slider-wrap {
+      margin-top: 11px;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--accent);
+    }
+
+    .slider-meta {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 4px;
+      color: var(--text-soft);
+      font-size: 10px;
+    }
+
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .toggle-row:last-child {
+      border-bottom: none;
+    }
+
+    .toggle-copy strong {
+      display: block;
+      font-size: 12px;
+    }
+
+    .toggle-copy span {
+      display: block;
+      color: var(--text-soft);
+      font-size: 10px;
+      margin-top: 2px;
+      line-height: 1.45;
+    }
+
+    .switch {
+      position: relative;
+      width: 47px;
+      height: 28px;
+      flex: 0 0 auto;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .switch-track {
+      position: absolute;
+      inset: 0;
+      border-radius: 999px;
+      background: #8e8e93;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .switch-track::after {
+      content: "";
+      position: absolute;
+      width: 22px;
+      height: 22px;
+      left: 3px;
+      top: 3px;
+      border-radius: 50%;
+      background: white;
+      box-shadow: 0 2px 7px rgba(0,0,0,.22);
+      transition: all var(--transition);
+    }
+
+    .switch input:checked + .switch-track {
+      background: var(--success);
+    }
+
+    .switch input:checked + .switch-track::after {
+      transform: translateX(19px);
+    }
+
+    .test-shell {
+      min-height: calc(100vh - 90px);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .test-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      margin-bottom: 17px;
+    }
+
+    .test-counter {
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .test-mode-pill {
+      font-size: 10px;
+      color: var(--text-soft);
+      padding: 7px 10px;
+      border-radius: 99px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+    }
+
+    .timer-display {
+      min-width: 94px;
+      text-align: center;
+      font-size: 19px;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .timer-display.danger {
+      color: var(--danger);
+    }
+
+    .test-progress {
+      height: 5px;
+      border-radius: 99px;
+      background: var(--bg-secondary);
+      overflow: hidden;
+    }
+
+    .test-progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      transition: width 300ms linear;
+    }
+
+    .test-main {
+      flex: 1;
+      display: grid;
+      place-items: center;
+      padding: 45px 0;
+    }
+
+    .question-panel {
+      width: min(900px, 100%);
+      text-align: center;
+    }
+
+    .category-tag {
+      display: inline-flex;
+      padding: 7px 10px;
+      border-radius: 99px;
+      background: rgba(10,132,255,.10);
+      color: var(--accent);
+      font-size: 10px;
+      font-weight: 800;
+      margin-bottom: 18px;
+    }
+
+    .question-text {
+      font-size: clamp(25px, 4vw, 44px);
+      line-height: 1.13;
+      letter-spacing: -.035em;
+      font-weight: 800;
+      max-width: 870px;
+      margin: 0 auto;
+    }
+
+    .flash-area {
+      display: grid;
+      place-items: center;
+      min-height: 255px;
+    }
+
+    .flash-text {
+      min-height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .flash-timer {
+      width: min(620px, 88vw);
+      height: 4px;
+      background: var(--bg-secondary);
+      border-radius: 99px;
+      overflow: hidden;
+      margin: 16px auto 0;
+    }
+
+    .flash-timer > div {
+      width: 100%;
+      height: 100%;
+      transform-origin: left;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      animation: flashCountdown 5000ms linear forwards;
+    }
+
+    @keyframes flashCountdown {
+      from { transform: scaleX(1); }
+      to { transform: scaleX(0); }
+    }
+
+    .answer-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 34px;
+    }
+
+    .answer-btn {
+      min-height: 85px;
+      border-radius: 16px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 17px;
+      cursor: pointer;
+      text-align: left;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      transition: all 180ms ease;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .answer-btn:hover {
+      transform: scale(1.012);
+      border-color: rgba(10,132,255,.33);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .answer-key {
+      width: 31px;
+      height: 31px;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      color: var(--text-soft);
+      background: var(--bg-secondary);
+      font-weight: 800;
+      font-size: 11px;
+      flex: 0 0 auto;
+    }
+
+    .answer-copy {
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1.35;
+    }
+
+    .answer-btn.flash-hit {
+      animation: keyFlash 180ms ease;
+    }
+
+    .answer-btn.selected {
+      border-color: rgba(10,132,255,.55);
+      background: rgba(10,132,255,.10);
+    }
+
+    .answer-btn.correct {
+      border-color: rgba(48,209,88,.50);
+      background: rgba(48,209,88,.10);
+    }
+
+    .answer-btn.wrong {
+      border-color: rgba(255,69,58,.50);
+      background: rgba(255,69,58,.10);
+    }
+
+    @keyframes keyFlash {
+      0% { transform: scale(1); }
+      50% { transform: scale(.975); filter: brightness(1.12); }
+      100% { transform: scale(1); }
+    }
+
+    .feedback-box {
+      margin-top: 16px;
+      padding: 15px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      text-align: left;
+      font-size: 12px;
+      line-height: 1.6;
+      animation: pageIn 240ms ease;
+    }
+
+    .feedback-box.success {
+      background: rgba(48,209,88,.08);
+    }
+
+    .feedback-box.danger {
+      background: rgba(255,69,58,.08);
+    }
+
+    .test-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      padding-top: 10px;
+    }
+
+    .test-footer-note {
+      color: var(--text-soft);
+      font-size: 10px;
+    }
+
+    .results-hero {
+      display: grid;
+      grid-template-columns: 250px 1fr;
+      gap: 22px;
+      align-items: center;
+    }
+
+    .score-orb {
+      width: 205px;
+      height: 205px;
+      margin: 0 auto;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      position: relative;
+      background:
+        radial-gradient(circle at center, var(--surface-solid) 56%, transparent 57%),
+        conic-gradient(var(--accent) 0deg, var(--accent-2) 240deg, var(--bg-secondary) 240deg 360deg);
+      box-shadow: inset 0 0 0 1px var(--border), var(--shadow-soft);
+    }
+
+    .score-orb-inner {
+      text-align: center;
+    }
+
+    .score-value {
+      font-size: 45px;
+      font-weight: 800;
+      letter-spacing: -.05em;
+    }
+
+    .score-unit {
+      display: block;
+      color: var(--text-soft);
+      font-size: 11px;
+      margin-top: 1px;
+    }
+
+    .results-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .result-stat {
+      padding: 16px;
+      border-radius: 14px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+    }
+
+    .result-stat .value {
+      font-size: 22px;
+      font-weight: 800;
+    }
+
+    .result-stat .label {
+      margin-top: 4px;
+      font-size: 10px;
+      color: var(--text-soft);
+    }
+
+    .timeline {
+      max-height: 430px;
+      overflow: auto;
+      padding-right: 4px;
+    }
+
+    .timeline-item {
+      padding: 12px;
+      border-radius: 13px;
+      border: 1px solid var(--border);
+      margin-bottom: 8px;
+      background: var(--surface-2);
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .timeline-item:hover {
+      transform: translateX(2px);
+    }
+
+    .timeline-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .timeline-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-weight: 800;
+      font-size: 11px;
+    }
+
+    .dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .dot.success {
+      background: var(--success);
+      box-shadow: 0 0 12px rgba(48,209,88,.35);
+    }
+
+    .dot.danger {
+      background: var(--danger);
+      box-shadow: 0 0 12px rgba(255,69,58,.30);
+    }
+
+    .timeline-question {
+      font-size: 11px;
+      line-height: 1.45;
+      color: var(--text-soft);
+      margin-top: 7px;
+    }
+
+    .accordion {
+      display: grid;
+      gap: 8px;
+    }
+
+    .accordion-item {
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: var(--surface-2);
+      overflow: hidden;
+    }
+
+    .accordion-head {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 35px 1fr auto;
+      gap: 10px;
+      align-items: center;
+      padding: 13px;
+      background: transparent;
+      color: var(--text);
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .accordion-index {
+      width: 29px;
+      height: 29px;
+      display: grid;
+      place-items: center;
+      border-radius: 9px;
+      background: var(--bg-secondary);
+      font-size: 10px;
+      font-weight: 800;
+    }
+
+    .accordion-main strong {
+      display: block;
+      font-size: 11px;
+      line-height: 1.45;
+    }
+
+    .accordion-main span {
+      display: block;
+      margin-top: 3px;
+      font-size: 9px;
+      color: var(--text-soft);
+    }
+
+    .accordion-chevron {
+      transition: transform var(--transition);
+      color: var(--text-soft);
+    }
+
+    .accordion-item.open .accordion-chevron {
+      transform: rotate(180deg);
+    }
+
+    .accordion-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 360ms cubic-bezier(.2,.8,.2,1);
+    }
+
+    .accordion-inner {
+      padding: 0 13px 16px;
+    }
+
+    .answer-review {
+      padding: 11px 12px;
+      border-radius: 11px;
+      margin-bottom: 9px;
+      border: 1px solid var(--border);
+      font-size: 11px;
+      line-height: 1.55;
+    }
+
+    .demo-box,
+    .pilot-trick {
+      padding: 13px;
+      border-radius: 12px;
+      margin-top: 9px;
+      font-size: 11px;
+      line-height: 1.6;
+    }
+
+    .demo-box {
+      background: rgba(10,132,255,.07);
+      border: 1px solid rgba(10,132,255,.15);
+    }
+
+    .pilot-trick {
+      background: rgba(255,214,10,.08);
+      border: 1px solid rgba(255,214,10,.20);
+    }
+
+    .pilot-trick strong {
+      color: var(--warning);
+    }
+
+    .badge-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 9px;
+    }
+
+    .badge {
+      min-height: 115px;
+      padding: 13px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: var(--surface-2);
+      opacity: .44;
+      filter: grayscale(1);
+      transition: all var(--transition);
+    }
+
+    .badge.unlocked {
+      opacity: 1;
+      filter: none;
+      background: linear-gradient(135deg, rgba(10,132,255,.09), rgba(175,82,222,.08));
+      box-shadow: 0 10px 24px rgba(10,132,255,.07);
+    }
+
+    .badge-icon {
+      width: 37px;
+      height: 37px;
+      border-radius: 11px;
+      display: grid;
+      place-items: center;
+      background: var(--bg-secondary);
+      font-size: 17px;
+      margin-bottom: 10px;
+    }
+
+    .badge strong {
+      display: block;
+      font-size: 11px;
+    }
+
+    .badge span {
+      display: block;
+      margin-top: 4px;
+      color: var(--text-soft);
+      font-size: 9px;
+      line-height: 1.45;
+    }
+
+    .settings-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    .file-drop {
+      padding: 16px;
+      border: 1px dashed var(--border-strong);
+      border-radius: 14px;
+      background: var(--surface-2);
+    }
+
+    .hidden-file {
+      display: none;
+    }
+
+    .toast-stack {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 100;
+      display: grid;
+      gap: 8px;
+      width: min(370px, calc(100vw - 36px));
+    }
+
+    .toast {
+      padding: 13px 14px;
+      border-radius: 14px;
+      background: var(--surface-solid);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      animation: toastIn 280ms cubic-bezier(.2,.8,.2,1);
+      font-size: 11px;
+      line-height: 1.45;
+    }
+
+    .toast strong {
+      display: block;
+      font-size: 11px;
+      margin-bottom: 3px;
+    }
+
+    @keyframes toastIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px) scale(.97);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.46);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      z-index: 90;
+      display: grid;
+      place-items: center;
+      padding: 20px;
+    }
+
+    .modal {
+      width: min(530px, 100%);
+      padding: 22px;
+      background: var(--surface-solid);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      box-shadow: 0 30px 90px rgba(0,0,0,.25);
+      animation: modalIn 320ms cubic-bezier(.2,.8,.2,1);
+    }
+
+    @keyframes modalIn {
+      from {
+        opacity: 0;
+        transform: scale(.96) translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    .modal h2 {
+      font-size: 24px;
+      margin-bottom: 7px;
+    }
+
+    .modal p {
+      color: var(--text-soft);
+      font-size: 12px;
+      line-height: 1.55;
+      margin-top: 0;
+    }
+
+    .modal-profile-list {
+      display: grid;
+      gap: 8px;
+      margin: 17px 0;
+      max-height: 250px;
+      overflow: auto;
+    }
+
+    .profile-choice-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 12px;
+      border-radius: 13px;
+      border: 1px solid var(--border);
+      background: var(--surface-2);
+      cursor: pointer;
+      color: var(--text);
+      text-align: left;
+      transition: all var(--transition);
+    }
+
+    .profile-choice-btn:hover {
+      transform: translateX(2px);
+      border-color: rgba(10,132,255,.33);
+    }
+
+    .modal-input {
+      width: 100%;
+      height: 45px;
+      border-radius: 12px;
+      border: 1px solid var(--border-strong);
+      background: var(--surface-2);
+      color: var(--text);
+      padding: 0 13px;
+      outline: none;
+    }
+
+    .modal-input:focus {
+      border-color: rgba(10,132,255,.50);
+      box-shadow: 0 0 0 4px rgba(10,132,255,.08);
+    }
+
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .shortcut-hint {
+      color: var(--text-soft);
+      font-size: 10px;
+      text-align: center;
+      margin-top: 13px;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 34px 14px;
+      color: var(--text-soft);
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
+    .small-note {
+      color: var(--text-soft);
+      font-size: 10px;
+      line-height: 1.55;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    @media (max-width: 1120px) {
+      .kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .dashboard-grid,
+      .lower-grid,
+      .config-grid,
+      .settings-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .results-hero {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 760px) {
+      :root {
+        --nav-width: 0px;
+      }
+
+      .sidebar {
+        transform: translateX(-102%);
+        width: 240px;
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+      }
+
+      .mobile-topbar {
+        display: flex;
+        position: sticky;
+        top: 0;
+        z-index: 40;
+        height: 58px;
+        padding: 8px 12px;
+        align-items: center;
+        justify-content: space-between;
+        background: rgba(245,245,247,.76);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+        border-bottom: 1px solid var(--border);
+      }
+
+      html[data-theme="dark"] .mobile-topbar {
+        background: rgba(0,0,0,.78);
+      }
+
+      .main {
+        width: 100%;
+        margin-left: 0;
+      }
+
+      .page {
+        padding: 24px 14px 45px;
+      }
+
+      .page-header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .kpi-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .choice-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .answer-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .test-main {
+        padding: 28px 0;
+      }
+
+      .question-text {
+        font-size: 28px;
+      }
+
+      .results-metrics {
+        grid-template-columns: 1fr;
+      }
+
+      .badge-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .two-col {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 460px) {
+      .kpi-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .badge-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-card,
+      .chart-card,
+      .card,
+      .setting-card {
+        padding: 16px;
+      }
+
+      .score-orb {
+        width: 175px;
+        height: 175px;
+      }
+
+      .score-value {
+        font-size: 38px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <div class="brand-mark">✈</div>
+        <div class="brand-copy">
+          <strong>AeroCadet Elite</strong>
+          <span>Selection Trainer</span>
+        </div>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-label">Cockpit</div>
+        <button class="nav-btn active" data-view="dashboard">
+          <span class="nav-icon">◈</span>
+          <span>Dashboard</span>
+        </button>
+        <button class="nav-btn" data-view="practice">
+          <span class="nav-icon">⌁</span>
+          <span>S'entraîner</span>
+        </button>
+        <button class="nav-btn" data-view="results">
+          <span class="nav-icon">↗</span>
+          <span>Résultats</span>
+        </button>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-label">Système</div>
+        <button class="nav-btn" data-view="settings">
+          <span class="nav-icon">⚙</span>
+          <span>Paramètres</span>
+        </button>
+        <button class="nav-btn" id="openProfileBtn">
+          <span class="nav-icon">◎</span>
+          <span>Changer de profil</span>
+        </button>
+      </div>
+
+      <div class="sidebar-bottom">
+        <button class="profile-mini" id="profileMini">
+          <div class="profile-row">
+            <div class="avatar" id="sideAvatar">A</div>
+            <div>
+              <strong id="sideProfileName">Alex</strong>
+              <span id="sideProfileGrade">Candidat</span>
+            </div>
+          </div>
+        </button>
+        <button class="nav-btn" id="themeBtn">
+          <span class="nav-icon" id="themeIcon">◐</span>
+          <span id="themeLabel">Mode sombre</span>
+        </button>
+      </div>
+    </aside>
+
+    <div class="mobile-topbar">
+      <button class="btn btn-secondary btn-small" id="mobileMenuBtn">☰</button>
+      <strong style="font-size:12px;">AeroCadet Elite</strong>
+      <button class="btn btn-secondary btn-small" id="mobileThemeBtn">◐</button>
+    </div>
+
+    <main class="main">
+      <!-- ========================= DASHBOARD ========================= -->
+      <section class="page active" id="view-dashboard">
+        <div class="page-header">
+          <div>
+            <div class="eyebrow">Flight Training Intelligence</div>
+            <h1 id="dashboardGreeting">Bonjour, Alex.</h1>
+            <p class="subtitle">
+              Ton cockpit personnel de préparation aux tests psychotechniques,
+              psychomoteurs et à la logique de sélection aéronautique.
+            </p>
+          </div>
+        </div>
+
+        <div class="hero-card glass">
+          <div class="hero-content">
+            <div class="eyebrow">Statut candidat</div>
+            <h2 id="heroGrade">Candidat</h2>
+            <p class="subtitle" id="heroGradeText">
+              Construis une base solide avant de passer au niveau supérieur.
+            </p>
+
+            <div class="hero-meta">
+              <div class="pill">XP <strong id="heroXP">0</strong></div>
+              <div class="pill">Prochain grade <strong id="heroNextGrade">Élève Pilote</strong></div>
+              <div class="pill">Progression <strong id="heroProgressText">0%</strong></div>
+            </div>
+
+            <div class="grade-box">
+              <div class="grade-row">
+                <div>
+                  <div class="grade-title" id="heroGradeProgressTitle">Vers Élève Pilote</div>
+                  <div class="grade-next" id="heroGradeProgressSub">0 / 500 XP</div>
+                </div>
+                <div class="xp-number" id="heroXPProgress">0 XP</div>
+              </div>
+              <div class="progress grade-progress">
+                <div id="heroProgressBar"></div>
+              </div>
+            </div>
+
+            <div class="hero-actions">
+              <button class="btn btn-primary" id="startQuickBtn">▶ Session rapide</button>
+              <button class="btn btn-secondary" id="blackSpotBtn">⚡ Bête Noire · 15 Q</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="kpi-grid">
+          <div class="kpi-card glass">
+            <div class="kpi-label">Taux de réussite</div>
+            <div class="kpi-value" id="kpiAccuracy">0%</div>
+            <div class="kpi-sub">Sur toutes les réponses enregistrées</div>
+          </div>
+          <div class="kpi-card glass">
+            <div class="kpi-label">Temps moyen / question</div>
+            <div class="kpi-value" id="kpiTime">0,0 s</div>
+            <div class="kpi-sub">Temps réellement mesuré</div>
+          </div>
+          <div class="kpi-card glass">
+            <div class="kpi-label">Tests passés</div>
+            <div class="kpi-value" id="kpiTests">0</div>
+            <div class="kpi-sub">Toutes sessions confondues</div>
+          </div>
+          <div class="kpi-card glass">
+            <div class="kpi-label">XP total</div>
+            <div class="kpi-value" id="kpiXP">0</div>
+            <div class="kpi-sub">Vitesse + précision</div>
+          </div>
+        </div>
+
+        <div class="dashboard-grid">
+          <div class="chart-card glass">
+            <div class="card-head">
+              <div>
+                <h3>Courbe de progression</h3>
+                <p>Score des 10 dernières sessions</p>
+              </div>
+              <span class="pill">/20</span>
+            </div>
+            <div class="chart-wrap">
+              <canvas id="progressChart"></canvas>
+            </div>
+          </div>
+
+          <div class="chart-card glass">
+            <div class="card-head">
+              <div>
+                <h3>Maîtrise par domaine</h3>
+                <p>Précision historique par catégorie</p>
+              </div>
+              <span class="pill">Radar</span>
+            </div>
+            <div class="chart-wrap">
+              <canvas id="radarChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <div class="lower-grid">
+          <div class="card glass">
+            <div class="card-head">
+              <div>
+                <h3>Leaderboard local</h3>
+                <p>Classement de tous les profils présents sur cette machine</p>
+              </div>
+              <span class="pill">Local</span>
+            </div>
+            <div id="leaderboardList"></div>
+          </div>
+
+          <div class="card glass">
+            <div class="card-head">
+              <div>
+                <h3>Badges</h3>
+                <p>Objectifs débloqués par ton profil</p>
+              </div>
+              <span class="pill" id="badgeCountPill">0 / 8</span>
+            </div>
+            <div class="badge-grid" id="dashboardBadges"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================= PRACTICE ========================= -->
+      <section class="page" id="view-practice">
+        <div class="page-header">
+          <div>
+            <div class="eyebrow">Configuration</div>
+            <h1>S'entraîner.</h1>
+            <p class="subtitle">
+              Configure précisément ta session, puis entre dans le mode concentration.
+            </p>
+          </div>
+          <button class="btn btn-secondary" data-view-jump="dashboard">← Retour</button>
+        </div>
+
+        <div class="config-grid">
+          <div>
+            <div class="setting-card glass">
+              <div class="setting-title">
+                <h3>Volume de questions</h3>
+                <span id="volumeInfo">20 questions</span>
+              </div>
+
+              <div class="choice-grid">
+                <div class="choice">
+                  <input type="radio" id="vol5" name="volume" value="5" />
+                  <label for="vol5">5<br><small>Express</small></label>
+                </div>
+                <div class="choice">
+                  <input type="radio" id="vol10" name="volume" value="10" />
+                  <label for="vol10">10<br><small>Standard</small></label>
+                </div>
+                <div class="choice">
+                  <input type="radio" id="vol20" name="volume" value="20" checked />
+                  <label for="vol20">20<br><small>Session</small></label>
+                </div>
+                <div class="choice">
+                  <input type="radio" id="vol50" name="volume" value="50" />
+                  <label for="vol50">50<br><small>Endurance</small></label>
+                </div>
+              </div>
+
+              <div class="slider-wrap">
+                <input type="range" id="customVolume" min="5" max="100" value="20" />
+                <div class="slider-meta">
+                  <span>5</span>
+                  <span id="customVolumeLabel">20 questions</span>
+                  <span>100</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="setting-card glass">
+              <div class="setting-title">
+                <h3>Catégories</h3>
+                <span id="categoryInfo">4 / 4</span>
+              </div>
+
+              <div class="category-list">
+                <label class="check-item">
+                  <input class="category-checkbox" type="checkbox" value="Calcul Mental & Estimation" checked />
+                  <span class="check-box"></span>
+                  <span class="check-copy">
+                    <strong>Calcul Mental & Estimation</strong>
+                    <span>Vitesses, ratios, conversions, pourcentages</span>
+                  </span>
+                </label>
+
+                <label class="check-item">
+                  <input class="category-checkbox" type="checkbox" value="Physique & Mécanique" checked />
+                  <span class="check-box"></span>
+                  <span class="check-copy">
+                    <strong>Physique & Mécanique</strong>
+                    <span>Masse, énergie, forces, turbines, aérodynamique</span>
+                  </span>
+                </label>
+
+                <label class="check-item">
+                  <input class="category-checkbox" type="checkbox" value="Logique Spatiale & Repérage" checked />
+                  <span class="check-box"></span>
+                  <span class="check-copy">
+                    <strong>Logique Spatiale & Repérage</strong>
+                    <span>Caps, croisements, engrenages, orientation</span>
+                  </span>
+                </label>
+
+                <label class="check-item">
+                  <input class="category-checkbox" type="checkbox" value="Anglais Aéro" checked />
+                  <span class="check-box"></span>
+                  <span class="check-copy">
+                    <strong>Anglais Aéro</strong>
+                    <span>Vocabulaire, phraséologie et compréhension</span>
+                  </span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="setting-card glass">
+              <div class="setting-title">
+                <h3>Difficulté & mode</h3>
+                <span>Choix unique</span>
+              </div>
+
+              <div class="radio-stack">
+                <div class="radio-card">
+                  <input type="radio" id="modeTraining" name="mode" value="training" checked />
+                  <label for="modeTraining">
+                    <strong>Mode Entraînement</strong>
+                    <span>Temps libre. Correction détaillée après chaque réponse.</span>
+                  </label>
+                </div>
+
+                <div class="radio-card">
+                  <input type="radio" id="modeExam" name="mode" value="exam" />
+                  <label for="modeExam">
+                    <strong>Mode Examen</strong>
+                    <span>Chrono global de 30 secondes par question en moyenne. Aucun feedback avant la fin.</span>
+                  </label>
+                </div>
+
+                <div class="radio-card">
+                  <input type="radio" id="modeBlitz" name="mode" value="blitz" />
+                  <label for="modeBlitz">
+                    <strong>Mode Blitz · Survie</strong>
+                    <span>60 s au départ. +3 s juste, −5 s faux. Le chrono décide de ta survie.</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="setting-card glass">
+              <div class="setting-title">
+                <h3>Facteurs de stress</h3>
+                <span>Optionnel</span>
+              </div>
+
+              <div class="toggle-row">
+                <div class="toggle-copy">
+                  <strong>Distraction ATC</strong>
+                  <span>Bruitage VHF + bips aléatoires via Web Audio pendant le test.</span>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" id="atcToggle" />
+                  <span class="switch-track"></span>
+                </label>
+              </div>
+
+              <div class="toggle-row">
+                <div class="toggle-copy">
+                  <strong>Question Flash</strong>
+                  <span>Autorise les questions flash de la base lors de la session.</span>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" id="flashToggle" checked />
+                  <span class="switch-track"></span>
+                </label>
+              </div>
+            </div>
+
+            <div class="setting-card glass">
+              <div class="setting-title">
+                <h3>Prévisualisation</h3>
+                <span>Session locale</span>
+              </div>
+
+              <div class="small-note">
+                Les questions sont tirées de la base embarquée. Le résultat, le temps par question,
+                la précision par catégorie, les badges et l'XP sont sauvegardés dans le navigateur.
+                Aucun compte externe n'est nécessaire.
+              </div>
+
+              <div style="margin-top:16px;">
+                <button class="btn btn-primary" style="width:100%;" id="launchConfiguredTest">
+                  Lancer le test →
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================= TEST ========================= -->
+      <section class="page" id="view-test">
+        <div class="test-shell">
+          <div class="test-top">
+            <div>
+              <div class="test-counter" id="testCounter">1 / 20</div>
+              <div class="test-mode-pill" id="testModePill">ENTRAÎNEMENT</div>
+            </div>
+
+            <div class="timer-display" id="timerDisplay">∞</div>
+          </div>
+
+          <div class="test-progress">
+            <div class="test-progress-bar" id="testProgressBar"></div>
+          </div>
+
+          <div class="test-main">
+            <div class="question-panel">
+              <div class="category-tag" id="questionCategory">Calcul Mental & Estimation</div>
+
+              <div id="flashContainer" class="flash-area" style="display:none;">
+                <div>
+                  <div class="flash-text question-text" id="flashQuestionText"></div>
+                  <div class="flash-timer">
+                    <div></div>
+                  </div>
+                  <div class="shortcut-hint">Mémorise l'information avant disparition.</div>
+                </div>
+              </div>
+
+              <div id="classicContainer">
+                <div class="question-text" id="questionText"></div>
+              </div>
+
+              <div class="answer-grid" id="answerGrid"></div>
+              <div id="feedbackContainer"></div>
+
+              <div class="shortcut-hint">
+                Raccourcis : <strong>1 / 2 / 3 / 4</strong> ou <strong>A / B / C / D</strong>
+              </div>
+            </div>
+          </div>
+
+          <div class="test-footer">
+            <div class="test-footer-note" id="testFooterNote">
+              Réponse suivante automatique en mode Entraînement.
+            </div>
+            <button class="btn btn-danger btn-small" id="abortTestBtn">Abandonner</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================= RESULTS ========================= -->
+      <section class="page" id="view-results">
+        <div class="page-header">
+          <div>
+            <div class="eyebrow">Debrief</div>
+            <h1>Analyse de session.</h1>
+            <p class="subtitle">
+              Chaque réponse est conservée avec son temps, sa catégorie et sa correction.
+            </p>
+          </div>
+          <button class="btn btn-primary" id="retryLastBtn">↻ Refaire une session</button>
+        </div>
+
+        <div id="resultsEmpty" class="glass empty-state">
+          Aucune session terminée pour ce profil. Lance un test pour générer ton premier rapport.
+        </div>
+
+        <div id="resultsContent" style="display:none;">
+          <div class="results-hero glass" style="padding:22px;">
+            <div class="score-orb" id="scoreOrb">
+              <div class="score-orb-inner">
+                <div class="score-value" id="resultScore">0</div>
+                <span class="score-unit">/ 20</span>
+              </div>
+            </div>
+
+            <div>
+              <div class="eyebrow">Performance globale</div>
+              <h2 id="resultTitle">Session terminée</h2>
+              <p class="subtitle" id="resultSummary"></p>
+
+              <div class="results-metrics" style="margin-top:17px;">
+                <div class="result-stat">
+                  <div class="value" id="resultAccuracy">0%</div>
+                  <div class="label">Précision</div>
+                </div>
+                <div class="result-stat">
+                  <div class="value" id="resultAvgTime">0,0 s</div>
+                  <div class="label">Temps moyen</div>
+                </div>
+                <div class="result-stat">
+                  <div class="value" id="resultXP">+0 XP</div>
+                  <div class="label">XP gagné</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="two-col">
+            <div class="card glass">
+              <div class="card-head">
+                <div>
+                  <h3>Timeline des réponses</h3>
+                  <p>Vue rapide de toutes les décisions</p>
+                </div>
+              </div>
+              <div class="timeline" id="resultsTimeline"></div>
+            </div>
+
+            <div class="card glass">
+              <div class="card-head">
+                <div>
+                  <h3>Correction détaillée</h3>
+                  <p>Démonstration + méthode pilote</p>
+                </div>
+              </div>
+              <div class="accordion" id="resultsAccordion"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================= SETTINGS ========================= -->
+      <section class="page" id="view-settings">
+        <div class="page-header">
+          <div>
+            <div class="eyebrow">Système</div>
+            <h1>Paramètres.</h1>
+            <p class="subtitle">
+              Gestion du profil, du thème et de la sauvegarde locale.
+            </p>
+          </div>
+        </div>
+
+        <div class="settings-grid">
+          <div class="setting-card glass">
+            <div class="setting-title">
+              <h3>Profil actif</h3>
+              <span id="settingsProfileGrade">Candidat</span>
+            </div>
+
+            <div class="profile-row">
+              <div class="avatar" id="settingsAvatar">A</div>
+              <div>
+                <strong id="settingsProfileName">Alex</strong>
+                <div class="small-note" id="settingsProfileMeta">0 XP · 0 tests</div>
+              </div>
+            </div>
+
+            <div style="margin-top:17px; display:flex; gap:8px; flex-wrap:wrap;">
+              <button class="btn btn-secondary btn-small" id="settingsSwitchProfile">
+                Changer de profil
+              </button>
+              <button class="btn btn-secondary btn-small" id="settingsCreateProfile">
+                + Nouveau profil
+              </button>
+            </div>
+          </div>
+
+          <div class="setting-card glass">
+            <div class="setting-title">
+              <h3>Apparence</h3>
+              <span>Préférence locale</span>
+            </div>
+
+            <div class="toggle-row">
+              <div class="toggle-copy">
+                <strong>Mode sombre</strong>
+                <span>Conçu pour les sessions prolongées et nocturnes.</span>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="settingsDarkToggle" />
+                <span class="switch-track"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="settings-grid">
+          <div class="setting-card glass">
+            <div class="setting-title">
+              <h3>Exportation</h3>
+              <span>.json</span>
+            </div>
+            <div class="file-drop">
+              <div class="small-note">
+                Télécharge une copie complète de la base locale : profils, XP, badges et historique.
+              </div>
+              <button class="btn btn-secondary" style="margin-top:13px;" id="exportBtn">
+                ↓ Télécharger ma sauvegarde
+              </button>
+            </div>
+          </div>
+
+          <div class="setting-card glass">
+            <div class="setting-title">
+              <h3>Importation</h3>
+              <span>Migration PC</span>
+            </div>
+            <div class="file-drop">
+              <div class="small-note">
+                Importe un fichier JSON AeroCadet Elite précédemment exporté.
+              </div>
+              <input id="importFile" class="hidden-file" type="file" accept=".json,application/json" />
+              <button class="btn btn-secondary" style="margin-top:13px;" id="importBtn">
+                ↑ Importer une sauvegarde
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="setting-card glass">
+          <div class="setting-title">
+            <h3>Zone avancée</h3>
+            <span>Attention</span>
+          </div>
+
+          <div class="small-note">
+            La suppression des données efface les profils et l'historique présents dans ce navigateur.
+            Le fichier de sauvegarde exporté reste, lui, intact.
+          </div>
+
+          <button class="btn btn-danger btn-small" style="margin-top:14px;" id="resetDataBtn">
+            Réinitialiser les données locales
+          </button>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="toast-stack" id="toastStack"></div>
+
+  <div class="modal-backdrop" id="profileModal" style="display:none;">
+    <div class="modal">
+      <div class="eyebrow">AeroCadet Elite</div>
+      <h2>Qui est aux commandes ?</h2>
+      <p>
+        Sélectionne un profil existant ou crée une nouvelle session locale.
+        Les statistiques restent totalement séparées.
+      </p>
+
+      <div class="modal-profile-list" id="modalProfileList"></div>
+
+      <div style="padding-top:10px; border-top:1px solid var(--border);">
+        <strong style="font-size:12px;">Créer un profil</strong>
+        <input
+          type="text"
+          id="newProfileInput"
+          class="modal-input"
+          style="margin-top:9px;"
+          maxlength="24"
+          placeholder="Ex. Alex"
+        />
+        <div class="modal-actions">
+          <button class="btn btn-primary" id="createProfileBtn">Créer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* ================================================================
+       AeroCadet Elite
+       SPA 100% locale
+       ================================================================ */
+
+    const STORAGE_KEY = "aerocadet_elite_v1";
+
+    const CATEGORIES = [
+      "Calcul Mental & Estimation",
+      "Physique & Mécanique",
+      "Logique Spatiale & Repérage",
+      "Anglais Aéro"
+    ];
+
+    const GRADES = [
+      { name: "Candidat", minXP: 0, nextXP: 500 },
+      { name: "Élève Pilote", minXP: 500, nextXP: 1500 },
+      { name: "Copilote (OPL)", minXP: 1500, nextXP: 3500 },
+      { name: "Commandant de Bord (CDB)", minXP: 3500, nextXP: null }
+    ];
+
+    const BADGES = [
+      {
+        id: "human_calculator",
+        icon: "🧮",
+        name: "Calculateur Humain",
+        description: "10 bonnes réponses de calcul en moins d'une minute sur une même session."
+      },
+      {
+        id: "flawless",
+        icon: "🏆",
+        name: "Sans-Faute",
+        description: "100 % sur un test de 50 questions ou plus."
+      },
+      {
+        id: "blitz_survivor",
+        icon: "⚡",
+        name: "Blitz Survivor",
+        description: "Terminer un test Blitz avec au moins 5 secondes restantes."
+      },
+      {
+        id: "speed_demon",
+        icon: "🚀",
+        name: "Réflexes V1",
+        description: "10 bonnes réponses consécutives avec moins de 8 secondes en moyenne."
+      },
+      {
+        id: "navigator",
+        icon: "🧭",
+        name: "Navigator",
+        description: "Au moins 90 % de réussite en logique spatiale sur une session."
+      },
+      {
+        id: "aviation_english",
+        icon: "🎧",
+        name: "RT Fluent",
+        description: "Au moins 90 % en Anglais Aéro sur une session d'au moins 10 questions."
+      },
+      {
+        id: "endurance",
+        icon: "🛫",
+        name: "Endurance Sélection",
+        description: "Terminer une session d'au moins 50 questions."
+      },
+      {
+        id: "consistent",
+        icon: "📈",
+        name: "Progression Stable",
+        description: "Obtenir au moins 80 % sur trois sessions consécutives."
+      }
+    ];
+
+    /*
+      Base de questions embarquée.
+      Les questions sont conçues comme entraînement de niveau sélection,
+      et non comme reproduction de questions propriétaires d'organismes.
+    */
+    const questionsDB = [
+      {
+        id: "calc_001",
+        category: "Calcul Mental & Estimation",
+        type: "classic",
+        question: "Un avion vole à M 0,82. La vitesse du son locale est de 600 kt. Quelle est sa vitesse vraie (TAS) approximative ?",
+        options: ["460 kt", "492 kt", "512 kt", "482 kt"],
+        correctIndex: 1,
+        explanation: "Mach = TAS / vitesse du son. Donc TAS = 0,82 × 600 = 492 kt.",
+        pilotTrick: "Fais 0,80 × 600 = 480 puis 0,02 × 600 = 12. Total : 492 kt."
+      },
+      {
+        id: "calc_002",
+        category: "Calcul Mental & Estimation",
+        type: "classic",
+        question: "Un avion consomme 2 400 kg de carburant en 4 h. Quelle est sa consommation horaire moyenne ?",
+        options: ["500 kg/h", "550 kg/h", "600 kg/h", "650 kg/h"],
+        correctIndex: 2,
+        explanation: "Débit moyen = quantité / temps = 2400 / 4 = 600 kg/h.",
+        pilotTrick: "2 400 ÷ 4 : divise 24 par 4 = 6, puis remets les deux zéros."
+      },
+      {
+        id: "calc_003",
+        category: "Calcul Mental & Estimation",
+        type: "classic",
+        question: "Un avion parcourt 180 NM en 45 minutes. Sa vitesse sol moyenne est d'environ :",
+        options: ["180 kt", "220 kt", "240 kt", "270 kt"],
+        correctIndex: 2,
+        explanation: "45 minutes = 0,75 h. GS = 180 / 0,75 = 240 kt.",
+        pilotTrick: "45 min = 3/4 d'heure. Diviser par 3/4 revient à multiplier par 4/3 : 180 × 4 ÷ 3 = 240."
+      },
+      {
+        id: "calc_004",
+        category: "Calcul Mental & Estimation",
+        type: "classic",
+        question: "Un réservoir contient 80 US gal de Jet A-1. En prenant 6,8 lb/US gal, quelle masse de carburant faut-il retenir approximativement ?",
+        options: ["310 lb", "440 lb", "544 lb", "680 lb"],
+        correctIndex: 2,
+        explanation: "80 × 6,8 = 544 lb. En kilogrammes, cela correspond à environ 247 kg.",
+        pilotTrick: "80 × 6,8 : 8 × 68 = 544 puis ajoute un zéro supprimé du 80/8. On retrouve directement 544."
+      },
+      {
+        id: "calc_005",
+        category: "Calcul Mental & Estimation",
+        type: "flash",
+        question: "FLASH — Un avion vole à 150 kt pendant 24 minutes. Quelle distance parcourt-il approximativement ?",
+        options: ["45 NM", "50 NM", "60 NM", "72 NM"],
+        correctIndex: 2,
+        explanation: "24 minutes = 0,4 heure. 150 × 0,4 = 60 NM.",
+        pilotTrick: "24 minutes, c'est 40 % d'une heure. 40 % de 150 = 60."
+      },
+      {
+        id: "calc_006",
+        category: "Calcul Mental & Estimation",
+        type: "classic",
+        question: "Le vent passe de 20 kt à 25 kt. De combien augmente-t-il en pourcentage ?",
+        options: ["10 %", "20 %", "25 %", "30 %"],
+        correctIndex: 2,
+        explanation: "Variation = 5 kt. 5 / 20 = 0,25, soit 25 %.",
+        pilotTrick: "Une hausse de 5 sur une base de 20 : 5 est exactement le quart de 20, donc 25 %."
+      },
+      {
+        id: "calc_007",
+        category: "Calcul Mental & Estimation",
+        type: "classic",
+        question: "Un aéronef descend de 6 000 ft en 15 NM. Quel est le gradient vertical moyen en ft/NM ?",
+        options: ["200 ft/NM", "300 ft/NM", "400 ft/NM", "600 ft/NM"],
+        correctIndex: 2,
+        explanation: "6 000 / 15 = 400 ft/NM.",
+        pilotTrick: "60 / 15 = 4, puis remets les deux zéros : 400."
+      },
+      {
+        id: "calc_008",
+        category: "Calcul Mental & Estimation",
+        type: "classic",
+        question: "Une vitesse indiquée est de 140 kt et le vent arrière moyen est de 20 kt. Sans autre correction, quelle GS approximative faut-il retenir ?",
+        options: ["120 kt", "140 kt", "160 kt", "180 kt"],
+        correctIndex: 2,
+        explanation: "Avec un vent arrière aligné, GS ≈ TAS + vent. Ici 140 + 20 = 160 kt.",
+        pilotTrick: "Vent arrière = tu ajoutes. Vent de face = tu retranches. Garde cette règle comme réflexe."
+      },
+      {
+        id: "calc_009",
+        category: "Calcul Mental & Estimation",
+        type: "classic",
+        question: "Une route de 360 NM est parcourue à une GS de 180 kt. Combien de temps de vol environ ?",
+        options: ["1 h 30", "2 h", "2 h 15", "2 h 30"],
+        correctIndex: 1,
+        explanation: "Temps = distance / vitesse = 360 / 180 = 2 h.",
+        pilotTrick: "180 × 2 = 360. Ici le rapport tombe directement."
+      },
+      {
+        id: "calc_010",
+        category: "Calcul Mental & Estimation",
+        type: "classic",
+        question: "Un équipage réserve 20 % du carburant utilisable pour la marge opérationnelle. Avec 5 000 kg utilisables, quelle quantité cela représente ?",
+        options: ["500 kg", "800 kg", "1 000 kg", "1 200 kg"],
+        correctIndex: 2,
+        explanation: "20 % de 5 000 kg = 1 000 kg.",
+        pilotTrick: "10 % = 500 kg, donc 20 % = 1 000 kg."
+      },
+      {
+        id: "calc_011",
+        category: "Calcul Mental & Estimation",
+        type: "classic",
+        question: "Une altitude de 18 000 ft correspond approximativement à combien de mètres ?",
+        options: ["4 500 m", "5 500 m", "6 000 m", "7 500 m"],
+        correctIndex: 2,
+        explanation: "18 000 × 0,3048 ≈ 5 486 m, donc environ 5 500 m.",
+        pilotTrick: "Pour une estimation rapide, 1 000 ft ≈ 300 m. Donc 18 × 300 = 5 400 m."
+      },
+      {
+        id: "calc_012",
+        category: "Calcul Mental & Estimation",
+        type: "classic",
+        question: "Un avion consomme 2 700 kg sur 3 h 45. Quel est le débit moyen approximatif ?",
+        options: ["540 kg/h", "640 kg/h", "720 kg/h", "900 kg/h"],
+        correctIndex: 2,
+        explanation: "3 h 45 = 3,75 h. 2700 / 3,75 = 720 kg/h.",
+        pilotTrick: "3,75 = 15/4. Donc 2700 × 4 / 15 = 180 × 4 = 720."
+      },
+
+      {
+        id: "phys_001",
+        category: "Physique & Mécanique",
+        type: "classic",
+        question: "À masse constante, si la vitesse d'un avion double, que devient approximativement sa pression dynamique q = 1/2 ρV² ?",
+        options: ["Elle double", "Elle triple", "Elle quadruple", "Elle reste identique"],
+        correctIndex: 2,
+        explanation: "La pression dynamique est proportionnelle à V². Doubler V multiplie donc q par 4.",
+        pilotTrick: "Le mot clé est carré : ×2 en vitesse devient ×4 en pression dynamique."
+      },
+      {
+        id: "phys_002",
+        category: "Physique & Mécanique",
+        type: "classic",
+        question: "Une masse de 70 kg est soumise à g ≈ 9,81 m/s². Quel est son poids approximatif sur Terre ?",
+        options: ["70 N", "490 N", "687 N", "981 N"],
+        correctIndex: 2,
+        explanation: "P = m × g = 70 × 9,81 ≈ 686,7 N.",
+        pilotTrick: "9,81 ≈ 10. 70 × 10 = 700 N. La valeur exacte est juste en dessous."
+      },
+      {
+        id: "phys_003",
+        category: "Physique & Mécanique",
+        type: "classic",
+        question: "Quel phénomène augmente directement la vitesse d'entrée en décrochage lorsque la charge n augmente ?",
+        options: ["La température seule", "La charge alaire via le facteur de charge", "La couleur de l'avion", "La pression d'huile"],
+        correctIndex: 1,
+        explanation: "En virage incliné, la charge augmente. La vitesse de décrochage varie approximativement comme √n.",
+        pilotTrick: "Retiens VS nouvelle = VS × √n. Un facteur de charge de 4 double la vitesse de décrochage."
+      },
+      {
+        id: "phys_004",
+        category: "Physique & Mécanique",
+        type: "flash",
+        question: "FLASH — Une turbine tourne à 12 000 RPM et le réducteur a un rapport 3:1. Quelle vitesse obtient-on en sortie ?",
+        options: ["3 000 RPM", "4 000 RPM", "9 000 RPM", "36 000 RPM"],
+        correctIndex: 1,
+        explanation: "Un réducteur 3:1 divise la vitesse par 3 : 12 000 / 3 = 4 000 RPM.",
+        pilotTrick: "Le mot réducteur te dit de diviser. Rapport 3 = ÷3."
+      },
+      {
+        id: "phys_005",
+        category: "Physique & Mécanique",
+        type: "classic",
+        question: "Dans un circuit hydraulique idéal, si la force appliquée est multipliée par 4 et que la surface du vérin reste inchangée, la pression devient :",
+        options: ["Deux fois plus grande", "Quatre fois plus grande", "Huit fois plus grande", "Inchangée"],
+        correctIndex: 1,
+        explanation: "P = F / S. À surface identique, multiplier F par 4 multiplie P par 4.",
+        pilotTrick: "Même surface = la pression suit directement la force."
+      },
+      {
+        id: "phys_006",
+        category: "Physique & Mécanique",
+        type: "classic",
+        question: "La densité de l'air diminue lorsque l'altitude augmente. À TAS identique, quel est l'effet général sur la portance à incidence inchangée ?",
+        options: ["Elle augmente", "Elle diminue", "Elle reste exactement identique", "Elle devient négative"],
+        correctIndex: 1,
+        explanation: "L ≈ 1/2 ρV²SCL. Si ρ baisse avec TAS, S et CL constants, la portance baisse.",
+        pilotTrick: "Moins d'air = moins de particules qui génèrent de force à vitesse égale."
+      },
+      {
+        id: "phys_007",
+        category: "Physique & Mécanique",
+        type: "classic",
+        question: "Un avion de 75 tonnes accélère de 0 à 20 m/s en 10 s. Quelle accélération moyenne subit-il ?",
+        options: ["0,5 m/s²", "1 m/s²", "2 m/s²", "10 m/s²"],
+        correctIndex: 1,
+        explanation: "a = ΔV / Δt = 20 / 10 = 2 m/s².",
+        pilotTrick: "20 m/s gagnés en 10 s = 2 m/s par seconde."
+      },
+      {
+        id: "phys_008",
+        category: "Physique & Mécanique",
+        type: "classic",
+        question: "Quel élément d'un réacteur est principalement responsable de l'augmentation de pression de l'air avant la combustion ?",
+        options: ["La tuyère", "Le compresseur", "L'inverseur de poussée", "Le train principal"],
+        correctIndex: 1,
+        explanation: "Le compresseur élève la pression de l'air avant son entrée dans la chambre de combustion.",
+        pilotTrick: "Compresseur = compression = hausse de pression."
+      },
+      {
+        id: "phys_009",
+        category: "Physique & Mécanique",
+        type: "classic",
+        question: "Un levier dispose d'un bras de 0,5 m et reçoit une force de 200 N perpendiculaire. Quel moment produit-il ?",
+        options: ["50 N·m", "100 N·m", "200 N·m", "400 N·m"],
+        correctIndex: 1,
+        explanation: "Moment = force × bras de levier = 200 × 0,5 = 100 N·m.",
+        pilotTrick: "La moitié de 200 = 100."
+      },
+      {
+        id: "phys_010",
+        category: "Physique & Mécanique",
+        type: "classic",
+        question: "Pourquoi un winglet peut-il réduire la traînée induite ?",
+        options: ["Il élimine le poids", "Il limite les tourbillons marginaux et donc une partie de la traînée induite", "Il augmente volontairement la traînée parasite", "Il supprime le vent"],
+        correctIndex: 1,
+        explanation: "Les winglets modifient l'écoulement en bout d'aile et réduisent l'intensité des tourbillons marginaux, ce qui diminue la traînée induite dans certaines conditions.",
+        pilotTrick: "Wingtip vortex = énergie perdue. Le winglet cherche à limiter cette perte."
+      },
+
+      {
+        id: "logic_001",
+        category: "Logique Spatiale & Repérage",
+        type: "classic",
+        question: "Tu suis un cap 090°. Tu effectues ensuite un virage de 135° vers la droite. Quel est ton nouveau cap ?",
+        options: ["135°", "180°", "225°", "315°"],
+        correctIndex: 2,
+        explanation: "090 + 135 = 225°.",
+        pilotTrick: "Ajoute directement les degrés puis reviens dans 000–359 si nécessaire."
+      },
+      {
+        id: "logic_002",
+        category: "Logique Spatiale & Repérage",
+        type: "classic",
+        question: "Tu suis le cap 315°. Un virage de 90° vers la droite t'amène sur :",
+        options: ["045°", "135°", "225°", "405°"],
+        correctIndex: 0,
+        explanation: "315 + 90 = 405. On retire 360, soit 045°.",
+        pilotTrick: "Dès que tu dépasses 360, retire 360 immédiatement."
+      },
+      {
+        id: "logic_003",
+        category: "Logique Spatiale & Repérage",
+        type: "classic",
+        question: "Deux avions partent simultanément l'un vers l'autre sur la même route. Ils sont séparés de 240 NM. Le premier vole à 120 kt, le second à 180 kt. Au bout de combien d'heures se croisent-ils ?",
+        options: ["0,5 h", "0,8 h", "1,0 h", "1,2 h"],
+        correctIndex: 1,
+        explanation: "Vitesse de rapprochement = 120 + 180 = 300 kt. 240 / 300 = 0,8 h, soit 48 minutes.",
+        pilotTrick: "En mouvement l'un vers l'autre, additionne les vitesses."
+      },
+      {
+        id: "logic_004",
+        category: "Logique Spatiale & Repérage",
+        type: "classic",
+        question: "Deux trains partent l'un vers l'autre. Distance 390 km. Le train A roule à 90 km/h et le B à 40 km/h. Après combien d'heures se rencontrent-ils ?",
+        options: ["2 h", "3 h", "3 h 30", "4 h"],
+        correctIndex: 1,
+        explanation: "Vitesse de rapprochement = 90 + 40 = 130 km/h. 390 / 130 = 3 h.",
+        pilotTrick: "90 + 40 = 130 ; 130 × 3 = 390. Vérification mentale immédiate."
+      },
+      {
+        id: "logic_005",
+        category: "Logique Spatiale & Repérage",
+        type: "classic",
+        question: "Une boussole indique un déplacement vers le Nord. Quelle direction représente 225° par rapport au Nord ?",
+        options: ["Nord-Est", "Sud-Est", "Sud-Ouest", "Nord-Ouest"],
+        correctIndex: 2,
+        explanation: "225° se situe entre 180° (Sud) et 270° (Ouest) : Sud-Ouest.",
+        pilotTrick: "180 = Sud, 270 = Ouest. 225 est pile à mi-chemin."
+      },
+      {
+        id: "logic_006",
+        category: "Logique Spatiale & Repérage",
+        type: "classic",
+        question: "Un avion vole au cap 270°. Un vent perpendiculaire arrive du Nord. Quelle tendance directionnelle ce vent impose-t-il à la route sol ?",
+        options: ["Déviation vers le Nord", "Déviation vers le Sud", "Aucune déviation", "Déviation vers l'Est"],
+        correctIndex: 1,
+        explanation: "L'avion va vers l'Ouest. Un vent venant du Nord pousse l'aéronef vers le Sud.",
+        pilotTrick: "Imagine une flèche Nord → Sud : elle pousse physiquement l'avion vers le bas de la carte."
+      },
+      {
+        id: "logic_007",
+        category: "Logique Spatiale & Repérage",
+        type: "flash",
+        question: "FLASH — Un engrenage A possède 20 dents et entraîne B qui possède 60 dents. Si A tourne à 900 RPM, à quelle vitesse B tourne-t-il ?",
+        options: ["150 RPM", "300 RPM", "600 RPM", "2 700 RPM"],
+        correctIndex: 1,
+        explanation: "La vitesse est inversement proportionnelle au nombre de dents. B tourne à 900 × 20 / 60 = 300 RPM.",
+        pilotTrick: "60 dents = 3×20, donc B tourne trois fois moins vite : 900 / 3 = 300."
+      },
+      {
+        id: "logic_008",
+        category: "Logique Spatiale & Repérage",
+        type: "classic",
+        question: "Un engrenage A de 40 dents tourne à 600 RPM dans le sens horaire. Un deuxième engrenage directement en prise avec lui tournera :",
+        options: ["À 600 RPM horaire", "À 600 RPM antihoraire", "À 300 RPM horaire", "À 1 200 RPM horaire"],
+        correctIndex: 1,
+        explanation: "Deux engrenages directement en prise tournent en sens opposés. Avec même nombre de dents, la vitesse reste 600 RPM.",
+        pilotTrick: "Deux roues en contact : sens inversé. Même taille : même vitesse."
+      },
+      {
+        id: "logic_009",
+        category: "Logique Spatiale & Repérage",
+        type: "classic",
+        question: "Un point A est au Nord d'un point B. Si B est tourné de 180° sur une carte, où A apparaît-il relativement à B ?",
+        options: ["Toujours au Nord", "À l'Est", "Au Sud", "À l'Ouest"],
+        correctIndex: 2,
+        explanation: "Une rotation de 180° inverse Nord et Sud : A apparaît alors au Sud de B.",
+        pilotTrick: "180° = demi-tour : chaque direction est remplacée par son opposée."
+      },
+      {
+        id: "logic_010",
+        category: "Logique Spatiale & Repérage",
+        type: "classic",
+        question: "Un avion A parcourt 60 NM au Nord pendant qu'un avion B parcourt 80 NM à l'Est. À quelle distance sont-ils l'un de l'autre si leurs départs coïncident ?",
+        options: ["90 NM", "100 NM", "120 NM", "140 NM"],
+        correctIndex: 1,
+        explanation: "Les trajectoires sont perpendiculaires. Distance = √(60² + 80²) = √10 000 = 100 NM.",
+        pilotTrick: "60-80-100 est un triangle rectangle classique."
+      },
+      {
+        id: "logic_011",
+        category: "Logique Spatiale & Repérage",
+        type: "classic",
+        question: "Tu observes une piste orientée 040°/220°. Si tu es aligné sur la piste 22 en finale, ton cap magnétique approximatif est :",
+        options: ["040°", "130°", "220°", "310°"],
+        correctIndex: 2,
+        explanation: "Le numéro de piste correspond à son orientation magnétique arrondie à la dizaine : 22 = environ 220°.",
+        pilotTrick: "Numéro de piste × 10 = cap approximatif de la piste."
+      },
+      {
+        id: "logic_012",
+        category: "Logique Spatiale & Repérage",
+        type: "classic",
+        question: "Une route initiale est 120°. Après deux corrections successives de +25° puis −40°, quelle est la route finale ?",
+        options: ["085°", "105°", "115°", "145°"],
+        correctIndex: 1,
+        explanation: "120 + 25 = 145. Puis 145 − 40 = 105°.",
+        pilotTrick: "Fais les corrections dans l'ordre : +25 puis −40 donne un effet net de −15°."
+      },
+
+      {
+        id: "eng_001",
+        category: "Anglais Aéro",
+        type: "classic",
+        question: "In aviation English, what does “maintain present heading” mean?",
+        options: [
+          "Change to the present runway",
+          "Keep flying the current heading",
+          "Reduce the current altitude",
+          "Turn to the previous heading"
+        ],
+        correctIndex: 1,
+        explanation: "Maintain means to keep. Maintain present heading = conserver le cap actuel.",
+        pilotTrick: "Maintain = maintenir. Présent heading = cap actuel. Assemble littéralement les deux."
+      },
+      {
+        id: "eng_002",
+        category: "Anglais Aéro",
+        type: "classic",
+        question: "What does “line up and wait” instruct a pilot to do?",
+        options: [
+          "Enter the runway and wait for take-off clearance",
+          "Taxi back to the stand",
+          "Climb immediately",
+          "Hold short of the airport"
+        ],
+        correctIndex: 0,
+        explanation: "Line up and wait means enter and align on the runway, then wait for further clearance.",
+        pilotTrick: "Line up = s'aligner. Wait = attendre. C'est presque une traduction mot à mot."
+      },
+      {
+        id: "eng_003",
+        category: "Anglais Aéro",
+        type: "classic",
+        question: "What is the best interpretation of “unable” in ATC phraseology?",
+        options: [
+          "The pilot agrees with the instruction",
+          "The pilot cannot comply with the instruction",
+          "The aircraft has landed",
+          "The radio is switched off"
+        ],
+        correctIndex: 1,
+        explanation: "Unable indicates that the aircraft or crew cannot comply with the clearance or instruction.",
+        pilotTrick: "Unable = incapable de faire. Le mot indique une impossibilité, pas un refus arbitraire."
+      },
+      {
+        id: "eng_004",
+        category: "Anglais Aéro",
+        type: "flash",
+        question: "FLASH — “Climb to flight level two four zero” means climb to which altitude?",
+        options: ["2 400 ft", "12 400 ft", "24 000 ft", "42 000 ft"],
+        correctIndex: 2,
+        explanation: "Flight Level 240 corresponds to approximately 24 000 ft in standard pressure reference.",
+        pilotTrick: "FL240 = 240 centaines de pieds = environ 24 000 ft."
+      },
+      {
+        id: "eng_005",
+        category: "Anglais Aéro",
+        type: "classic",
+        question: "What does “stand by” mean in standard radiotelephony?",
+        options: [
+          "Transmit immediately",
+          "Wait and listen for further communication",
+          "Squawk 7700",
+          "End the frequency"
+        ],
+        correctIndex: 1,
+        explanation: "Stand by asks the pilot to wait; it does not mean to transmit immediately.",
+        pilotTrick: "Stand by = reste disponible et attends la suite."
+      },
+      {
+        id: "eng_006",
+        category: "Anglais Aéro",
+        type: "classic",
+        question: "An aircraft reports “two miles final”. What does this indicate?",
+        options: [
+          "It is two miles from landing on final approach",
+          "It has two miles remaining in cruise",
+          "It is two miles from departure",
+          "It has two miles of fuel"
+        ],
+        correctIndex: 0,
+        explanation: "Final refers to the final approach segment. Two miles final means approximately two miles from the runway while established on final.",
+        pilotTrick: "Final = dernière branche avant l'atterrissage. Deux miles final = très proche de la piste."
+      },
+      {
+        id: "eng_007",
+        category: "Anglais Aéro",
+        type: "classic",
+        question: "Which word best describes the aircraft's path over the ground?",
+        options: ["Heading", "Track", "Pitch", "Bank"],
+        correctIndex: 1,
+        explanation: "Heading is the direction the nose points. Track is the actual direction of movement over the ground.",
+        pilotTrick: "Heading = nez. Track = trace laissée au sol."
+      },
+      {
+        id: "eng_008",
+        category: "Anglais Aéro",
+        type: "classic",
+        question: "What does “expect vectors for sequencing” most likely mean?",
+        options: [
+          "Expect ATC to provide headings to arrange traffic",
+          "Expect a fuel leak",
+          "Expect a lower cabin pressure",
+          "Expect engine shutdown"
+        ],
+        correctIndex: 0,
+        explanation: "Vectors are headings assigned by ATC, often used to sequence aircraft efficiently.",
+        pilotTrick: "Vectors = caps donnés par le contrôle. Sequencing = mettre les appareils dans le bon ordre."
+      },
+      {
+        id: "eng_009",
+        category: "Anglais Aéro",
+        type: "classic",
+        question: "What is a “readback”?",
+        options: [
+          "A flight plan cancellation",
+          "Repeating an ATC clearance or important information to confirm understanding",
+          "A maintenance inspection",
+          "A weather radar mode"
+        ],
+        correctIndex: 1,
+        explanation: "A readback repeats relevant ATC clearances or information so both sides can confirm what was understood.",
+        pilotTrick: "Read back = relire / répéter à la radio. Tu montres que l'instruction a été comprise."
+      },
+      {
+        id: "eng_010",
+        category: "Anglais Aéro",
+        type: "classic",
+        question: "What does “descending through FL180” mean?",
+        options: [
+          "Climbing above FL180",
+          "Passing through FL180 while descending",
+          "Level at FL180",
+          "Turning 180 degrees"
+        ],
+        correctIndex: 1,
+        explanation: "Descending through FL180 means the aircraft is descending and currently passing through Flight Level 180.",
+        pilotTrick: "Through = à travers / en passant par. Descending through = descend en traversant."
+      },
+      {
+        id: "eng_011",
+        category: "Anglais Aéro",
+        type: "classic",
+        question: "What is the primary meaning of “crosswind”?",
+        options: [
+          "Wind aligned with the runway",
+          "Wind blowing across the runway",
+          "Wind from directly behind",
+          "No wind"
+        ],
+        correctIndex: 1,
+        explanation: "Crosswind is a wind component perpendicular, or partly perpendicular, to the runway or flight path.",
+        pilotTrick: "Cross = traverser. Crosswind = vent traversier."
+      },
+      {
+        id: "eng_012",
+        category: "Anglais Aéro",
+        type: "classic",
+        question: "In an emergency call, what does “Mayday” indicate?",
+        options: [
+          "Routine communication",
+          "Urgency only without danger",
+          "Distress and grave or imminent danger",
+          "A navigation warning"
+        ],
+        correctIndex: 2,
+        explanation: "Mayday is the international radiotelephony distress call for grave and imminent danger requiring immediate assistance.",
+        pilotTrick: "Mayday = détresse. Pan-pan correspond à l'urgence, généralement sans danger immédiat comparable."
+      }
+    ];
+
+    /* ========================= ETAT APPLICATION ========================= */
+
+    let db = loadDatabase();
+
+    const app = {
+      currentView: "dashboard",
+      lastCompletedTest: null,
+      progressChart: null,
+      radarChart: null,
+      timerInterval: null,
+      flashTimeout: null,
+      audioContext: null,
+      audioNodes: [],
+      nextAudioTimeout: null,
+      test: null
+    };
+
+    function createEmptyDB() {
+      return {
+        users: [],
+        currentUser: null,
+        testHistory: [],
+        unlockedBadges: []
+      };
+    }
+
+    function normalizeDatabase(data) {
+      const base = createEmptyDB();
+
+      if (!data || typeof data !== "object") {
+        return base;
+      }
+
+      base.users = Array.isArray(data.users) ? data.users : [];
+      base.currentUser = data.currentUser || null;
+      base.testHistory = Array.isArray(data.testHistory) ? data.testHistory : [];
+      base.unlockedBadges = Array.isArray(data.unlockedBadges) ? data.unlockedBadges : [];
+
+      base.users = base.users.map(user => ({
+        id: user.id || generateId(),
+        name: String(user.name || "Cadet").slice(0, 24),
+        createdAt: user.createdAt || Date.now(),
+        xp: Number(user.xp || 0),
+        unlockedBadges: Array.isArray(user.unlockedBadges) ? user.unlockedBadges : []
+      }));
+
+      return base;
+    }
+
+    function loadDatabase() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return createEmptyDB();
+        return normalizeDatabase(JSON.parse(raw));
+      } catch {
+        return createEmptyDB();
+      }
+    }
+
+    function saveDatabase() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(db));
+    }
+
+    function generateId() {
+      return "id_" + Math.random().toString(36).slice(2) + Date.now().toString(36);
+    }
+
+    function getCurrentUser() {
+      return db.users.find(user => user.id === db.currentUser) || null;
+    }
+
+    function ensureProfile() {
+      if (!db.users.length) {
+        openProfileModal(true);
+        return false;
+      }
+
+      if (!getCurrentUser()) {
+        db.currentUser = db.users[0].id;
+        saveDatabase();
+      }
+
+      return true;
+    }
+
+    function getGradeInfo(xp) {
+      let grade = GRADES[0];
+
+      for (const item of GRADES) {
+        if (xp >= item.minXP) {
+          grade = item;
+        }
+      }
+
+      const index = GRADES.findIndex(item => item.name === grade.name);
+      const next = GRADES[index + 1] || null;
+
+      if (!next) {
+        return {
+          grade,
+          next: null,
+          progress: 100,
+          within: xp - grade.minXP,
+          needed: 0
+        };
+      }
+
+      const range = next.minXP - grade.minXP;
+      const within = Math.max(0, xp - grade.minXP);
+      const progress = Math.min(100, Math.round((within / range) * 100));
+
+      return {
+        grade,
+        next,
+        progress,
+        within,
+        needed: range
+      };
+    }
+
+    function getUserHistory() {
+      const user = getCurrentUser();
+      if (!user) return [];
+      return db.testHistory.filter(item => item.userId === user.id);
+    }
+
+    function formatSeconds(ms) {
+      return (ms / 1000).toLocaleString("fr-FR", {
+        minimumFractionDigits: 1,
+        maximumFractionDigits: 1
+      }) + " s";
+    }
+
+    function formatDate(timestamp) {
+      return new Intl.DateTimeFormat("fr-FR", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit"
+      }).format(timestamp);
+    }
+
+    function showToast(title, message) {
+      const stack = document.getElementById("toastStack");
+      const node = document.createElement("div");
+      node.className = "toast";
+      node.innerHTML = `<strong>${escapeHtml(title)}</strong><span>${escapeHtml(message)}</span>`;
+      stack.appendChild(node);
+
+      setTimeout(() => {
+        node.style.opacity = "0";
+        node.style.transform = "translateY(8px)";
+        setTimeout(() => node.remove(), 250);
+      }, 3500);
+    }
+
+    function escapeHtml(text) {
+      return String(text)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    /* ========================= NAVIGATION ========================= */
+
+    function showView(viewId) {
+      if (viewId !== "test" && app.test) {
+        // Ne pas interrompre silencieusement une session en cours.
+        return;
+      }
+
+      document.querySelectorAll(".page").forEach(page => {
+        page.classList.toggle("active", page.id === "view-" + viewId);
+      });
+
+      document.querySelectorAll(".nav-btn[data-view]").forEach(btn => {
+        btn.classList.toggle("active", btn.dataset.view === viewId);
+      });
+
+      app.currentView = viewId;
+
+      if (viewId === "dashboard") renderDashboard();
+      if (viewId === "results") renderResults();
+      if (viewId === "settings") renderSettings();
+
+      document.getElementById("sidebar").classList.remove("open");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    document.querySelectorAll(".nav-btn[data-view]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        if (!ensureProfile()) return;
+        showView(btn.dataset.view);
+      });
+    });
+
+    document.querySelectorAll("[data-view-jump]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        if (!ensureProfile()) return;
+        showView(btn.dataset.viewJump);
+      });
+    });
+
+    document.getElementById("mobileMenuBtn").addEventListener("click", () => {
+      document.getElementById("sidebar").classList.toggle("open");
+    });
+
+    /* ========================= THEME ========================= */
+
+    function setTheme(mode) {
+      document.documentElement.dataset.theme = mode;
+      localStorage.setItem("aerocadet_theme", mode);
+
+      const dark = mode === "dark";
+
+      document.getElementById("themeLabel").textContent = dark ? "Mode clair" : "Mode sombre";
+      document.getElementById("themeIcon").textContent = dark ? "☼" : "◐";
+      document.getElementById("mobileThemeBtn").textContent = dark ? "☼" : "◐";
+      document.getElementById("settingsDarkToggle").checked = dark;
+
+      renderCharts();
+    }
+
+    function toggleTheme() {
+      const current = document.documentElement.dataset.theme || "light";
+      setTheme(current === "light" ? "dark" : "light");
+    }
+
+    document.getElementById("themeBtn").addEventListener("click", toggleTheme);
+    document.getElementById("mobileThemeBtn").addEventListener("click", toggleTheme);
+    document.getElementById("settingsDarkToggle").addEventListener("change", event => {
+      setTheme(event.target.checked ? "dark" : "light");
+    });
+
+    const initialTheme = localStorage.getItem("aerocadet_theme");
+    setTheme(initialTheme === "dark" ? "dark" : "light");
+
+    /* ========================= PROFILS ========================= */
+
+    function openProfileModal(force = false) {
+      const modal = document.getElementById("profileModal");
+      const list = document.getElementById("modalProfileList");
+
+      list.innerHTML = "";
+
+      if (!db.users.length) {
+        list.innerHTML = `<div class="empty-state">Aucun profil n'est encore enregistré.</div>`;
+      } else {
+        const sorted = [...db.users].sort((a, b) => b.xp - a.xp);
+
+        sorted.forEach(user => {
+          const info = getGradeInfo(user.xp);
+          const btn = document.createElement("button");
+          btn.className = "profile-choice-btn";
+
+          const initial = user.name.charAt(0).toUpperCase();
+
+          btn.innerHTML = `
+            <div class="avatar">${escapeHtml(initial)}</div>
+            <div style="min-width:0;">
+              <strong style="font-size:12px;">${escapeHtml(user.name)}</strong>
+              <div class="small-note">${escapeHtml(info.grade.name)} · ${user.xp} XP</div>
+            </div>
+          `;
+
+          btn.addEventListener("click", () => {
+            db.currentUser = user.id;
+            saveDatabase();
+            modal.style.display = "none";
+            refreshEverything();
+            showToast("Profil activé", `${user.name} est maintenant aux commandes.`);
+          });
+
+          list.appendChild(btn);
+        });
+      }
+
+      modal.style.display = "grid";
+
+      if (force) {
+        document.getElementById("newProfileInput").focus();
+      }
+    }
+
+    function createProfile(name) {
+      const clean = String(name || "").trim();
+
+      if (!clean) {
+        showToast("Nom requis", "Entre un nom de profil.");
+        return;
+      }
+
+      if (clean.length < 2) {
+        showToast("Nom trop court", "Utilise au moins deux caractères.");
+        return;
+      }
+
+      if (db.users.some(user => user.name.toLowerCase() === clean.toLowerCase())) {
+        showToast("Profil déjà existant", "Choisis un autre nom pour séparer les statistiques.");
+        return;
+      }
+
+      const user = {
+        id: generateId(),
+        name: clean.slice(0, 24),
+        createdAt: Date.now(),
+        xp: 0,
+        unlockedBadges: []
+      };
+
+      db.users.push(user);
+      db.currentUser = user.id;
+      saveDatabase();
+
+      document.getElementById("profileModal").style.display = "none";
+      document.getElementById("newProfileInput").value = "";
+
+      refreshEverything();
+
+      showToast("Profil créé", `${user.name} est prêt pour sa première session.`);
+    }
+
+    document.getElementById("createProfileBtn").addEventListener("click", () => {
+      createProfile(document.getElementById("newProfileInput").value);
+    });
+
+    document.getElementById("newProfileInput").addEventListener("keydown", event => {
+      if (event.key === "Enter") {
+        createProfile(event.target.value);
+      }
+    });
+
+    document.getElementById("openProfileBtn").addEventListener("click", () => {
+      if (!app.test) openProfileModal();
+    });
+
+    document.getElementById("profileMini").addEventListener("click", () => {
+      if (!app.test) openProfileModal();
+    });
+
+    document.getElementById("settingsSwitchProfile").addEventListener("click", () => openProfileModal());
+
+    document.getElementById("settingsCreateProfile").addEventListener("click", () => {
+      openProfileModal(true);
+    });
+
+    /* ========================= DASHBOARD ========================= */
+
+    function renderDashboard() {
+      const user = getCurrentUser();
+      if (!user) return;
+
+      const gradeInfo = getGradeInfo(user.xp);
+      const history = getUserHistory();
+
+      const allResponses = history.flatMap(item => item.responses || []);
+      const correctCount = allResponses.filter(response => response.isCorrect).length;
+
+      const accuracy = allResponses.length
+        ? Math.round((correctCount / allResponses.length) * 100)
+        : 0;
+
+      const avgTime = allResponses.length
+        ? allResponses.reduce((sum, response) => sum + Number(response.timeMs || 0), 0) / allResponses.length
+        : 0;
+
+      const initials = user.name.charAt(0).toUpperCase();
+
+      document.getElementById("dashboardGreeting").textContent = `Bonjour, ${user.name}.`;
+      document.getElementById("heroGrade").textContent = gradeInfo.grade.name;
+      document.getElementById("heroXP").textContent = user.xp.toLocaleString("fr-FR");
+      document.getElementById("heroXPProgress").textContent = user.xp.toLocaleString("fr-FR") + " XP";
+      document.getElementById("heroProgressText").textContent = gradeInfo.progress + "%";
+      document.getElementById("heroProgressBar").style.width = gradeInfo.progress + "%";
+
+      if (gradeInfo.next) {
+        document.getElementById("heroNextGrade").textContent = gradeInfo.next.name;
+        document.getElementById("heroGradeProgressTitle").textContent = `Vers ${gradeInfo.next.name}`;
+        document.getElementById("heroGradeProgressSub").textContent =
+          `${gradeInfo.within.toLocaleString("fr-FR")} / ${gradeInfo.needed.toLocaleString("fr-FR")} XP`;
+      } else {
+        document.getElementById("heroNextGrade").textContent = "Niveau maximal";
+        document.getElementById("heroGradeProgressTitle").textContent = "Qualification maximale atteinte";
+        document.getElementById("heroGradeProgressSub").textContent = "Objectif CDB atteint";
+      }
+
+      const gradeDescriptions = {
+        "Candidat": "Construis de bons réflexes avant d'augmenter fortement la pression temporelle.",
+        "Élève Pilote": "La base est installée. Commence à travailler la vitesse et la régularité.",
+        "Copilote (OPL)": "Tu entres dans une logique de sélection avancée : précision, vitesse et stabilité.",
+        "Commandant de Bord (CDB)": "Niveau maximal du système de grades AeroCadet Elite."
+      };
+
+      document.getElementById("heroGradeText").textContent = gradeDescriptions[gradeInfo.grade.name];
+
+      document.getElementById("kpiAccuracy").textContent = accuracy + "%";
+      document.getElementById("kpiTime").textContent = avgTime ? formatSeconds(avgTime) : "0,0 s";
+      document.getElementById("kpiTests").textContent = history.length;
+      document.getElementById("kpiXP").textContent = user.xp.toLocaleString("fr-FR");
+
+      document.getElementById("sideAvatar").textContent = initials;
+      document.getElementById("sideProfileName").textContent = user.name;
+      document.getElementById("sideProfileGrade").textContent = gradeInfo.grade.name;
+
+      renderLeaderboard();
+      renderDashboardBadges();
+      renderCharts();
+    }
+
+    function renderLeaderboard() {
+      const list = document.getElementById("leaderboardList");
+
+      if (!db.users.length) {
+        list.innerHTML = `<div class="empty-state">Aucun profil.</div>`;
+        return;
+      }
+
+      const sorted = [...db.users].sort((a, b) => b.xp - a.xp);
+
+      list.innerHTML = sorted.map((user, index) => {
+        const grade = getGradeInfo(user.xp).grade.name;
+        const isCurrent = user.id === db.currentUser;
+
+        return `
+          <div class="leader-row" style="${isCurrent ? "background:rgba(10,132,255,.05);border-radius:10px;padding-left:7px;padding-right:7px;" : ""}">
+            <div class="rank-number">#${index + 1}</div>
+            <div>
+              <div class="leader-name">
+                ${escapeHtml(user.name)}
+                ${isCurrent ? " · toi" : ""}
+              </div>
+              <div class="leader-detail">${escapeHtml(grade)}</div>
+            </div>
+            <div class="leader-xp">${user.xp.toLocaleString("fr-FR")} XP</div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function renderDashboardBadges() {
+      const user = getCurrentUser();
+      if (!user) return;
+
+      const unlocked = new Set(user.unlockedBadges || []);
+
+      document.getElementById("badgeCountPill").textContent =
+        `${unlocked.size} / ${BADGES.length}`;
+
+      document.getElementById("dashboardBadges").innerHTML = BADGES.map(badge => `
+        <div class="badge ${unlocked.has(badge.id) ? "unlocked" : ""}">
+          <div class="badge-icon">${badge.icon}</div>
+          <strong>${escapeHtml(badge.name)}</strong>
+          <span>${escapeHtml(badge.description)}</span>
+        </div>
+      `).join("");
+    }
+
+    function renderCharts() {
+      if (!getCurrentUser() || typeof Chart === "undefined") return;
+
+      const history = getUserHistory();
+      const dark = document.documentElement.dataset.theme === "dark";
+
+      const gridColor = dark ? "rgba(255,255,255,.08)" : "rgba(0,0,0,.07)";
+      const textColor = dark ? "#a1a1a6" : "#6e6e73";
+
+      const recent = history.slice(-10);
+      const labels = recent.map((item, index) => `T${history.length - recent.length + index + 1}`);
+      const scores = recent.map(item => item.score20);
+
+      const progressCanvas = document.getElementById("progressChart");
+      const radarCanvas = document.getElementById("radarChart");
+
+      if (app.progressChart) app.progressChart.destroy();
+      if (app.radarChart) app.radarChart.destroy();
+
+      app.progressChart = new Chart(progressCanvas, {
+        type: "line",
+        data: {
+          labels,
+          datasets: [{
+            data: scores,
+            borderWidth: 3,
+            tension: 0.38,
+            pointRadius: 4,
+            pointHoverRadius: 6,
+            borderColor: "#0a84ff",
+            backgroundColor: "rgba(10,132,255,.08)",
+            fill: true
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false }
+          },
+          scales: {
+            x: {
+              grid: { color: gridColor },
+              ticks: { color: textColor, font: { size: 10 } }
+            },
+            y: {
+              min: 0,
+              max: 20,
+              grid: { color: gridColor },
+              ticks: {
+                color: textColor,
+                font: { size: 10 },
+                stepSize: 5
+              }
+            }
+          }
+        }
+      });
+
+      const mastery = CATEGORIES.map(category => {
+        const responses = history
+          .flatMap(item => item.responses || [])
+          .filter(response => response.category === category);
+
+        if (!responses.length) return 0;
+
+        return Math.round(
+          responses.filter(response => response.isCorrect).length /
+          responses.length * 100
+        );
+      });
+
+      app.radarChart = new Chart(radarCanvas, {
+        type: "radar",
+        data: {
+          labels: [
+            ["Calcul", "Mental"],
+            ["Physique", "Mécanique"],
+            ["Logique", "Spatiale"],
+            ["Anglais", "Aéro"]
+          ],
+          datasets: [{
+            data: mastery,
+            borderWidth: 2,
+            borderColor: "#32d7ff",
+            backgroundColor: "rgba(50,215,255,.12)",
+            pointBackgroundColor: "#32d7ff",
+            pointRadius: 3
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false }
+          },
+          scales: {
+            r: {
+              min: 0,
+              max: 100,
+              ticks: {
+                display: false
+              },
+              grid: {
+                color: gridColor
+              },
+              angleLines: {
+                color: gridColor
+              },
+              pointLabels: {
+                color: textColor,
+                font: {
+                  size: 10,
+                  weight: "600"
+                }
+              }
+            }
+          }
+        }
+      });
+    }
+
+    /* ========================= CONFIGURATION ========================= */
+
+    const volumeInputs = document.querySelectorAll('input[name="volume"]');
+    const customVolume = document.getElementById("customVolume");
+
+    volumeInputs.forEach(input => {
+      input.addEventListener("change", () => {
+        customVolume.value = input.value;
+        updateVolumeDisplay();
+      });
+    });
+
+    customVolume.addEventListener("input", updateVolumeDisplay);
+
+    function updateVolumeDisplay() {
+      const value = Number(customVolume.value);
+      document.getElementById("customVolumeLabel").textContent = `${value} questions`;
+      document.getElementById("volumeInfo").textContent = `${value} questions`;
+
+      volumeInputs.forEach(input => {
+        input.checked = Number(input.value) === value;
+      });
+    }
+
+    document.querySelectorAll(".category-checkbox").forEach(input => {
+      input.addEventListener("change", updateCategoryDisplay);
+    });
+
+    function updateCategoryDisplay() {
+      const checked = [...document.querySelectorAll(".category-checkbox:checked")];
+      document.getElementById("categoryInfo").textContent = `${checked.length} / ${CATEGORIES.length}`;
+    }
+
+    function getSelectedConfig() {
+      const categories = [...document.querySelectorAll(".category-checkbox:checked")]
+        .map(input => input.value);
+
+      let volume = Number(customVolume.value);
+
+      if (volume < 5) volume = 5;
+      if (volume > 100) volume = 100;
+
+      const mode = document.querySelector('input[name="mode"]:checked').value;
+
+      return {
+        volume,
+        categories,
+        mode,
+        distractionATC: document.getElementById("atcToggle").checked,
+        allowFlash: document.getElementById("flashToggle").checked
+      };
+    }
+
+    function validateConfig(config) {
+      if (!config.categories.length) {
+        showToast("Catégorie manquante", "Sélectionne au moins une catégorie.");
+        return false;
+      }
+
+      return true;
+    }
+
+    /* ========================= GÉNÉRATION DE SESSION ========================= */
+
+    function shuffle(array) {
+      const clone = [...array];
+
+      for (let i = clone.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [clone[i], clone[j]] = [clone[j], clone[i]];
+      }
+
+      return clone;
+    }
+
+    function buildQuestionSet(config) {
+      let pool = questionsDB.filter(question => config.categories.includes(question.category));
+
+      if (!config.allowFlash) {
+        pool = pool.filter(question => question.type !== "flash");
+      }
+
+      if (!pool.length) {
+        pool = questionsDB.filter(question => config.categories.includes(question.category));
+      }
+
+      const result = [];
+
+      const perCategory = Math.floor(config.volume / config.categories.length);
+      let remainder = config.volume % config.categories.length;
+
+      for (const category of config.categories) {
+        const categoryQuestions = shuffle(pool.filter(q => q.category === category));
+        const target = perCategory + (remainder > 0 ? 1 : 0);
+
+        if (remainder > 0) remainder--;
+
+        for (let i = 0; i < Math.min(target, categoryQuestions.length); i++) {
+          result.push(categoryQuestions[i]);
+        }
+      }
+
+      if (result.length < config.volume) {
+        const usedIds = new Set(result.map(q => q.id));
+        const extra = shuffle(pool.filter(q => !usedIds.has(q.id)));
+
+        let cursor = 0;
+
+        while (result.length < config.volume && extra.length) {
+          result.push(extra[cursor % extra.length]);
+          cursor++;
+          if (cursor > extra.length * 2) break;
+        }
+      }
+
+      while (result.length < config.volume) {
+        result.push(pool[Math.floor(Math.random() * pool.length)]);
+      }
+
+      return shuffle(result).slice(0, config.volume);
+    }
+
+    /* ========================= BÊTE NOIRE ========================= */
+
+    document.getElementById("blackSpotBtn").addEventListener("click", launchBlackSpot);
+
+    function launchBlackSpot() {
+      if (!ensureProfile()) return;
+
+      const history = getUserHistory();
+      const mastery = {};
+
+      CATEGORIES.forEach(category => {
+        const responses = history
+          .flatMap(item => item.responses || [])
+          .filter(response => response.category === category);
+
+        mastery[category] = responses.length
+          ? responses.filter(response => response.isCorrect).length / responses.length
+          : 1;
+      });
+
+      const weakest = [...CATEGORIES]
+        .sort((a, b) => mastery[a] - mastery[b])
+        .slice(0, 2);
+
+      const config = {
+        volume: 15,
+        categories: weakest,
+        mode: "training",
+        distractionATC: false,
+        allowFlash: true,
+        blackSpot: true
+      };
+
+      startTest(config);
+    }
+
+    /* ========================= MODES DE TEST ========================= */
+
+    document.getElementById("launchConfiguredTest").addEventListener("click", () => {
+      const config = getSelectedConfig();
+
+      if (!validateConfig(config)) return;
+
+      startTest(config);
+    });
+
+    document.getElementById("startQuickBtn").addEventListener("click", () => {
+      startTest({
+        volume: 10,
+        categories: [...CATEGORIES],
+        mode: "training",
+        distractionATC: false,
+        allowFlash: true,
+        quick: true
+      });
+    });
+
+    function startTest(config) {
+      if (!ensureProfile()) return;
+
+      stopAudio();
+
+      const questions = buildQuestionSet(config);
+
+      if (!questions.length) {
+        showToast("Erreur", "Impossible de construire la session.");
+        return;
+      }
+
+      app.test = {
+        id: generateId(),
+        userId: db.currentUser,
+        config,
+        questions,
+        index: 0,
+        responses: [],
+        questionStartedAt: performance.now(),
+        startedAt: Date.now(),
+        timeRemainingMs: config.mode === "exam"
+          ? questions.length * 30000
+          : config.mode === "blitz"
+            ? 60000
+            : Infinity,
+        active: true,
+        awaitingFlash: false,
+        answered: false,
+        flashCompleted: false,
+        lastXP: 0
+      };
+
+      showView("test");
+
+      document.getElementById("testModePill").textContent =
+        config.mode === "training"
+          ? "ENTRAÎNEMENT"
+          : config.mode === "exam"
+            ? "EXAMEN"
+            : "BLITZ · SURVIE";
+
+      document.getElementById("testFooterNote").textContent =
+        config.mode === "training"
+          ? "Correction immédiate active."
+          : config.mode === "exam"
+            ? "Aucun feedback avant le rapport final."
+            : "Chaque erreur retire 5 secondes. Chaque bonne réponse ajoute 3 secondes.";
+
+      startTestTimer();
+
+      if (config.distractionATC) {
+        startAudio();
+      }
+
+      renderCurrentQuestion();
+    }
+
+    function startTestTimer() {
+      clearInterval(app.timerInterval);
+
+      if (!app.test || !isFinite(app.test.timeRemainingMs)) {
+        document.getElementById("timerDisplay").textContent = "∞";
+        return;
+      }
+
+      let lastTick = performance.now();
+
+      app.timerInterval = setInterval(() => {
+        if (!app.test || !app.test.active) return;
+
+        const now = performance.now();
+        const delta = now - lastTick;
+        lastTick = now;
+
+        app.test.timeRemainingMs -= delta;
+
+        if (app.test.timeRemainingMs <= 0) {
+          app.test.timeRemainingMs = 0;
+          updateTimerUI();
+          finishTest(true);
+          return;
+        }
+
+        updateTimerUI();
+      }, 50);
+    }
+
+    function updateTimerUI() {
+      const display = document.getElementById("timerDisplay");
+
+      if (!app.test) {
+        display.textContent = "∞";
+        return;
+      }
+
+      if (!isFinite(app.test.timeRemainingMs)) {
+        display.textContent = "∞";
+        display.classList.remove("danger");
+        return;
+      }
+
+      const totalSeconds = Math.max(0, Math.ceil(app.test.timeRemainingMs / 1000));
+      const minutes = Math.floor(totalSeconds / 60);
+      const seconds = totalSeconds % 60;
+
+      display.textContent =
+        `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+
+      display.classList.toggle("danger", app.test.timeRemainingMs <= 10000);
+    }
+
+    function renderCurrentQuestion() {
+      if (!app.test) return;
+
+      const index = app.test.index;
+      const question = app.test.questions[index];
+
+      app.test.answered = false;
+      app.test.flashCompleted = false;
+      app.test.questionStartedAt = performance.now();
+
+      document.getElementById("testCounter").textContent =
+        `${index + 1} / ${app.test.questions.length}`;
+
+      document.getElementById("testProgressBar").style.width =
+        `${((index) / app.test.questions.length) * 100}%`;
+
+      document.getElementById("questionCategory").textContent = question.category;
+      document.getElementById("feedbackContainer").innerHTML = "";
+
+      const flash = question.type === "flash" && app.test.config.allowFlash;
+
+      if (flash) {
+        renderFlashQuestion(question);
+      } else {
+        document.getElementById("flashContainer").style.display = "none";
+        document.getElementById("classicContainer").style.display = "block";
+
+        document.getElementById("questionText").textContent = question.question;
+
+        renderAnswers(question);
+      }
+
+      updateTimerUI();
+    }
+
+    function renderFlashQuestion(question) {
+      document.getElementById("classicContainer").style.display = "none";
+      document.getElementById("flashContainer").style.display = "grid";
+
+      const text = document.getElementById("flashQuestionText");
+      text.textContent = question.question;
+
+      const timerBar = document.querySelector(".flash-timer > div");
+      timerBar.style.animation = "none";
+      void timerBar.offsetWidth;
+      timerBar.style.animation = "flashCountdown 5000ms linear forwards";
+
+      app.test.awaitingFlash = true;
+
+      app.flashTimeout = setTimeout(() => {
+        if (!app.test || !app.test.active) return;
+
+        app.test.awaitingFlash = false;
+        app.test.flashCompleted = true;
+
+        text.textContent = "*****";
+        renderAnswers(question);
+      }, 5000);
+    }
+
+    function renderAnswers(question) {
+      const grid = document.getElementById("answerGrid");
+
+      grid.innerHTML = question.options.map((option, index) => `
+        <button class="answer-btn" data-answer-index="${index}">
+          <span class="answer-key">${String.fromCharCode(65 + index)}</span>
+          <span class="answer-copy">${escapeHtml(option)}</span>
+        </button>
+      `).join("");
+
+      grid.querySelectorAll(".answer-btn").forEach(button => {
+        button.addEventListener("click", () => {
+          handleAnswer(Number(button.dataset.answerIndex));
+        });
+      });
+    }
+
+    function handleAnswer(index) {
+      if (!app.test || !app.test.active || app.test.answered || app.test.awaitingFlash) return;
+
+      const question = app.test.questions[app.test.index];
+      const timeMs = Math.max(0, performance.now() - app.test.questionStartedAt);
+      const isCorrect = index === question.correctIndex;
+
+      app.test.answered = true;
+
+      const buttons = [...document.querySelectorAll(".answer-btn")];
+      const selectedButton = buttons[index];
+
+      if (selectedButton) {
+        selectedButton.classList.add("flash-hit");
+        setTimeout(() => selectedButton.classList.remove("flash-hit"), 200);
+      }
+
+      buttons.forEach(button => {
+        const answerIndex = Number(button.dataset.answerIndex);
+
+        if (app.test.config.mode === "training") {
+          if (answerIndex === question.correctIndex) {
+            button.classList.add("correct");
+          }
+
+          if (answerIndex === index && !isCorrect) {
+            button.classList.add("wrong");
+          }
+        }
+
+        if (answerIndex === index) {
+          button.classList.add("selected");
+        }
+      });
+
+      const response = {
+        questionId: question.id,
+        category: question.category,
+        question: question.question,
+        options: [...question.options],
+        selectedIndex: index,
+        correctIndex: question.correctIndex,
+        isCorrect,
+        timeMs,
+        timestamp: Date.now()
+      };
+
+      app.test.responses.push(response);
+
+      if (app.test.config.mode === "blitz") {
+        app.test.timeRemainingMs += isCorrect ? 3000 : -5000;
+        app.test.timeRemainingMs = Math.max(0, app.test.timeRemainingMs);
+      }
+
+      if (app.test.config.mode === "training") {
+        const feedback = document.getElementById("feedbackContainer");
+        feedback.innerHTML = `
+          <div class="feedback-box ${isCorrect ? "success" : "danger"}">
+            <strong>${isCorrect ? "✓ Bonne réponse" : "✕ Réponse incorrecte"}</strong><br>
+            ${escapeHtml(question.explanation)}
+            <div style="margin-top:7px;">
+              <strong>Astuce du Pilote :</strong>
+              ${escapeHtml(question.pilotTrick)}
+            </div>
+          </div>
+        `;
+
+        setTimeout(() => {
+          nextQuestion();
+        }, 1150);
+      } else {
+        setTimeout(() => {
+          nextQuestion();
+        }, 180);
+      }
+    }
+
+    function nextQuestion() {
+      if (!app.test || !app.test.active) return;
+
+      app.test.index++;
+
+      if (app.test.index >= app.test.questions.length) {
+        finishTest(false);
+        return;
+      }
+
+      renderCurrentQuestion();
+    }
+
+    function finishTest(timeExpired = false) {
+      if (!app.test || !app.test.active) return;
+
+      app.test.active = false;
+
+      clearInterval(app.timerInterval);
+      app.timerInterval = null;
+
+      clearTimeout(app.flashTimeout);
+      app.flashTimeout = null;
+
+      stopAudio();
+
+      /*
+        Si le chrono expire pendant une question non répondue,
+        elle n'ajoute aucune réponse artificielle. Le rapport reste fidèle.
+      */
+
+      const test = app.test;
+      const responses = test.responses;
+      const correct = responses.filter(response => response.isCorrect).length;
+      const answered = responses.length;
+
+      const denominator = test.questions.length;
+      const accuracy = denominator ? correct / denominator : 0;
+      const score20 = Math.round(accuracy * 20 * 10) / 10;
+
+      const avgTime = answered
+        ? responses.reduce((sum, response) => sum + response.timeMs, 0) / answered
+        : 0;
+
+      const xp = calculateXP(responses, test.config.mode);
+
+      const result = {
+        id: test.id,
+        userId: test.userId,
+        date: Date.now(),
+        mode: test.config.mode,
+        volume: test.questions.length,
+        score20,
+        accuracy: Math.round(accuracy * 100),
+        averageTimeMs: Math.round(avgTime),
+        timeExpired,
+        categories: [...test.config.categories],
+        responses,
+        xp
+      };
+
+      db.testHistory.push(result);
+
+      const user = getCurrentUser();
+
+      if (user) {
+        user.xp += xp;
+      }
+
+      app.lastCompletedTest = result;
+      app.test = null;
+
+      saveDatabase();
+
+      checkAndUnlockBadges(result);
+
+      saveDatabase();
+
+      renderResults();
+      showView("results");
+
+      showToast(
+        "Session terminée",
+        `Score ${score20}/20 · ${correct}/${denominator} bonnes réponses · +${xp} XP`
+      );
+    }
+
+    function calculateXP(responses, mode) {
+      let xp = 0;
+
+      responses.forEach(response => {
+        if (!response.isCorrect) {
+          xp += 2;
+          return;
+        }
+
+        const seconds = response.timeMs / 1000;
+
+        let base = 22;
+
+        if (seconds < 4) base += 16;
+        else if (seconds < 7) base += 11;
+        else if (seconds < 10) base += 7;
+        else if (seconds < 15) base += 4;
+
+        if (mode === "exam") base += 3;
+        if (mode === "blitz") base += 5;
+
+        xp += base;
+      });
+
+      return Math.max(0, Math.round(xp));
+    }
+
+    document.getElementById("abortTestBtn").addEventListener("click", () => {
+      if (!app.test) return;
+
+      const confirmed = confirm("Abandonner cette session ? Les réponses déjà enregistrées ne seront pas validées.");
+      if (!confirmed) return;
+
+      clearInterval(app.timerInterval);
+      clearTimeout(app.flashTimeout);
+      stopAudio();
+
+      app.test = null;
+      showView("dashboard");
+      showToast("Session abandonnée", "Aucun score n'a été ajouté.");
+    });
+
+    /* ========================= CLAVIER ========================= */
+
+    document.addEventListener("keydown", event => {
+      if (!app.test || !app.test.active) return;
+      if (event.repeat) return;
+
+      const map = {
+        "1": 0,
+        "2": 1,
+        "3": 2,
+        "4": 3,
+        "a": 0,
+        "b": 1,
+        "c": 2,
+        "d": 3,
+        "A": 0,
+        "B": 1,
+        "C": 2,
+        "D": 3
+      };
+
+      if (Object.prototype.hasOwnProperty.call(map, event.key)) {
+        const index = map[event.key];
+        const button = document.querySelector(`.answer-btn[data-answer-index="${index}"]`);
+
+        if (button) {
+          button.classList.add("flash-hit");
+          setTimeout(() => button.classList.remove("flash-hit"), 200);
+        }
+
+        handleAnswer(index);
+      }
+    });
+
+    /* ========================= WEB AUDIO · ATC ========================= */
+
+    async function startAudio() {
+      try {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+
+        if (!AudioContextClass) {
+          showToast("Audio indisponible", "Ce navigateur ne fournit pas Web Audio.");
+          return;
+        }
+
+        app.audioContext = new AudioContextClass();
+
+        if (app.audioContext.state === "suspended") {
+          await app.audioContext.resume();
+        }
+
+        const context = app.audioContext;
+
+        const bufferSize = context.sampleRate * 2;
+        const buffer = context.createBuffer(1, bufferSize, context.sampleRate);
+        const output = buffer.getChannelData(0);
+
+        let last = 0;
+
+        for (let i = 0; i < bufferSize; i++) {
+          const white = Math.random() * 2 - 1;
+          last = last * 0.94 + white * 0.06;
+          output[i] = last * 0.55;
+        }
+
+        const source = context.createBufferSource();
+        source.buffer = buffer;
+        source.loop = true;
+
+        const gain = context.createGain();
+        gain.gain.value = 0.018;
+
+        const filter = context.createBiquadFilter();
+        filter.type = "bandpass";
+        filter.frequency.value = 1700;
+        filter.Q.value = 0.45;
+
+        source.connect(filter);
+        filter.connect(gain);
+        gain.connect(context.destination);
+
+        source.start();
+
+        app.audioNodes.push(source, gain, filter);
+
+        scheduleRandomBeep();
+      } catch {
+        showToast("Audio ATC", "Le navigateur a refusé l'accès audio. Le test continue sans bruit.");
+      }
+    }
+
+    function scheduleRandomBeep() {
+      if (!app.audioContext || !app.test) return;
+
+      const delay = 5000 + Math.random() * 9000;
+
+      app.nextAudioTimeout = setTimeout(() => {
+        if (!app.audioContext || !app.test) return;
+
+        playBeep();
+        scheduleRandomBeep();
+      }, delay);
+    }
+
+    function playBeep() {
+      if (!app.audioContext) return;
+
+      try {
+        const context = app.audioContext;
+        const oscillator = context.createOscillator();
+        const gain = context.createGain();
+
+        oscillator.type = "sine";
+        oscillator.frequency.setValueAtTime(950 + Math.random() * 350, context.currentTime);
+
+        gain.gain.setValueAtTime(0.0001, context.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.045, context.currentTime + 0.01);
+        gain.gain.exponentialRampToValueAtTime(0.0001, context.currentTime + 0.12);
+
+        oscillator.connect(gain);
+        gain.connect(context.destination);
+
+        oscillator.start();
+        oscillator.stop(context.currentTime + 0.13);
+      } catch {
+        // La session ne doit jamais planter à cause du son.
+      }
+    }
+
+    function stopAudio() {
+      if (app.nextAudioTimeout) {
+        clearTimeout(app.nextAudioTimeout);
+        app.nextAudioTimeout = null;
+      }
+
+      if (app.audioNodes.length) {
+        app.audioNodes.forEach(node => {
+          try {
+            if (node.stop) node.stop();
+            if (node.disconnect) node.disconnect();
+          } catch {}
+        });
+      }
+
+      app.audioNodes = [];
+
+      if (app.audioContext) {
+        try {
+          app.audioContext.close();
+        } catch {}
+
+        app.audioContext = null;
+      }
+    }
+
+    /* ========================= BADGES ========================= */
+
+    function checkAndUnlockBadges(result) {
+      const user = getCurrentUser();
+      if (!user) return;
+
+      const unlocked = new Set(user.unlockedBadges || []);
+
+      function unlock(id) {
+        if (unlocked.has(id)) return false;
+
+        unlocked.add(id);
+
+        const badge = BADGES.find(item => item.id === id);
+
+        if (badge) {
+          showToast(`Badge débloqué ${badge.icon}`, badge.name);
+        }
+
+        return true;
+      }
+
+      const calcResponses = result.responses.filter(
+        response => response.category === "Calcul Mental & Estimation"
+      );
+
+      const calcGood = calcResponses
+        .filter(response => response.isCorrect);
+
+      const calcTotalTime = calcGood.reduce((sum, response) => sum + response.timeMs, 0);
+
+      if (calcGood.length >= 10 && calcTotalTime < 60000) {
+        unlock("human_calculator");
+      }
+
+      if (result.volume >= 50 && result.accuracy === 100) {
+        unlock("flawless");
+      }
+
+      if (
+        result.mode === "blitz" &&
+        !result.timeExpired &&
+        result.responses.length >= 1
+      ) {
+        // Le temps restant exact est estimé à partir des changements induits par les réponses.
+        // Pour le badge, on utilise un seuil basé sur le fait que l'utilisateur a répondu
+        // suffisamment vite avant la fin.
+        const netTime = 60000 +
+          result.responses.filter(r => r.isCorrect).length * 3000 -
+          result.responses.filter(r => !r.isCorrect).length * 5000 -
+          result.responses.reduce((sum, r) => sum + r.timeMs, 0);
+
+        if (netTime >= 5000) {
+          unlock("blitz_survivor");
+        }
+      }
+
+      let consecutiveFast = 0;
+      let maxConsecutiveFast = 0;
+
+      for (const response of result.responses) {
+        if (response.isCorrect && response.timeMs < 8000) {
+          consecutiveFast++;
+          maxConsecutiveFast = Math.max(maxConsecutiveFast, consecutiveFast);
+        } else {
+          consecutiveFast = 0;
+        }
+      }
+
+      if (maxConsecutiveFast >= 10) {
+        unlock("speed_demon");
+      }
+
+      const logic = result.responses.filter(
+        r => r.category === "Logique Spatiale & Repérage"
+      );
+
+      if (
+        logic.length >= 5 &&
+        Math.round(logic.filter(r => r.isCorrect).length / logic.length * 100) >= 90
+      ) {
+        unlock("navigator");
+      }
+
+      const english = result.responses.filter(
+        r => r.category === "Anglais Aéro"
+      );
+
+      if (
+        english.length >= 10 &&
+        Math.round(english.filter(r => r.isCorrect).length / english.length * 100) >= 90
+      ) {
+        unlock("aviation_english");
+      }
+
+      if (result.volume >= 50 && result.responses.length >= 50) {
+        unlock("endurance");
+      }
+
+      const history = getUserHistory();
+      const recentThree = history.slice(-3);
+
+      if (
+        recentThree.length === 3 &&
+        recentThree.every(item => item.accuracy >= 80)
+      ) {
+        unlock("consistent");
+      }
+
+      user.unlockedBadges = [...unlocked];
+      db.unlockedBadges = [...new Set([
+        ...db.unlockedBadges,
+        ...user.unlockedBadges
+      ])];
+    }
+
+    /* ========================= RESULTATS ========================= */
+
+    function renderResults() {
+      const user = getCurrentUser();
+      const history = getUserHistory();
+
+      const empty = document.getElementById("resultsEmpty");
+      const content = document.getElementById("resultsContent");
+
+      if (!user || !history.length) {
+        empty.style.display = "block";
+        content.style.display = "none";
+        return;
+      }
+
+      empty.style.display = "none";
+      content.style.display = "block";
+
+      const result = app.lastCompletedTest || history[history.length - 1];
+
+      document.getElementById("resultTitle").textContent =
+        result.mode === "blitz"
+          ? "Blitz terminé."
+          : result.mode === "exam"
+            ? "Examen terminé."
+            : "Session d'entraînement terminée.";
+
+      document.getElementById("resultSummary").textContent =
+        `${result.responses.length}/${result.volume} questions traitées · ${formatDate(result.date)}` +
+        (result.timeExpired ? " · Chrono épuisé." : "");
+
+      document.getElementById("resultAccuracy").textContent = result.accuracy + "%";
+      document.getElementById("resultAvgTime").textContent =
+        result.averageTimeMs ? formatSeconds(result.averageTimeMs) : "0,0 s";
+      document.getElementById("resultXP").textContent = `+${result.xp} XP`;
+
+      animateScore(result.score20);
+      renderResultTimeline(result);
+      renderResultAccordion(result);
+
+      document.getElementById("retryLastBtn").onclick = () => {
+        startTest({
+          volume: result.volume,
+          categories: result.categories,
+          mode: result.mode,
+          distractionATC: false,
+          allowFlash: true
+        });
+      };
+    }
+
+    function animateScore(finalScore) {
+      const element = document.getElementById("resultScore");
+      const orb = document.getElementById("scoreOrb");
+
+      const start = performance.now();
+      const duration = 900;
+
+      const update = now => {
+        const p = Math.min(1, (now - start) / duration);
+        const eased = 1 - Math.pow(1 - p, 3);
+        const value = finalScore * eased;
+
+        element.textContent = value.toFixed(1).replace(".", ",");
+
+        const degrees = Math.round((finalScore / 20) * 360);
+
+        orb.style.background =
+          `radial-gradient(circle at center, var(--surface-solid) 56%, transparent 57%),
+           conic-gradient(var(--accent) 0deg, var(--accent-2) ${degrees}deg, var(--bg-secondary) ${degrees}deg 360deg)`;
+
+        if (p < 1) {
+          requestAnimationFrame(update);
+        }
+      };
+
+      requestAnimationFrame(update);
+    }
+
+    function renderResultTimeline(result) {
+      const timeline = document.getElementById("resultsTimeline");
+
+      timeline.innerHTML = result.responses.map((response, index) => `
+        <div class="timeline-item" data-accordion-target="${index}">
+          <div class="timeline-top">
+            <div class="timeline-status">
+              <span class="dot ${response.isCorrect ? "success" : "danger"}"></span>
+              Q${index + 1} · ${response.isCorrect ? "Correct" : "Incorrect"}
+            </div>
+            <span class="small-note">${formatSeconds(response.timeMs)}</span>
+          </div>
+          <div class="timeline-question">${escapeHtml(response.question)}</div>
+        </div>
+      `).join("");
+
+      timeline.querySelectorAll(".timeline-item").forEach(item => {
+        item.addEventListener("click", () => {
+          const target = document.querySelector(
+            `.accordion-item[data-index="${item.dataset.accordionTarget}"]`
+          );
+
+          if (target) {
+            target.scrollIntoView({ behavior: "smooth", block: "center" });
+            toggleAccordion(target);
+          }
+        });
+      });
+    }
+
+    function renderResultAccordion(result) {
+      const accordion = document.getElementById("resultsAccordion");
+
+      accordion.innerHTML = result.responses.map((response, index) => {
+        const question = questionsDB.find(item => item.id === response.questionId);
+
+        if (!question) {
+          return "";
+        }
+
+        return `
+          <div class="accordion-item" data-index="${index}">
+            <button class="accordion-head">
+              <div class="accordion-index">${index + 1}</div>
+
+              <div class="accordion-main">
+                <strong>${escapeHtml(question.question)}</strong>
+                <span>
+                  ${response.isCorrect ? "✓ Correct" : "✕ Incorrect"} ·
+                  ${formatSeconds(response.timeMs)}
+                </span>
+              </div>
+
+              <div class="accordion-chevron">⌄</div>
+            </button>
+
+            <div class="accordion-body">
+              <div class="accordion-inner">
+                <div class="answer-review">
+                  <strong>Ta réponse :</strong>
+                  ${escapeHtml(question.options[response.selectedIndex] || "Aucune réponse")}
+                  <br>
+                  <strong>Bonne réponse :</strong>
+                  ${escapeHtml(question.options[question.correctIndex])}
+                </div>
+
+                <div class="demo-box">
+                  <strong>▸ Démonstration</strong><br>
+                  ${escapeHtml(question.explanation)}
+                </div>
+
+                <div class="pilot-trick">
+                  <strong>💡 Astuce du Pilote</strong><br>
+                  ${escapeHtml(question.pilotTrick)}
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join("");
+
+      accordion.querySelectorAll(".accordion-head").forEach(button => {
+        button.addEventListener("click", () => {
+          toggleAccordion(button.parentElement);
+        });
+      });
+    }
+
+    function toggleAccordion(item) {
+      const body = item.querySelector(".accordion-body");
+      const willOpen = !item.classList.contains("open");
+
+      document.querySelectorAll(".accordion-item.open").forEach(openItem => {
+        if (openItem !== item) {
+          openItem.classList.remove("open");
+          openItem.querySelector(".accordion-body").style.maxHeight = "0px";
+        }
+      });
+
+      item.classList.toggle("open", willOpen);
+      body.style.maxHeight = willOpen ? body.scrollHeight + "px" : "0px";
+    }
+
+    /* ========================= PARAMETRES ========================= */
+
+    function renderSettings() {
+      const user = getCurrentUser();
+
+      if (!user) return;
+
+      const grade = getGradeInfo(user.xp).grade.name;
+      const history = getUserHistory();
+
+      document.getElementById("settingsProfileGrade").textContent = grade;
+      document.getElementById("settingsAvatar").textContent = user.name.charAt(0).toUpperCase();
+      document.getElementById("settingsProfileName").textContent = user.name;
+      document.getElementById("settingsProfileMeta").textContent =
+        `${user.xp.toLocaleString("fr-FR")} XP · ${history.length} tests`;
+
+      document.getElementById("settingsDarkToggle").checked =
+        document.documentElement.dataset.theme === "dark";
+    }
+
+    document.getElementById("exportBtn").addEventListener("click", () => {
+      const payload = {
+        app: "AeroCadet Elite",
+        version: 1,
+        exportedAt: new Date().toISOString(),
+        data: db
+      };
+
+      const blob = new Blob(
+        [JSON.stringify(payload, null, 2)],
+        { type: "application/json" }
+      );
+
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+
+      link.href = url;
+      link.download = `aerocadet-elite-backup-${new Date().toISOString().slice(0,10)}.json`;
+      link.click();
+
+      URL.revokeObjectURL(url);
+
+      showToast("Sauvegarde exportée", "Le fichier JSON contient toute ta progression.");
+    });
+
+    document.getElementById("importBtn").addEventListener("click", () => {
+      document.getElementById("importFile").click();
+    });
+
+    document.getElementById("importFile").addEventListener("change", event => {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        try {
+          const parsed = JSON.parse(reader.result);
+          const imported = parsed?.data || parsed;
+
+          if (
+            !imported ||
+            !Array.isArray(imported.users) ||
+            !Array.isArray(imported.testHistory)
+          ) {
+            throw new Error("Format invalide");
+          }
+
+          db = normalizeDatabase(imported);
+
+          if (!db.users.length) {
+            throw new Error("Aucun profil trouvé");
+          }
+
+          if (!db.currentUser || !db.users.some(user => user.id === db.currentUser)) {
+            db.currentUser = db.users[0].id;
+          }
+
+          saveDatabase();
+          refreshEverything();
+
+          showToast("Import réussi", "Ta progression locale a été restaurée.");
+        } catch {
+          showToast("Import impossible", "Le fichier ne semble pas être une sauvegarde AeroCadet Elite valide.");
+        }
+
+        event.target.value = "";
+      };
+
+      reader.readAsText(file);
+    });
+
+    document.getElementById("resetDataBtn").addEventListener("click", () => {
+      const first = confirm("Supprimer tous les profils, XP, badges et historiques locaux ?");
+      if (!first) return;
+
+      const second = confirm("Dernière confirmation : cette action est irréversible sans fichier de sauvegarde.");
+      if (!second) return;
+
+      localStorage.removeItem(STORAGE_KEY);
+      db = createEmptyDB();
+
+      stopAudio();
+      app.test = null;
+
+      refreshEverything();
+      openProfileModal(true);
+
+      showToast("Données supprimées", "Le stockage local AeroCadet Elite a été réinitialisé.");
+    });
+
+    /* ========================= RAFRAÎCHISSEMENT GLOBAL ========================= */
+
+    function refreshEverything() {
+      renderDashboard();
+      renderResults();
+      renderSettings();
+      updateCategoryDisplay();
+      updateVolumeDisplay();
+
+      if (!db.users.length) {
+        return;
+      }
+
+      if (!getCurrentUser()) {
+        db.currentUser = db.users[0].id;
+        saveDatabase();
+      }
+
+      const user = getCurrentUser();
+      const grade = getGradeInfo(user.xp);
+
+      document.getElementById("sideAvatar").textContent = user.name.charAt(0).toUpperCase();
+      document.getElementById("sideProfileName").textContent = user.name;
+      document.getElementById("sideProfileGrade").textContent = grade.grade.name;
+    }
+
+    /* ========================= INITIALISATION ========================= */
+
+    updateVolumeDisplay();
+    updateCategoryDisplay();
+
+    if (db.users.length) {
+      if (!db.currentUser || !getCurrentUser()) {
+        db.currentUser = db.users[0].id;
+        saveDatabase();
+      }
+
+      refreshEverything();
+    } else {
+      // Premier lancement : création du premier profil.
+      openProfileModal(true);
+    }
+  </script>
+</body>
+</html>
