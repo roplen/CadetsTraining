@@ -1728,16 +1728,21 @@
     <main class="main">
       <!-- ========================= DASHBOARD ========================= -->
       <section class="page active" id="view-dashboard">
-        <div class="page-header">
-          <div>
-            <div class="eyebrow">Flight Training Intelligence</div>
-            <h1 id="dashboardGreeting">Bonjour, Alex.</h1>
-            <p class="subtitle">
-              Ton cockpit personnel de préparation aux tests psychotechniques,
-              psychomoteurs et à la logique de sélection aéronautique.
-            </p>
+      <div class="page-header">
+        <div>
+          <div class="eyebrow">Flight Training Intelligence</div>
+          <h1 id="dashboardGreeting">Bonjour, Alex.</h1>
+
+          <div class="eyebrow" id="questionTotalDisplay">
+            0 questions disponibles
           </div>
+
+          <p class="subtitle">
+            Ton cockpit personnel de préparation aux tests psychotechniques,
+            psychomoteurs et à la logique de sélection aéronautique.
+          </p>
         </div>
+      </div>
 
         <div class="hero-card glass">
           <div class="hero-content">
@@ -2023,12 +2028,12 @@
                   min="5"
                   max="60"
                   step="5"
-                  value="20"
+                  value="5"
                 />
 
                 <div class="slider-meta">
                   <span>5 s</span>
-                  <strong id="flashDurationLabel">20 secondes</strong>
+                  <strong id="flashDurationLabel">5 secondes</strong>
                   <span>60 s</span>
                 </div>
               </div>
@@ -5389,6 +5394,15 @@
       });
     }
 
+    function updateQuestionTotalDisplay() {
+      const element = document.getElementById("questionTotalDisplay");
+
+      if (!element) return;
+
+      element.textContent =
+          `${questionsDB.length} questions disponibles`;
+    }
+
     const flashDurationInput = document.getElementById("flashDuration");
     const flashDurationLabel = document.getElementById("flashDurationLabel");
 
@@ -6578,6 +6592,7 @@
     updateVolumeDisplay();
     updateCategoryDisplay();
     initSupabaseAuth();
+    updateQuestionTotalDisplay();
 
     if (db.users.length) {
       if (!db.currentUser || !getCurrentUser()) {
